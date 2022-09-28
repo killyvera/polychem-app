@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-polychemapp-dev-75325-authRole",
+      "UnauthRoleArn": "arn:aws:iam::500490101011:role/amplify-polychemapp-dev-75325-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::500490101011:role/amplify-polychemapp-dev-75325-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-polychemapp-dev-75325-deployment",
+      "UnauthRoleName": "amplify-polychemapp-dev-75325-unauthRole",
+      "StackName": "amplify-polychemapp-dev-75325",
+      "StackId": "arn:aws:cloudformation:us-east-1:500490101011:stack/amplify-polychemapp-dev-75325/8a77eea0-3f2c-11ed-a8fa-0a2141230a41",
+      "AmplifyAppId": "d3p21hj68wl99q"
+    },
+    "categories": {
+      "auth": {
+        "polychemapp5f8ba20f": {
+          "userPoolId": "us-east-1_U9vwu5wnL",
+          "userPoolName": "polychem-dashboard",
+          "webClientId": "4786aloid6vauik75sj22ni0bk",
+          "nativeClientId": "7mnukckj1g4fv9upd5u6fi3dnq"
+        }
+      }
+    }
+  }
+}
