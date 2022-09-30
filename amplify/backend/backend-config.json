@@ -1,11 +1,19 @@
 {
   "auth": {
-    "polychemapp5f8ba20f": {
+    "polychemapp95651ac1": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false
+    }
+  },
+  "storage": {
+    "polychemapp8a64acc3": {
+      "service": "S3",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   }
 }

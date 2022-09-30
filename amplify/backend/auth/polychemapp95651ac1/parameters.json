@@ -1,6 +1,6 @@
 {
-  "authSelections": "userPoolOnly",
-  "resourceName": "polychemapp5f8ba20f",
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "polychemapp95651ac1",
   "serviceType": "imported",
   "region": "us-east-1",
   "usernameAttributes": [

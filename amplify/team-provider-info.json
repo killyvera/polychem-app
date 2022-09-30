@@ -13,11 +13,24 @@
     },
     "categories": {
       "auth": {
-        "polychemapp5f8ba20f": {
+        "polychemapp95651ac1": {
           "userPoolId": "us-east-1_U9vwu5wnL",
           "userPoolName": "polychem-dashboard",
           "webClientId": "4786aloid6vauik75sj22ni0bk",
-          "nativeClientId": "7mnukckj1g4fv9upd5u6fi3dnq"
+          "nativeClientId": "7mnukckj1g4fv9upd5u6fi3dnq",
+          "identityPoolId": "us-east-1:d087db62-1619-445d-8778-e18feb4fe0d4",
+          "identityPoolName": "polychem",
+          "allowUnauthenticatedIdentities": false,
+          "authRoleArn": "arn:aws:iam::500490101011:role/Cognito_polychemAuth_Role",
+          "authRoleName": "Cognito_polychemAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::500490101011:role/Cognito_polychemUnauth_Role",
+          "unauthRoleName": "Cognito_polychemUnauth_Role"
+        }
+      },
+      "storage": {
+        "polychemapp8a64acc3": {
+          "bucketName": "polychemstoragebucket123945-dev",
+          "region": "us-east-1"
         }
       }
     }
