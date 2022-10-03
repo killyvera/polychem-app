@@ -6,7 +6,6 @@ import {
     ListUsersCommand,
     AdminGetUserCommand
 } from "@aws-sdk/client-cognito-identity-provider";
-import { Profiler } from "react";
 
 import { adminCredentials, userPoolID } from "../constants/AdminConfig";
 
@@ -115,6 +114,28 @@ export function editUser(userId, phone, email, name, perfil, puesto, departament
     )
 }
 
+export async function editAvatar(userId, avatar) { //CREATE USER COGNITO
+    console.log(userId, avatar)
+    const UserData = {
+        UserPoolId: userPoolID,
+        Username: userId,
+        UserAttributes: [
+            {
+                Name: 'picture',
+                Value: avatar
+            },
+        ]
+    }
+    const command = new AdminUpdateUserAttributesCommand(UserData);
+    return (
+        client.send(command)
+            .then(res => res)
+            .catch(function (err) {
+                console.log(err.message);
+            })
+    )
+}
+
 export function getUser(userId) {
     const UserData = {
         UserPoolId: userPoolID,
@@ -129,6 +150,7 @@ export function getUser(userId) {
             })
     )
 }
+
 
 export function usersList() {
 

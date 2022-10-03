@@ -7,6 +7,7 @@ import awsExports from './aws-exports';
 import { NavBar } from './components/NavBar';
 import {Home} from './pages/Home'
 import {Profile} from './pages/Profile'
+import {FormsList} from './pages/FormsList'
 
 Amplify.configure(awsExports);
 
@@ -18,6 +19,7 @@ function App({ signOut, user }) {
       <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/profile' element={<Profile user={user} signOut={signOut} />} />
+                    <Route path='/forms' element={<FormsList />} />
                 </Routes>
     </div>
   );

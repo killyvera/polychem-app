@@ -1,4 +1,5 @@
-import { Authenticator } from '@aws-amplify/ui-react'
+import { Authenticator} from '@aws-amplify/ui-react'
+import { Auth } from 'aws-amplify';
 import { Box, Container, Typography, Avatar, Toolbar, Button, Badge, IconButton } from '@mui/material'
 import { blue } from '@mui/material/colors';
 import EmailIcon from '@mui/icons-material/Email';
@@ -8,15 +9,23 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { useState, useEffect } from 'react';
 import { Storage } from 'aws-amplify';
-import { ConsoleLogger } from '@aws-amplify/core';
+import { editAvatar } from '../services/UserServices';
 
 export function Profile({ signOut, user }) {
-    const [userId, setUserID] = useState('no userId')
+    const [userId, setUserId] = useState('no userId')
     const [avatar, setAvatar] = useState('')
+    const [toggle, setToggle]= useState(false)
 
     useEffect(() => {
-        user ? setUserID(user.username) : setUserID('No user Id')
-    }, [])
+        user ? setUserId(user.username) : setUserId('No user Id')
+        onPageRendered()
+
+    }, [toggle])
+
+    const onPageRendered = async () => {
+        getAvatar()
+        //Auth.currentAuthenticatedUser()
+    }
 
     const AddImageButton = () => {
         return (
@@ -27,18 +36,22 @@ export function Profile({ signOut, user }) {
         )
     }
 
-    const onChange = (e) => {
+    const onChange = async (e) => {
         const avatarImage = e.target.files[0]
         console.log(avatarImage)
-        Storage.put(`avatar/${userId}} + '.png`, avatarImage, {
+        await Storage.put(`avatar/${userId}.png`, avatarImage, {
             contentType: "image/png"
         }).then(result => console.log(result))
             .catch(err => console.log(err));
+            setToggle(!toggle)
     }
 
-    const fetchAvatar = () => {
-
-    }
+    const getAvatar = async () => {
+        const id = await user.username
+        const link = await Storage.get(`avatar/${id}.png`)
+        setAvatar(link)
+        editAvatar(user.username, link)
+    };
 
     return (
         <Authenticator>
@@ -54,7 +67,7 @@ export function Profile({ signOut, user }) {
                                     horizontal: 'right',
                                 }} />} >
 
-                            <Avatar sx={{ bgcolor: blue[500], width: 56, height: 56 }} aria-label="recipe" />
+                            <Avatar sx={{ bgcolor: blue[500], width: 124, height: 124 }} src={avatar} aria-label="recipe" />
                         </Badge>
                         <Toolbar>
                             <Typography variant='h5' >
@@ -84,7 +97,7 @@ export function Profile({ signOut, user }) {
                             </Toolbar>
                         </Box>
                         <Stack direction='row' spacing={1} mt={2} >
-                            <Button variant='contained' size="small" >
+                            <Button onClick={signOut} variant='contained' size="small" >
                                 <ExitToAppIcon style={{ marginRight: '7px' }} />
                                 Salir
                             </Button>
