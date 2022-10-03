@@ -6,8 +6,40 @@ import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import { Stack } from '@mui/system';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { useState, useEffect } from 'react';
+import { Storage } from 'aws-amplify';
+import { ConsoleLogger } from '@aws-amplify/core';
 
 export function Profile({ signOut, user }) {
+    const [userId, setUserID] = useState('no userId')
+    const [avatar, setAvatar] = useState('')
+
+    useEffect(() => {
+        user ? setUserID(user.username) : setUserID('No user Id')
+    }, [])
+
+    const AddImageButton = () => {
+        return (
+            <IconButton color="primary" aria-label="upload picture" component="label">
+                <input hidden accept="image/*" type="file" onChange={onChange} />
+                <AddAPhotoIcon />
+            </IconButton>
+        )
+    }
+
+    const onChange = (e) => {
+        const avatarImage = e.target.files[0]
+        console.log(avatarImage)
+        Storage.put(`avatar/${userId}} + '.png`, avatarImage, {
+            contentType: "image/png"
+        }).then(result => console.log(result))
+            .catch(err => console.log(err));
+    }
+
+    const fetchAvatar = () => {
+
+    }
+
     return (
         <Authenticator>
             <Box style={{ paddingTop: '10vh', maxHeight: '300px' }} >
@@ -61,15 +93,5 @@ export function Profile({ signOut, user }) {
                 </Container>
             </Box>
         </Authenticator>
-    )
-}
-
-
-const AddImageButton = () => {
-    return (
-        <IconButton color="primary" aria-label="upload picture" component="label">
-            <input hidden accept="image/*" type="file" />
-            <AddAPhotoIcon />
-        </IconButton>
     )
 }

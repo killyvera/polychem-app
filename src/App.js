@@ -1,6 +1,6 @@
-import { Amplify } from 'aws-amplify';
+import { Amplify, Storage } from 'aws-amplify';
 import { Route, Routes } from 'react-router-dom'
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator} from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from './aws-exports';
