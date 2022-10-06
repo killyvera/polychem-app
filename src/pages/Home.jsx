@@ -1,5 +1,6 @@
 import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
+import {QrCodeReader} from '../helpers/QrCodeReader'
 
 export function Home() {
     return (
@@ -7,6 +8,7 @@ export function Home() {
             <Container>
                 <Typography variant='h4' >Home</Typography>
             </Container>
+            <QrCodeReader />
         </Box>
 
     )

@@ -10,6 +10,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { useState, useEffect } from 'react';
 import { Storage } from 'aws-amplify';
 import { editAvatar } from '../services/UserServices';
+import { QrCodeGenerator } from '../helpers/QrCodeGenerator';
 
 export function Profile({ signOut, user }) {
     const [userId, setUserId] = useState('no userId')
@@ -49,6 +50,7 @@ export function Profile({ signOut, user }) {
     const getAvatar = async () => {
         const id = await user.username
         const link = await Storage.get(`avatar/${id}.png`)
+        console.log(link)
         setAvatar(link)
         editAvatar(user.username, link)
     };
@@ -96,7 +98,8 @@ export function Profile({ signOut, user }) {
                                 </Typography>
                             </Toolbar>
                         </Box>
-                        <Stack direction='row' spacing={1} mt={2} >
+                        <Stack spacing={1} mt={1} >
+                            <QrCodeGenerator userId={user.username} />
                             <Button onClick={signOut} variant='contained' size="small" >
                                 <ExitToAppIcon style={{ marginRight: '7px' }} />
                                 Salir
