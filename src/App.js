@@ -8,6 +8,7 @@ import { NavBar } from './components/NavBar';
 import {Home} from './pages/Home'
 import {Profile} from './pages/Profile'
 import {FormsList} from './pages/FormsList'
+import {ProductionForm} from './forms/ProductionForm'
 
 Amplify.configure(awsExports);
 
@@ -20,6 +21,7 @@ function App({ signOut, user }) {
                     <Route path='/' element={<Home />} />
                     <Route path='/profile' element={<Profile user={user} signOut={signOut} />} />
                     <Route path='/forms' element={<FormsList />} />
+                    <Route path='/productionform' element={<ProductionForm />} />
                 </Routes>
     </div>
   );
