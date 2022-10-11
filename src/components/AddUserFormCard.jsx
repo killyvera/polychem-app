@@ -27,7 +27,10 @@ export function AddUserFormCard(props) {
                 </Stack>
                 <SelectShift />
             </Container>
-            <Button variant="contained" >Agregar Usuario</Button>
+            <Stack direction='row' spacing={1} alignSelf='center' >
+                <Button variant="contained" >Agregar</Button>
+                <Button variant="outlined" >Cancelar</Button>
+            </Stack>
         </Box>
     )
 }

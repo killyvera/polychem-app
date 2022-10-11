@@ -2,20 +2,20 @@ import React, { createContext, useEffect, useState } from 'react'
 
 export const FormsContext = createContext();
 
-export const FormsContextProvider = () => {
+export const FormsContextProvider = (props) => {
+    const [usersFormList, setUsersFormList] = useState([])
 
-    const form = [
-        {
-            users: [
-                {
-                    userId:'',
-                    shift:''
-                },
-            ]
-        }
-    ]
-    const [usersForm, setUsersForm] = useState({})
+    const Hello=()=>{
+        return 'hii'
+    }
+
     return (
-        'hi'
+        <FormsContext.Provider value={{
+            usersFormList,
+            setUsersFormList,
+            Hello
+        }}>
+            {props.children}
+        </FormsContext.Provider>
   )
 }

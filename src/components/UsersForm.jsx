@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Typography, Box, Avatar, Stack, Button } from '@mui/material';
 import { usersList } from '../services/UserServices'
@@ -11,8 +11,11 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Container } from '@mui/system';
 import PersonAddAltSharpIcon from '@mui/icons-material/PersonAddAltSharp';
+import { FormsContext } from '../contexts/FormsContext';
 
 export function UsersForm() {
+    const { usersFormList, setUsersFormList } = useContext(FormsContext)
+
     const [users, setUsers] = useState([])
     const [listUsers, setListUsers] = useState([])
     const [searchUser, setSearchUser] = useState([])
@@ -55,6 +58,7 @@ export function UsersForm() {
 }
 
 const AddUsers = (props) => {
+    //const {usersForm, setUsersForm} = useContext(FormsContext)
     return (
         <Box style={{ display: 'flex', justifyContent: 'space-around', marginTop: '3vh' }}>
             <Typography variant='h5' style={{ alignSelf: 'center' }} >Personal Empleado</Typography>
@@ -74,7 +78,7 @@ const SelectShift = () => {
     };
 
     return (
-        <FormControl style={{ marginTop: '5px',display:'flex', alignItems: 'center' }} >
+        <FormControl style={{ marginTop: '5px', display: 'flex', alignItems: 'center' }} >
             <FormLabel id="radio-shift">Turno</FormLabel>
             <RadioGroup
                 row
@@ -97,22 +101,25 @@ const SearchUsers = (props) => {
             <Container>
                 <QrCodeReader users={props.users} />
             </Container>
-            <Container style={{display:'flex', flexDirection:'column', alignItems: 'center'}} >
+            <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
                 <Box>
-                    <input  style={{width:'350px', textAlign:'center'}} value={props.searchUser} placeholder=' Ingresa nombre de Usuario 🔍' onChange={props.handleChangeSearch} />
+                    <input style={{ width: '350px', textAlign: 'center' }} value={props.searchUser} placeholder=' Ingresa nombre de Usuario 🔍' onChange={props.handleChangeSearch} />
                 </Box>
                 {props.listUsers.length >= 1 && props.listUsers.length <= 3 ? props.listUsers.map((user, index) => (
-                    <Box key={index} style={{ minWidth:'350px', display:'flex', flexDirection:'column', borderStyle: 'solid', borderWidth: '1px',borderRadius:'3px', padding:'12px', marginTop:'7px'}} >
+                    <Box key={index} style={{ minWidth: '350px', display: 'flex', flexDirection: 'column', borderStyle: 'solid', borderWidth: '1px', borderRadius: '3px', padding: '12px', marginTop: '7px' }} >
                         <Container>
-                        <Stack direction="row" spacing={1} >
-                            <Avatar />
-                            <Typography style={{ alignSelf: 'center' }} >{user.Attributes[1].Value}</Typography>
-                        </Stack>
-                        <SelectShift />
+                            <Stack direction="row" spacing={1} >
+                                <Avatar />
+                                <Typography style={{ alignSelf: 'center' }} >{user.Attributes[1].Value}</Typography>
+                            </Stack>
+                            <SelectShift />
                         </Container>
-                        <Button variant="contained" >Agregar Usuario</Button>
+                        <Stack direction='row' spacing={1} alignSelf='center' >
+                            <Button variant="contained" >Agregar</Button>
+                            <Button variant="outlined" >Cancelar</Button>
+                        </Stack>
                     </Box>
-                )) : <Typography style={{paddingTop:'14vh'}} >
+                )) : <Typography style={{ paddingTop: '14vh' }} >
                     No search Results
                 </Typography>}
             </Container >
