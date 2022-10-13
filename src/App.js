@@ -1,4 +1,4 @@
-import { Amplify, Storage } from 'aws-amplify';
+import { Amplify} from 'aws-amplify';
 import { Route, Routes } from 'react-router-dom'
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -9,7 +9,6 @@ import { Home } from './pages/Home'
 import { Profile } from './pages/Profile'
 import { FormsList } from './pages/FormsList'
 import { ProductionForm } from './forms/ProductionForm'
-import { BottomNav } from './components/BottomNav'
 import { FormsContextProvider } from './contexts/FormsContext'
 
 Amplify.configure(awsExports);

@@ -6,11 +6,13 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Container } from '@mui/system';
 
-export const SelectShift = () => {
+export const SelectShift = (props) => {
     const [shift, setShift] = useState('');
 
     const handleChange = (event) => {
         setShift(event.target.value);
+        console.log(shift)
+        props.getSgift(shift)
     };
 
     return (
@@ -23,8 +25,8 @@ export const SelectShift = () => {
                 value={shift}
                 onChange={handleChange}
             >
-                <FormControlLabel labelPlacement="top" value="Matutino" control={<Radio size="small" />} label="Matutino" />
-                <FormControlLabel labelPlacement="top" value="Vespertino" control={<Radio size="small" />} label="Vespertino" />
+                <FormControlLabel labelPlacement="top" value="matutino" control={<Radio size="small" />} label="Matutino" />
+                <FormControlLabel labelPlacement="top" value="vespertino" control={<Radio size="small" />} label="Vespertino" />
             </RadioGroup>
         </FormControl>
     );

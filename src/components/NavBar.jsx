@@ -10,7 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import { Authenticator } from '@aws-amplify/ui-react'
 
 export function NavBar({ signOut, user }) {
-    console.log(user)
     return (
         <Authenticator>
             <AppBar>

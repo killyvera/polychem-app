@@ -1,6 +1,5 @@
 import { Tabs, Tab, } from '@mui/material'
 import { useState } from 'react'
-import CalculateIcon from '@mui/icons-material/Calculate';
 import FactoryIcon from '@mui/icons-material/Factory';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ScienceIcon from '@mui/icons-material/Science';

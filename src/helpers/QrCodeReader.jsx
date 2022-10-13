@@ -15,9 +15,9 @@ export const QrCodeReader = (users) => {
             setUserQr(result?.text);
           }
 
-          if (!!error) {
-            console.log(error);
-          }
+          //if (!!error) {
+            //console.log(error);
+          //}
         }}
       />
       {userQr !== 'Escanear QR codigo de Usuario Válido🤳' ? <AddUserFormCard userId={userQr} users={users} /> : <p>{userQr}</p>}

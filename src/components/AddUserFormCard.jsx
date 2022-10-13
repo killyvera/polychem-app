@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Typography, Box, Avatar, Stack, Button, Container } from '@mui/material';
 import { SelectShift } from './SelectShift'
+import { FormsContext } from '../contexts/FormsContext';
 
 export function AddUserFormCard(props) {
+    const { usersFormList, setUsersFormList, handleView, toggle } = useContext(FormsContext)
     const [user, setUser] = useState([])
     console.log(props)
 
@@ -18,6 +20,14 @@ export function AddUserFormCard(props) {
         search()
     }, [props.userId])
 
+    const handleClose=()=>{
+        handleView()
+    }
+
+    const handleAdd=()=>{
+
+    }
+
     return (
         <Box style={{ minWidth: '350px', display: 'flex', flexDirection: 'column', borderStyle: 'solid', borderWidth: '1px', borderRadius: '3px', padding: '12px', marginTop: '7px' }} >
             <Container>
@@ -29,7 +39,7 @@ export function AddUserFormCard(props) {
             </Container>
             <Stack direction='row' spacing={1} alignSelf='center' >
                 <Button variant="contained" >Agregar</Button>
-                <Button variant="outlined" >Cancelar</Button>
+                <Button variant="outlined" onClick={handleClose} >Cancelar</Button>
             </Stack>
         </Box>
     )
