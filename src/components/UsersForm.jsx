@@ -116,7 +116,7 @@ const AddUsers = (props) => {
 }
 
 const SelectShift = ({ setShiftUser }) => {
-    const [shift, setShift] = useState('');
+    const [shift, setShift] = useState('matutino');
 
     const handleChange = (event) => {
         setShift(event.target.value);
