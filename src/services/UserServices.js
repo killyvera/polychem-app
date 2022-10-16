@@ -136,7 +136,7 @@ export async function editAvatar(userId, avatar) { //CREATE USER COGNITO
     )
 }
 
-export async function getUser(userId) {
+export function getUser(userId) {
     const UserData = {
         UserPoolId: userPoolID,
         Username: userId

@@ -47,22 +47,6 @@ export function UsersForm() {
         setListUsers(result)
     }
 
-    function searchAttr(attr, userData) {
-        for (var i = 0; i < userData.length; i++) {
-            if (userData[i].Name === attr) {
-                return userData[i].Value;
-            }
-        }
-    }
-
-    const mapUsers = async () => {
-        console.log(usersFormList)
-        usersFormList.map((userData) => {
-            const username = getUser(userData.user.userId).then(user => searchAttr('name', user.UserAttributes));
-            username.then(username => userData.user.username = username)
-        })
-    }
-
     return (
 
         <Box>

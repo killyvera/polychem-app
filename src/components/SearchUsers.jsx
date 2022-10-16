@@ -38,8 +38,6 @@ export const SearchUsers = (props) => {
     const HandleAdd = async (userInfo) => {
         console.log(userInfo)
 
-        const user = getUser(userInfo.Username).then(userInfo => userInfo.UserAttributes)
-        user.then(user => setUserFull(user))
         const userData = {
             user: {
                 userId: userInfo.Username,
@@ -54,8 +52,6 @@ export const SearchUsers = (props) => {
         setUsersFormList(newUsersFormList)
         handleView()
     }
-
-    console.log(userFull)
 
     const UpdateUser = async () => {
 
