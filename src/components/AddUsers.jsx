@@ -2,8 +2,10 @@ import { Typography, Box, Avatar, Stack, Button, IconButton } from '@mui/materia
 import { Container } from '@mui/system';
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useState, useEffect, useContext } from 'react'
+import { FormsContext } from '../contexts/FormsContext';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
-const AddUsers = (props) => {
+export const AddUsers = (props) => {
     const { usersFormList, setUsersFormList, handleView, usersProfile, setUsersProfile, toggle } = useContext(FormsContext)
 
     const handleDelete = (id) => {
