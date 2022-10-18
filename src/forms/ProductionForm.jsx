@@ -5,6 +5,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ScienceIcon from '@mui/icons-material/Science';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { UsersForm } from '../components/UsersForm';
+import { FormulaForm } from '../components/FormulaForm';
 
 export function ProductionForm() {
   const [value, setValue] = useState(0)
@@ -15,11 +16,12 @@ export function ProductionForm() {
   return (
     <div style={{ marginTop: '10vh' }} >
       <Tabs centered value={value} onChange={handleTabs} >
-        <Tab label={<FactoryIcon />} variant='contained' />
-        <Tab label={<ScienceIcon />} />
-        <Tab label={<ShoppingBasketIcon />} />
-        <Tab label={<GroupsIcon />} />
+        <Tab label={<FactoryIcon fontSize="large" />} variant='contained' />
+        <Tab label={<ScienceIcon fontSize="large" />} />
+        <Tab label={<ShoppingBasketIcon fontSize="large" />} />
+        <Tab label={<GroupsIcon fontSize="large" />} />
       </Tabs>
+      <TabPanel value={value} index={1} children={<FormulaForm />} />
       <TabPanel value={value} index={3} children={<UsersForm />} />
     </div>
   )

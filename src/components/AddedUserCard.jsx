@@ -40,11 +40,11 @@ export const AddedUserCard = ({ userData }) => {
     }
 
     return (
-        <Container >
+        <Container>
             {console.log(user)}
-            <Stack direction="row" spacing={2} style={{ placeItems: 'center', justifyContent: 'center' }} >
+            <Stack direction="row" spacing={2} style={{ placeItems: 'center', justifyContent: 'center', backgroundColor: 'aliceblue', marginTop: '12px', padding:'10px'}} >
                 <Avatar sx={{ bgcolor: blue[500], width: 60, height: 60 }} src={avatar} aria-label="recipe" />
-                <Stack style={{ minWidth: '250px' }} >
+                <Stack style={{ minWidth: '200px' }} >
                     <Typography><b>{userData.user?.username}</b></Typography>
                     <Typography>{SearchAttributes('custom:puesto',user)}</Typography>
                     <Typography>Turno {userData.user?.shift}</Typography>

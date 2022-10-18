@@ -83,6 +83,9 @@ export const SearchUsers = (props) => {
                 )) : <Typography style={{ paddingTop: '14vh' }} >
                     No search Results
                 </Typography>}
+                <Button onClick={handleClose} variant='contained' style={{marginTop:'20px'}} >
+                    Cancelar
+                </Button>
             </Container >
         </Box>
 
