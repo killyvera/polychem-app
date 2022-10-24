@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react'
+import Images from '../constants/Images'
 
 export const FormsContext = createContext();
 
@@ -12,8 +13,29 @@ export const FormsContextProvider = (props) => {
         //console.log(toggle)
     }
 
+    const ingredients = [
+        {
+            name: 'Sal rosa del Himalaya',
+            image: Images.ingredient,
+            quantity: 2000,
+        },
+        {
+            name: 'Sal rosa del Himalaya',
+            image: Images.ingredient,
+            quantity: 2000,
+
+        },
+        {
+            name: 'Sal rosa del Himalaya',
+            image: Images.ingredient,
+            quantity: 2000,
+        }
+    ]
+
+
     return (
         <FormsContext.Provider value={{
+            ingredients,
             usersFormList,
             setUsersFormList,
             handleView,

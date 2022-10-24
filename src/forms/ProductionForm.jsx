@@ -6,6 +6,7 @@ import ScienceIcon from '@mui/icons-material/Science';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { UsersForm } from '../components/UsersForm';
 import { FormulaForm } from '../components/FormulaForm';
+import { MaterialForm } from '../components/MaterialForm';
 
 export function ProductionForm() {
   const [value, setValue] = useState(0)
@@ -22,6 +23,7 @@ export function ProductionForm() {
         <Tab label={<GroupsIcon fontSize="large" />} />
       </Tabs>
       <TabPanel value={value} index={1} children={<FormulaForm />} />
+      <TabPanel value={value} index={2} children={<MaterialForm />} />
       <TabPanel value={value} index={3} children={<UsersForm />} />
     </div>
   )
