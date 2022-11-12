@@ -4,10 +4,11 @@ import { schema } from './schema';
 
 
 
-const { FormulaElement, Product, Form } = initSchema(schema);
+const { FormulaElement, Product, Form, Production } = initSchema(schema);
 
 export {
   FormulaElement,
   Product,
-  Form
+  Form,
+  Production
 };

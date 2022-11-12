@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { DataStore } from '@aws-amplify/datastore';
 import { Form } from '../models';
+import { CreatePalletFormModal } from '../components/CreatePalletFormModal';
 
 
 //DELETE
@@ -23,13 +24,14 @@ export function Home() {
         <div>
             {console.log(forms)}
             <div style={{ marginTop: '100px' }} >Home</div>
-            <div>
+            {/* <div>
                 {forms.map((form, index) => (
                     <div key={index} >
                         {form.name}
                     </div>
                 ))}
-            </div>
+            </div> */}
+            <CreatePalletFormModal />
         </div>
     )
 }
