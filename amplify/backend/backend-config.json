@@ -1,6 +1,6 @@
 {
   "auth": {
-    "polychemapp95651ac1": {
+    "polychemadmin0f57a876": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
@@ -9,11 +9,25 @@
     }
   },
   "storage": {
-    "polychemapp8a64acc3": {
+    "polychemstorage": {
       "service": "S3",
-      "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": []
+    }
+  },
+  "api": {
+    "polychemadmin": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AWS_IAM"
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
     }
   }
 }

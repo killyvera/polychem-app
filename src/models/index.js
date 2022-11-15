@@ -4,10 +4,18 @@ import { schema } from './schema';
 
 
 
-const { FormulaElement, Product, Form } = initSchema(schema);
+const { RawMaterial, LotRawMaterial, Sheduled, Form, Production, Product, FormulaElement, LotProduction, Pallet, Package, ProductionMember } = initSchema(schema);
 
 export {
-  FormulaElement,
+  RawMaterial,
+  LotRawMaterial,
+  Sheduled,
+  Form,
+  Production,
   Product,
-  Form
+  FormulaElement,
+  LotProduction,
+  Pallet,
+  Package,
+  ProductionMember
 };
