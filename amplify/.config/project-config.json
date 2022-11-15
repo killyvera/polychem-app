@@ -1,8 +1,6 @@
 {
-  "providers": [
-    "awscloudformation"
-  ],
-  "projectName": "polychemadmin",
+  "providers": ["awscloudformation"],
+  "projectName": "polychemapp",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
