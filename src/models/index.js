@@ -1,7 +1,19 @@
 // @ts-check
-import { initSchema } from "@aws-amplify/datastore";
-import { schema } from "./schema";
+import { initSchema } from '@aws-amplify/datastore';
+import { schema } from './schema';
 
-const { FormulaElement, Product, Form, Production } = initSchema(schema);
+const { RawMaterial, LotRawMaterial, Sheduled, Form, Production, Product, FormulaElement, LotProduction, Pallet, Package, ProductionMember } = initSchema(schema);
 
-export { Form, Production, Product, FormulaElement };
+export {
+  RawMaterial,
+  LotRawMaterial,
+  Sheduled,
+  Form,
+  Production,
+  Product,
+  FormulaElement,
+  LotProduction,
+  Pallet,
+  Package,
+  ProductionMember
+};
