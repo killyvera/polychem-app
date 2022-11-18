@@ -1,19 +1,32 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-polychemapp-dev-75325-authRole",
-      "UnauthRoleArn": "arn:aws:iam::500490101011:role/amplify-polychemapp-dev-75325-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::500490101011:role/amplify-polychemapp-dev-75325-authRole",
+      "AuthRoleName": "amplify-polychemadmin-dev-123945-authRole",
+      "UnauthRoleArn": "arn:aws:iam::500490101011:role/amplify-polychemadmin-dev-123945-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::500490101011:role/amplify-polychemadmin-dev-123945-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-polychemapp-dev-75325-deployment",
-      "UnauthRoleName": "amplify-polychemapp-dev-75325-unauthRole",
-      "StackName": "amplify-polychemapp-dev-75325",
-      "StackId": "arn:aws:cloudformation:us-east-1:500490101011:stack/amplify-polychemapp-dev-75325/8a77eea0-3f2c-11ed-a8fa-0a2141230a41",
-      "AmplifyAppId": "d3p21hj68wl99q"
+      "DeploymentBucketName": "amplify-polychemadmin-dev-123945-deployment",
+      "UnauthRoleName": "amplify-polychemadmin-dev-123945-unauthRole",
+      "StackName": "amplify-polychemadmin-dev-123945",
+      "StackId": "arn:aws:cloudformation:us-east-1:500490101011:stack/amplify-polychemadmin-dev-123945/64367e50-351d-11ed-9ec4-123bd7e35503",
+      "AmplifyAppId": "d1w6r2ncpz522b"
     },
     "categories": {
       "auth": {
         "polychemapp95651ac1": {
+          "userPoolId": "us-east-1_U9vwu5wnL",
+          "userPoolName": "polychem-dashboard",
+          "webClientId": "4786aloid6vauik75sj22ni0bk",
+          "nativeClientId": "7mnukckj1g4fv9upd5u6fi3dnq",
+          "identityPoolId": "us-east-1:d087db62-1619-445d-8778-e18feb4fe0d4",
+          "identityPoolName": "polychem",
+          "allowUnauthenticatedIdentities": false,
+          "authRoleArn": "arn:aws:iam::500490101011:role/Cognito_polychemAuth_Role",
+          "authRoleName": "Cognito_polychemAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::500490101011:role/Cognito_polychemUnauth_Role",
+          "unauthRoleName": "Cognito_polychemUnauth_Role"
+        },
+        "polychemadmin0f57a876": {
           "userPoolId": "us-east-1_U9vwu5wnL",
           "userPoolName": "polychem-dashboard",
           "webClientId": "4786aloid6vauik75sj22ni0bk",

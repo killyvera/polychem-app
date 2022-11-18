@@ -1,4 +1,6 @@
-import React, { createContext, useState } from 'react'
+import React, { useEffect, createContext, useState } from 'react'
+import { DataStore } from '@aws-amplify/datastore';
+import { Production } from '../models';
 import Images from '../constants/Images'
 
 export const FormsContext = createContext();
@@ -7,6 +9,20 @@ export const FormsContextProvider = (props) => {
     const [usersFormList, setUsersFormList] = useState([])
     const [usersProfile, setUsersProfile] = useState([])
     const [toggle, setToggle] = useState(true)
+    const [pallets, setPallets] = useState([]);
+    const [packages, setPackages] = useState([]);
+    const [production, setProduction] = useState([]);
+
+
+    useEffect(() => {
+        getProduction();
+    }, [])
+
+    const getProduction = async () => {
+        const productions = await DataStore.query(Production);
+        setProduction(productions)
+        console.log({ productions });
+    }
 
     const handleView = () => {
         setToggle(!toggle)
@@ -41,7 +57,11 @@ export const FormsContextProvider = (props) => {
             handleView,
             usersProfile,
             setUsersProfile,
-            toggle
+            toggle,
+            pallets,
+            setPallets,
+            packages,
+            setPackages
         }}>
             {props.children}
         </FormsContext.Provider>

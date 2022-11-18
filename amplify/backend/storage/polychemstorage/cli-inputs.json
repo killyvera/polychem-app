@@ -1,0 +1,13 @@
+{
+  "resourceName": "polychemstorage",
+  "policyUUID": "7e47abb1",
+  "bucketName": "polychemstoragebucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "groupAccess": {}
+}

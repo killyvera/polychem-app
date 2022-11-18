@@ -1,0 +1,111 @@
+type RawMaterial @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  LotRawMaterials: [LotRawMaterial] @hasMany(indexName: "byRawMaterial", fields: ["id"])
+  productionID: ID! @index(name: "byProduction")
+  name: String
+}
+
+type Sheduled @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  Forms: [Form] @hasMany(indexName: "bySheduled", fields: ["id"])
+  Productions: [Production] @hasMany(indexName: "bySheduled", fields: ["id"])
+}
+
+type Package @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  units: Int
+  code: String
+  palletID: ID! @index(name: "byPallet")
+}
+
+type ProductionMember @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  role: String
+  shift: String
+  cognitoId: String
+  productionID: ID! @index(name: "byProduction")
+}
+
+type Pallet @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  code: String
+  units: Int
+  productionID: ID! @index(name: "byProduction")
+  Packages: [Package] @hasMany(indexName: "byPallet", fields: ["id"])
+}
+
+type LotProduction @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  units: Int
+  expirationDate: String
+  code: String
+  productionID: ID! @index(name: "byProduction")
+}
+
+type LotRawMaterial @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  description: String
+  lotCode: String
+  quantity: Float
+  notUsedQuantity: Float
+  wasteQuantity: Float
+  useQuantity: Float
+  rawmaterialID: ID! @index(name: "byRawMaterial")
+}
+
+type Production @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  expectedUnits: Int
+  expectedPackages: Int
+  expectedPallets: Int
+  standard: Boolean
+  extraUnits: Int
+  notes: String
+  Product: Product @hasOne
+  LotProductions: [LotProduction] @hasMany(indexName: "byProduction", fields: ["id"])
+  Pallets: [Pallet] @hasMany(indexName: "byProduction", fields: ["id"])
+  ProductionMembers: [ProductionMember] @hasMany(indexName: "byProduction", fields: ["id"])
+  sheduledID: ID @index(name: "bySheduled")
+  RawMaterials: [RawMaterial] @hasMany(indexName: "byProduction", fields: ["id"])
+}
+
+type FormulaElement @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  description: String
+  quantity: Float
+  productID: ID @index(name: "byProduct")
+}
+
+type Product @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  description: String
+  FormulaElements: [FormulaElement] @hasMany(indexName: "byProduct", fields: ["id"])
+  unitsPerPackage: Int
+  palletsPerPackage: Int
+  code: String
+  image: String
+}
+
+type Form @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  description: String
+  planned: Boolean
+  schedule: String
+  sent: Boolean
+  expire: Boolean
+  expirationDate: String
+  active: Boolean
+  Production: Production @hasOne
+  ProductionLeader: ProductionMember @hasOne
+  sheduledID: ID @index(name: "bySheduled")
+}
+ 
