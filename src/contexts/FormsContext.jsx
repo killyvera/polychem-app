@@ -1,69 +1,51 @@
-import React, { useEffect, createContext, useState } from 'react'
-import { DataStore } from '@aws-amplify/datastore';
-import { Production } from '../models';
-import Images from '../constants/Images'
+import React, { useEffect, createContext, useState } from "react";
+import { DataStore } from "@aws-amplify/datastore";
+import { Production } from "../models";
+import { formsList, ingredientsList } from "../mock";
 
 export const FormsContext = createContext();
 
 export const FormsContextProvider = (props) => {
-    const [usersFormList, setUsersFormList] = useState([])
-    const [usersProfile, setUsersProfile] = useState([])
-    const [toggle, setToggle] = useState(true)
-    const [pallets, setPallets] = useState([]);
-    const [packages, setPackages] = useState([]);
-    const [production, setProduction] = useState([]);
+  const [usersFormList, setUsersFormList] = useState([]);
+  const [ingredients, setIngredientsList] = useState([]);
+  const [usersProfile, setUsersProfile] = useState([]);
+  const [toggle, setToggle] = useState(true);
+  const [pallets, setPallets] = useState([]);
+  const [packages, setPackages] = useState([]);
+  const [productionList, setProduction] = useState([]);
 
+  const getProduction = async () => {
+    const productions = await DataStore.query(Production);
+    setProduction(productions);
+  };
 
-    useEffect(() => {
-        getProduction();
-    }, [])
+  const handleView = () => {
+    setToggle(!toggle);
+  };
 
-    const getProduction = async () => {
-        const productions = await DataStore.query(Production);
-        setProduction(productions)
-        console.log({ productions });
-    }
+  useEffect(() => {
+    getProduction();
+    setUsersFormList(formsList);
+    setIngredientsList(ingredientsList);
+    setPallets([]);
+    setPackages([]);
+  }, []);
 
-    const handleView = () => {
-        setToggle(!toggle)
-        //console.log(toggle)
-    }
-
-    const ingredients = [
-        {
-            name: 'Sal rosa del Himalaya',
-            image: Images.ingredient,
-            quantity: 2000,
-        },
-        {
-            name: 'Sal rosa del Himalaya',
-            image: Images.ingredient,
-            quantity: 2000,
-
-        },
-        {
-            name: 'Sal rosa del Himalaya',
-            image: Images.ingredient,
-            quantity: 2000,
-        }
-    ]
-
-
-    return (
-        <FormsContext.Provider value={{
-            ingredients,
-            usersFormList,
-            setUsersFormList,
-            handleView,
-            usersProfile,
-            setUsersProfile,
-            toggle,
-            pallets,
-            setPallets,
-            packages,
-            setPackages
-        }}>
-            {props.children}
-        </FormsContext.Provider>
-    )
-}
+  return (
+    <FormsContext.Provider
+      value={{
+        ingredients,
+        usersFormList,
+        handleView,
+        usersProfile,
+        setUsersProfile,
+        toggle,
+        pallets,
+        packages,
+        productionList,
+      }}
+    >
+      {props.children}
+    </FormsContext.Provider>
+  );
+};

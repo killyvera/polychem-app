@@ -57,7 +57,7 @@ export function Profile({ signOut, user }) {
 
     return (
         <Authenticator>
-            <Box style={{ paddingTop: '10vh', maxHeight: '300px' }} >
+            <Box style={{ maxHeight: '300px' }} >
                 <Container>
                     <Typography variant='h4' >Perfil de Usuario</Typography>
                     <Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10vh' }} >
