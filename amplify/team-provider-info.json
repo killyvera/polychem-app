@@ -44,7 +44,8 @@
         "polychemapp8a64acc3": {
           "bucketName": "polychemstoragebucket123945-dev",
           "region": "us-east-1"
-        }
+        },
+        "polychemstorage": {}
       }
     }
   }

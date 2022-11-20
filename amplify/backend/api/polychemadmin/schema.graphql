@@ -1,8 +1,41 @@
-type RawMaterial @model @auth(rules: [{allow: private, provider: iam}]) {
+type TeamMember @model @auth(rules: [{allow: private, provider: iam}]) {
   id: ID!
-  LotRawMaterials: [LotRawMaterial] @hasMany(indexName: "byRawMaterial", fields: ["id"])
-  productionID: ID! @index(name: "byProduction")
+  cognitoId: String
+  shift: String
+  productionID: ID @index(name: "byProduction")
+}
+
+type ProdutionLot @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
   name: String
+  units: Int
+  expirationDate: String
+  code: String
+  productionID: ID! @index(name: "byProduction")
+}
+
+type MaterialRaw @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  RawMaterialLots: [RawMaterialLot] @hasMany(indexName: "byMaterialRaw", fields: ["id"])
+  productionID: ID! @index(name: "byProduction")
+}
+
+type FormulaElement @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  description: String
+  quantity: String
+  productID: ID @index(name: "byProduct")
+}
+
+type Pallet @model @auth(rules: [{allow: private, provider: iam}]) {
+  id: ID!
+  name: String
+  code: String
+  units: String
+  productionID: ID @index(name: "byProduction")
+  Packages: [Package] @hasMany(indexName: "byPallet", fields: ["id"])
 }
 
 type Sheduled @model @auth(rules: [{allow: private, provider: iam}]) {
@@ -19,34 +52,7 @@ type Package @model @auth(rules: [{allow: private, provider: iam}]) {
   palletID: ID! @index(name: "byPallet")
 }
 
-type ProductionMember @model @auth(rules: [{allow: private, provider: iam}]) {
-  id: ID!
-  name: String
-  role: String
-  shift: String
-  cognitoId: String
-  productionID: ID! @index(name: "byProduction")
-}
-
-type Pallet @model @auth(rules: [{allow: private, provider: iam}]) {
-  id: ID!
-  name: String
-  code: String
-  units: Int
-  productionID: ID! @index(name: "byProduction")
-  Packages: [Package] @hasMany(indexName: "byPallet", fields: ["id"])
-}
-
-type LotProduction @model @auth(rules: [{allow: private, provider: iam}]) {
-  id: ID!
-  name: String
-  units: Int
-  expirationDate: String
-  code: String
-  productionID: ID! @index(name: "byProduction")
-}
-
-type LotRawMaterial @model @auth(rules: [{allow: private, provider: iam}]) {
+type RawMaterialLot @model @auth(rules: [{allow: private, provider: iam}]) {
   id: ID!
   name: String
   description: String
@@ -55,7 +61,7 @@ type LotRawMaterial @model @auth(rules: [{allow: private, provider: iam}]) {
   notUsedQuantity: Float
   wasteQuantity: Float
   useQuantity: Float
-  rawmaterialID: ID! @index(name: "byRawMaterial")
+  materialrawID: ID! @index(name: "byMaterialRaw")
 }
 
 type Production @model @auth(rules: [{allow: private, provider: iam}]) {
@@ -68,30 +74,22 @@ type Production @model @auth(rules: [{allow: private, provider: iam}]) {
   extraUnits: Int
   notes: String
   Product: Product @hasOne
-  LotProductions: [LotProduction] @hasMany(indexName: "byProduction", fields: ["id"])
-  Pallets: [Pallet] @hasMany(indexName: "byProduction", fields: ["id"])
-  ProductionMembers: [ProductionMember] @hasMany(indexName: "byProduction", fields: ["id"])
   sheduledID: ID @index(name: "bySheduled")
-  RawMaterials: [RawMaterial] @hasMany(indexName: "byProduction", fields: ["id"])
-}
-
-type FormulaElement @model @auth(rules: [{allow: private, provider: iam}]) {
-  id: ID!
-  name: String
-  description: String
-  quantity: Float
-  productID: ID @index(name: "byProduct")
+  Pallets: [Pallet] @hasMany(indexName: "byProduction", fields: ["id"])
+  ProdutionLots: [ProdutionLot] @hasMany(indexName: "byProduction", fields: ["id"])
+  MaterialRaws: [MaterialRaw] @hasMany(indexName: "byProduction", fields: ["id"])
+  TeamMembers: [TeamMember] @hasMany(indexName: "byProduction", fields: ["id"])
 }
 
 type Product @model @auth(rules: [{allow: private, provider: iam}]) {
   id: ID!
   name: String
   description: String
-  FormulaElements: [FormulaElement] @hasMany(indexName: "byProduct", fields: ["id"])
   unitsPerPackage: Int
-  palletsPerPackage: Int
+  packagesPerPallets: Int
   code: String
   image: String
+  FormulaElements: [FormulaElement] @hasMany(indexName: "byProduct", fields: ["id"])
 }
 
 type Form @model @auth(rules: [{allow: private, provider: iam}]) {
@@ -99,13 +97,13 @@ type Form @model @auth(rules: [{allow: private, provider: iam}]) {
   name: String
   description: String
   planned: Boolean
-  schedule: String
+  schedule: AWSDate
   sent: Boolean
   expire: Boolean
-  expirationDate: String
+  expirationDate: AWSDate
   active: Boolean
-  Production: Production @hasOne
-  ProductionLeader: ProductionMember @hasOne
   sheduledID: ID @index(name: "bySheduled")
+  leadProduction: String
+  Production: Production @hasOne
 }
  

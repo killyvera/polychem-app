@@ -45,7 +45,10 @@ export default function SingleForm(props) {
   };
 
   return (
-    <Link style={{ textDecoration: "blink" }} to="/production-form">
+    <Link
+      style={{ textDecoration: "blink" }}
+      to={`/production-form/${data.id}`}
+    >
       <Item style={{ backgroundColor: setBackgroundColor() }}>
         <Typography variant="p" fontWeight="bold">
           {data.name}
@@ -58,22 +61,3 @@ export default function SingleForm(props) {
     </Link>
   );
 }
-
-/* <div
-          style={{
-            margin: "12px",
-            backgroundColor: "gray",
-            borderRadius: "5px",
-            color: "black",
-          }}
-        >
-          <Stack direction="row" spacing={2} style={{ alignItems: "center" }}>
-            <h3 style={{ padding: "4px" }}>{form[0].title}</h3>
-            <h4>Dpto:{form[0].depto}</h4>
-            <h5 style={{ padding: "4px" }}>Preguntas:{form[0].questions}</h5>
-          </Stack>
-          <Stack direction="row" spacing={2} style={{ alignItems: "center" }}>
-            <h5>Días: {form[0].days}</h5>
-            <h5 style={{ padding: "4px" }}>Horario:{form[0].time}</h5>
-          </Stack>
-        </div>  */

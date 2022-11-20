@@ -33,7 +33,7 @@ function App({ signOut, user }) {
               element={<Profile user={user} signOut={signOut} />}
             />
             <Route path="/forms" element={<FormsList />} />
-            <Route path="/production-form" element={<ProductionForm />} />
+            <Route path="/production-form/:formId" element={<ProductionForm />} />
           </Routes>
         </LayoutContainer>
       </FormsContextProvider>
