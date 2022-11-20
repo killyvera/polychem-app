@@ -787,7 +787,7 @@ export const schema = {
                 "schedule": {
                     "name": "schedule",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -808,7 +808,7 @@ export const schema = {
                 "expirationDate": {
                     "name": "expirationDate",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -1214,5 +1214,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "5821946284647308e8d8b911f7aee5fe"
+    "version": "f56a313492d9425cf87f9d959a537c72"
 };
