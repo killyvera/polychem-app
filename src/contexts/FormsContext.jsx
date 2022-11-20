@@ -1,6 +1,6 @@
 import React, { useEffect, createContext, useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
-import { Production, Form } from "../models";
+import { Production } from "../models";
 import { ingredientsList } from "../mock";
 
 export const FormsContext = createContext();
@@ -19,18 +19,12 @@ export const FormsContextProvider = (props) => {
     setProduction(productions);
   };
 
-  const getForms = async () => {
-    const formsList = await DataStore.query(Form);
-    setUsersFormList(formsList);
-  };
-
   const handleView = () => {
     setToggle(!toggle);
   };
 
   useEffect(() => {
     getProduction();
-    getForms();
     setIngredientsList(ingredientsList);
     setPallets([]);
     setPackages([]);
@@ -41,6 +35,7 @@ export const FormsContextProvider = (props) => {
       value={{
         ingredients,
         usersFormList,
+        setUsersFormList,
         handleView,
         usersProfile,
         setUsersProfile,
