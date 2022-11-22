@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
@@ -6,6 +6,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { DataStore } from "@aws-amplify/datastore";
+import { FormsContext } from "../contexts/FormsContext";
 import { FormulaElement } from "../models";
 import Images from "../constants/Images";
 
@@ -44,8 +45,8 @@ const DetailItem = ({ title, count, unit }) => {
   );
 };
 
-const FormulaElementsList = ({ productID }) => {
-  const [productElements, setProductElements] = useState([]);
+const FormulaElementsList = ({ productDetail }) => {
+  const { productElements, setProductElements } = useContext(FormsContext);
   const [isLoading, setIsLoading] = useState(true);
 
   const getFormulaElements = useCallback(async () => {
@@ -53,7 +54,7 @@ const FormulaElementsList = ({ productID }) => {
       const productElements = await DataStore.query(FormulaElement);
       setProductElements(
         productElements.filter(
-          (productElement) => productElement.productID === productID
+          (productElement) => productElement.productID === productDetail.id
         )
       );
       setIsLoading(false);
@@ -61,7 +62,7 @@ const FormulaElementsList = ({ productID }) => {
       console.log("ERROR PRODUCT ELEMENTS LIST: ", error);
       setIsLoading(false);
     }
-  }, [productID]);
+  }, [productDetail, setProductElements]);
 
   useEffect(() => {
     getFormulaElements();

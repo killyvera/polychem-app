@@ -35,24 +35,7 @@ const DetailItem = ({ title, count, unit }) => {
   );
 };
 
-export default function ProductionDetail({ data }) {
-  const [productDetail, updateProductDetail] = useState(null);
-
-  const getProductDetails = useCallback(async (productionProductId) => {
-    try {
-      const productDetail = await DataStore.query(Product, productionProductId);
-      updateProductDetail(productDetail);
-    } catch (error) {
-      console.log("ERROR FORM DETAIL: ", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (data?.productionProductId) {
-      getProductDetails(data.productionProductId);
-    }
-  }, [getProductDetails, data]);
-
+export default function ProductionDetail({ data, productDetail }) {
   if (!data) {
     return (
       <Typography variant="p" fontWeight="bold" textAlign="center">

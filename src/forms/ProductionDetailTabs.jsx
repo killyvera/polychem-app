@@ -14,13 +14,14 @@ export default function ProductionDetailTabs({
   activeTab,
   setActiveTab,
   productionDetail,
+  productDetail,
 }) {
   return (
     <>
       <Tabs
         centered
         value={activeTab}
-        onChange={(event, value) => setActiveTab(value)}
+        onChange={(_, value) => setActiveTab(value)}
       >
         <Tab label={<FactoryIcon fontSize="large" />} variant="contained" />
         <Tab label={<ScienceIcon fontSize="large" />} />
@@ -30,18 +31,14 @@ export default function ProductionDetailTabs({
       <TabPanel
         value={activeTab}
         index={0}
-        children={<ProductionDetail data={productionDetail} />}
+        children={<ProductionDetail data={productionDetail} productDetail={productDetail} />}
       />
       <TabPanel
         value={activeTab}
         index={1}
-        children={
-          <FormulaElementsList
-            productID={productionDetail?.productionProductId}
-          />
-        }
+        children={<FormulaElementsList productDetail={productDetail} />}
       />
-      <TabPanel value={activeTab} index={2} children={<RowMaterialForm />} />
+      <TabPanel value={activeTab} index={2} children={<RowMaterialForm productionDetail={productionDetail} />} />
       <TabPanel
         value={activeTab}
         index={3}
