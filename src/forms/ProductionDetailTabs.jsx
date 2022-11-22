@@ -2,7 +2,7 @@ import { Tabs, Tab } from "@mui/material";
 import FactoryIcon from "@mui/icons-material/Factory";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import ScienceIcon from "@mui/icons-material/Science";
-import GroupsIcon from "@mui/icons-material/Groups";
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 // Components
 import ProductionDetail from "../components/ProductionDetail";
@@ -26,7 +26,7 @@ export default function ProductionDetailTabs({
         <Tab label={<FactoryIcon fontSize="large" />} variant="contained" />
         <Tab label={<ScienceIcon fontSize="large" />} />
         <Tab label={<ShoppingBasketIcon fontSize="large" />} />
-        <Tab label={<GroupsIcon fontSize="large" />} />
+        <Tab label={<ListAltIcon fontSize="large" />} />
       </Tabs>
       <TabPanel
         value={activeTab}

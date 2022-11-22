@@ -80,6 +80,12 @@ const DetailItem = ({
   unit,
   handleModalOpen,
 }) => {
+  const { rawMaterialsList } = useContext(FormsContext);
+
+  const currentData = rawMaterialsList.find(
+    (rawMaterial) => rawMaterial.productElementId === productElementId
+  );
+
   return (
     <Item>
       <Avatar
@@ -101,6 +107,17 @@ const DetailItem = ({
           >
             are needed at least {count} {unit}
           </Typography>
+          {currentData && (
+            <Typography
+              component="p"
+              variant="p"
+              marginTop={1}
+              color="#2aa33e"
+              fontWeight="bold"
+            >
+              Successfully Added Raw Material
+            </Typography>
+          )}
         </Box>
         <Box flex={1} marginTop={2} display="flex" justifyContent="flex-end">
           <Button
@@ -109,7 +126,7 @@ const DetailItem = ({
               handleModalOpen({ productElementId, title, count, unit })
             }
           >
-            Add Row Material
+            {currentData ? "Edit" : "Add"} Raw Material
           </Button>
         </Box>
       </ItemContent>
@@ -127,10 +144,24 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleSaveDate = () => {
-    updateRawMaterialsList([
-      ...rawMaterialsList,
-      { productElementId, rawMaterialName, lrmList },
-    ]);
+    const pIndex = rawMaterialsList.findIndex(
+      (rawMaterial) => rawMaterial.productElementId === productElementId
+    );
+    const updatedRawMaterialsList = [...rawMaterialsList];
+    if (pIndex !== -1) {
+      updatedRawMaterialsList[pIndex] = {
+        productElementId,
+        rawMaterialName,
+        lrmList,
+      };
+    } else {
+      updatedRawMaterialsList.push({
+        productElementId,
+        rawMaterialName,
+        lrmList,
+      });
+    }
+    updateRawMaterialsList(updatedRawMaterialsList);
     handleClose();
   };
 
