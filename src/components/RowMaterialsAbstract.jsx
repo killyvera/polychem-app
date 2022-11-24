@@ -1,20 +1,15 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { FormsContext } from "../contexts/FormsContext";
 import Images from "../constants/Images";
 
-const ButtonContainer = styled(Box)(({ theme }) => ({
-  ...theme.typography.body2,
-  display: "flex",
-  justifyContent: "center",
-}));
+// Components
+import NavigationButton from "./NavigationButton";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -51,14 +46,13 @@ const DetailItem = ({ title, count, unit }) => {
   );
 };
 
-const RowMaterialsAbstract = ({ productId }) => {
+const RowMaterialsAbstract = ({ setActiveTab }) => {
   const { rawMaterialsList } = useContext(FormsContext);
-  const navigate = useNavigate();
 
   if (!rawMaterialsList.length) {
     return (
       <Typography variant="p" fontWeight="bold" textAlign="center">
-        Raw Materials not found!
+        Please Add Raw Material First to See the Abstract!
       </Typography>
     );
   }
@@ -82,15 +76,7 @@ const RowMaterialsAbstract = ({ productId }) => {
         );
       })}
 
-      <ButtonContainer>
-        <Button
-          variant="contained"
-          disabled={rawMaterialsList?.length < 3}
-          onClick={() => navigate(`/packaging/${productId}`)}
-        >
-          Ready to Production
-        </Button>
-      </ButtonContainer>
+      <NavigationButton text="Add Staff" onClick={() => setActiveTab(4)} />
     </Stack>
   );
 };

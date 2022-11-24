@@ -10,6 +10,9 @@ import { FormsContext } from "../contexts/FormsContext";
 import { FormulaElement } from "../models";
 import Images from "../constants/Images";
 
+// Components
+import NavigationButton from "./NavigationButton";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
@@ -45,7 +48,7 @@ const DetailItem = ({ title, count, unit }) => {
   );
 };
 
-const FormulaElementsList = ({ productDetail }) => {
+const FormulaElementsList = ({ productDetail, setActiveTab }) => {
   const { productElements, setProductElements } = useContext(FormsContext);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -88,6 +91,11 @@ const FormulaElementsList = ({ productDetail }) => {
           unit="kg"
         />
       ))}
+
+      <NavigationButton
+        text="Add Raw Material"
+        onClick={() => setActiveTab(2)}
+      />
     </Stack>
   );
 };

@@ -3,12 +3,14 @@ import FactoryIcon from "@mui/icons-material/Factory";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import ScienceIcon from "@mui/icons-material/Science";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 // Components
 import ProductionDetail from "../components/ProductionDetail";
 import FormulaElementsList from "../components/FormulaElementsList";
 import RowMaterialForm from "../components/RowMaterialForm";
 import RowMaterialsAbstract from "../components/RowMaterialsAbstract";
+import EmployeeStaff from "../components/EmployeeStaff";
 
 export default function ProductionDetailTabs({
   activeTab,
@@ -27,6 +29,7 @@ export default function ProductionDetailTabs({
         <Tab label={<ScienceIcon fontSize="large" />} />
         <Tab label={<ShoppingBasketIcon fontSize="large" />} />
         <Tab label={<ListAltIcon fontSize="large" />} />
+        <Tab label={<GroupsIcon fontSize="large" />} />
       </Tabs>
       <TabPanel
         value={activeTab}
@@ -35,23 +38,40 @@ export default function ProductionDetailTabs({
           <ProductionDetail
             data={productionDetail}
             productDetail={productDetail}
+            setActiveTab={setActiveTab}
           />
         }
       />
       <TabPanel
         value={activeTab}
         index={1}
-        children={<FormulaElementsList productDetail={productDetail} />}
+        children={
+          <FormulaElementsList
+            productDetail={productDetail}
+            setActiveTab={setActiveTab}
+          />
+        }
       />
       <TabPanel
         value={activeTab}
         index={2}
-        children={<RowMaterialForm productionDetail={productionDetail} />}
+        children={
+          <RowMaterialForm
+            productId={productDetail?.id}
+            productionDetail={productionDetail}
+            setActiveTab={setActiveTab}
+          />
+        }
       />
       <TabPanel
         value={activeTab}
         index={3}
-        children={<RowMaterialsAbstract productId={productDetail?.id} />}
+        children={<RowMaterialsAbstract setActiveTab={setActiveTab} />}
+      />
+      <TabPanel
+        value={activeTab}
+        index={4}
+        children={<EmployeeStaff productId={productDetail?.id} />}
       />
     </>
   );

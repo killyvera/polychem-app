@@ -30,6 +30,9 @@ export function ProductionForm() {
       case 3:
         pageTitle = "Row Materials Abstract";
         break;
+      case 4:
+        pageTitle = "Employee Staff";
+        break;
       default:
         pageTitle = "Production Details";
         break;

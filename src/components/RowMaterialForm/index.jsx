@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
@@ -12,11 +12,14 @@ import FormControl from "@mui/material/FormControl";
 import Modal from "@mui/material/Modal";
 import { styled } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
+import { DataStore } from "@aws-amplify/datastore";
+import { FormulaElement } from "../../models";
 import { FormsContext } from "../../contexts/FormsContext";
 import Images from "../../constants/Images";
 
 // Components
 import LotRawMaterialStepper from "./LotRawMaterialStepper";
+import NavigationButton from "../NavigationButton";
 
 const initialLRMList = () => [{ name: "", code: "", quantity: 0 }];
 
@@ -291,8 +294,9 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
   );
 }
 
-function RowMaterialForm({ productionDetail }) {
-  const { productElements } = useContext(FormsContext);
+function RowMaterialForm({ productionDetail, productId, setActiveTab }) {
+  const { productElements, setProductElements } = useContext(FormsContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [modalStatus, setOpen] = useState({ isOpen: false, data: null });
 
   const handleModalClose = () => {
@@ -302,6 +306,35 @@ function RowMaterialForm({ productionDetail }) {
   const handleModalOpen = (data) => {
     setOpen({ isOpen: true, data });
   };
+
+  const getFormulaElements = useCallback(async () => {
+    try {
+      const productElements = await DataStore.query(FormulaElement);
+      setProductElements(
+        productElements.filter(
+          (productElement) => productElement.productID === productId
+        )
+      );
+      setIsLoading(false);
+    } catch (error) {
+      console.log("ERROR PRODUCT ELEMENTS LIST: ", error);
+      setIsLoading(false);
+    }
+  }, [productId, setProductElements]);
+
+  useEffect(() => {
+    getFormulaElements();
+  }, [getFormulaElements]);
+
+  if (isLoading) {
+    return <Typography variant="p">getting product elements...</Typography>;
+  } else if (!productElements.length) {
+    return (
+      <Typography variant="p" fontWeight="bold" textAlign="center">
+        Product elements not found!
+      </Typography>
+    );
+  }
 
   return (
     <Stack spacing={2} marginTop={2}>
@@ -321,6 +354,11 @@ function RowMaterialForm({ productionDetail }) {
           handleClose={handleModalClose}
         />
       )}
+
+      <NavigationButton
+        text="See Raw Materials Abstract"
+        onClick={() => setActiveTab(3)}
+      />
     </Stack>
   );
 }
