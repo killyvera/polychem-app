@@ -107,7 +107,7 @@ const DetailItem = ({
           >
             are needed at least {count} {unit}
           </Typography>
-          {currentData && (
+          {currentData ? (
             <Typography
               component="p"
               variant="p"
@@ -116,6 +116,16 @@ const DetailItem = ({
               fontWeight="bold"
             >
               Successfully Added Raw Material
+            </Typography>
+          ) : (
+            <Typography
+              component="p"
+              variant="p"
+              marginTop={1}
+              color="#f13737"
+              fontWeight="bold"
+            >
+              Please Add Raw Material
             </Typography>
           )}
         </Box>

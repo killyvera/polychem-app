@@ -9,6 +9,7 @@ import { NavBar } from "./components/NavBar";
 import { Home } from "./pages/Home";
 import { Profile } from "./pages/Profile";
 import { FormsList } from "./pages/FormsList";
+import Packaging from "./pages/Packaging";
 import { ProductionForm } from "./forms/ProductionForm";
 import { FormsContextProvider } from "./contexts/FormsContext";
 
@@ -33,7 +34,11 @@ function App({ signOut, user }) {
               element={<Profile user={user} signOut={signOut} />}
             />
             <Route path="/forms" element={<FormsList />} />
-            <Route path="/production-form/:formId" element={<ProductionForm />} />
+            <Route
+              path="/production-form/:formId"
+              element={<ProductionForm />}
+            />
+            <Route path="/packaging/:productId" element={<Packaging />} />
           </Routes>
         </LayoutContainer>
       </FormsContextProvider>

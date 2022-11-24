@@ -2,7 +2,7 @@ import { Tabs, Tab } from "@mui/material";
 import FactoryIcon from "@mui/icons-material/Factory";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import ScienceIcon from "@mui/icons-material/Science";
-import ListAltIcon from '@mui/icons-material/ListAlt';
+import ListAltIcon from "@mui/icons-material/ListAlt";
 
 // Components
 import ProductionDetail from "../components/ProductionDetail";
@@ -31,18 +31,27 @@ export default function ProductionDetailTabs({
       <TabPanel
         value={activeTab}
         index={0}
-        children={<ProductionDetail data={productionDetail} productDetail={productDetail} />}
+        children={
+          <ProductionDetail
+            data={productionDetail}
+            productDetail={productDetail}
+          />
+        }
       />
       <TabPanel
         value={activeTab}
         index={1}
         children={<FormulaElementsList productDetail={productDetail} />}
       />
-      <TabPanel value={activeTab} index={2} children={<RowMaterialForm productionDetail={productionDetail} />} />
+      <TabPanel
+        value={activeTab}
+        index={2}
+        children={<RowMaterialForm productionDetail={productionDetail} />}
+      />
       <TabPanel
         value={activeTab}
         index={3}
-        children={<RowMaterialsAbstract />}
+        children={<RowMaterialsAbstract productId={productDetail?.id} />}
       />
     </>
   );
