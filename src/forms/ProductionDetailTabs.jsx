@@ -24,6 +24,7 @@ export default function ProductionDetailTabs({
         centered
         value={activeTab}
         onChange={(_, value) => setActiveTab(value)}
+        style={{ marginTop: "1rem" }}
       >
         <Tab label={<FactoryIcon fontSize="large" />} variant="contained" />
         <Tab label={<ScienceIcon fontSize="large" />} />

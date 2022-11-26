@@ -2,6 +2,7 @@ import React, { useEffect, createContext, useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { Production } from "../models";
 import { ingredientsList } from "../mock";
+import { usersList } from "../services/UserServices";
 
 export const FormsContext = createContext();
 
@@ -15,10 +16,29 @@ export const FormsContextProvider = (props) => {
   const [productionList, setProduction] = useState([]);
   const [productElements, setProductElements] = useState([]);
   const [rawMaterialsList, updateRawMaterialsList] = useState([]);
+  const [selectedEmployee, updateSelectedEmployee] = useState(null);
 
   const getProduction = async () => {
     const productions = await DataStore.query(Production);
     setProduction(productions);
+  };
+
+  const getUsers = async () => {
+    try {
+      const users = await usersList();
+      const filteredUsers =
+        users && users.length
+          ? users
+              .filter((user) => user.UserStatus === "CONFIRMED" && user.Enabled)
+              .map((user) => ({
+                userInfo: user.Attributes,
+                userId: user.Username,
+              }))
+          : [];
+      setUsersProfile(filteredUsers);
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   };
 
   const handleView = () => {
@@ -27,6 +47,7 @@ export const FormsContextProvider = (props) => {
 
   useEffect(() => {
     getProduction();
+    getUsers();
     setIngredientsList(ingredientsList);
     setPallets([]);
     setPackages([]);
@@ -49,6 +70,8 @@ export const FormsContextProvider = (props) => {
         setProductElements,
         rawMaterialsList,
         updateRawMaterialsList,
+        selectedEmployee,
+        updateSelectedEmployee,
       }}
     >
       {props.children}

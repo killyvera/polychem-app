@@ -1,21 +1,17 @@
-// import { useContext } from "react";
-// import { FormsContext } from "../../contexts/FormsContext";
+import { useState } from "react";
+import Box from "@mui/material/Box";
 
 // Components
-import { UsersForm } from "../UsersForm";
-import NavigationButton from "../NavigationButton";
+import QRContainer from "./QRContainer";
+import SearchEmployee from "./SearchEmployee";
 
 export default function EmployeeStaff({ productId }) {
-  // const { rawMaterialsList } = useContext(FormsContext);
+  const [qrResult, setQRResult] = useState("");
 
   return (
-    <>
-      <UsersForm />
-
-      <NavigationButton
-        path={`/packaging/${productId}`}
-        text="Ready to Production"
-      />
-    </>
+    <Box margin="0 auto" width="75%" display="flex">
+      <QRContainer setQRResult={setQRResult} />
+      <SearchEmployee productId={productId} qrResult={qrResult} />
+    </Box>
   );
 }

@@ -76,7 +76,7 @@ const RowMaterialsAbstract = ({ setActiveTab }) => {
         );
       })}
 
-      <NavigationButton text="Add Staff" onClick={() => setActiveTab(4)} />
+      <NavigationButton text="Add Staff Member" onClick={() => setActiveTab(4)} />
     </Stack>
   );
 };
