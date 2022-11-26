@@ -8,6 +8,16 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
+import { styled } from "@mui/material/styles";
+
+const UserCardContainer = styled(Card)(({ theme }) => ({
+  ...theme.typography.body2,
+  width: "45%",
+  margin: theme.spacing(2),
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+}));
 
 export default function UserCard({
   userData,
@@ -15,7 +25,7 @@ export default function UserCard({
   selectedEmployee,
 }) {
   return (
-    <Card sx={{ width: "47.5%", margin: "0.5rem" }}>
+    <UserCardContainer>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
@@ -59,6 +69,6 @@ export default function UserCard({
           {selectedEmployee ? "Remove" : "Select"}
         </Button>
       </CardActions>
-    </Card>
+    </UserCardContainer>
   );
 }

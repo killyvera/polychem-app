@@ -4,12 +4,24 @@ import Typography from "@mui/material/Typography";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FilledInput from "@mui/material/FilledInput";
+import { styled } from "@mui/material/styles";
 import { FormsContext } from "../../contexts/FormsContext";
 
 // Components
 import NavigationButton from "../NavigationButton";
 import UserCard from "./UserCard";
 import { useEffect } from "react";
+
+const SearchEmployeeContainer = styled(Box)(({ theme }) => ({
+  ...theme.typography.body2,
+  flex: 1,
+  marginLeft: theme.spacing(5),
+  marginTop: theme.spacing(2),
+  [theme.breakpoints.down("sm")]: {
+    marginLeft: theme.spacing(0),
+    marginTop: theme.spacing(0),
+  },
+}));
 
 export default function SearchEmployee({ qrResult, productId }) {
   const { usersProfile, selectedEmployee, updateSelectedEmployee } =
@@ -38,7 +50,7 @@ export default function SearchEmployee({ qrResult, productId }) {
   }, [qrResult]);
 
   return (
-    <Box flex={1} marginLeft="3rem" marginTop="2rem">
+    <SearchEmployeeContainer>
       <Typography variant="h5" fontWeight="bold" color="#1976D2">
         Search Employee
       </Typography>
@@ -55,7 +67,12 @@ export default function SearchEmployee({ qrResult, productId }) {
           />
         </FormControl>
       )}
-      <Box display="flex" flexWrap="wrap" marginBottom={2}>
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        marginTop={selectedEmployee ? 1 : 0}
+        marginBottom={2}
+      >
         {selectedEmployee && (
           <UserCard
             key={selectedEmployee.userId}
@@ -79,6 +96,6 @@ export default function SearchEmployee({ qrResult, productId }) {
         text="Ready to Production"
         disabled={!selectedEmployee}
       />
-    </Box>
+    </SearchEmployeeContainer>
   );
 }
