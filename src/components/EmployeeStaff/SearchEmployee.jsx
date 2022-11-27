@@ -24,7 +24,7 @@ const SearchEmployeeContainer = styled(Box)(({ theme }) => ({
 }));
 
 export default function SearchEmployee({ qrResult, productId }) {
-  const { usersProfile, selectedEmployee, updateSelectedEmployee } =
+  const { usersProfile, selectedEmployees, updateSelectedEmployees } =
     useContext(FormsContext);
 
   const [userName, updateUserName] = useState("");
@@ -35,9 +35,12 @@ export default function SearchEmployee({ qrResult, productId }) {
 
   const handleSelectEmployee = (user, isAlreadySelected) => {
     if (isAlreadySelected) {
-      updateSelectedEmployee(null);
+      const updatedSelectedEmployee = [...selectedEmployees].filter(
+        (s) => s.user.userId === user.userId
+      );
+      updateSelectedEmployees(updatedSelectedEmployee);
     } else {
-      updateSelectedEmployee(user);
+      updateSelectedEmployees([...selectedEmployees, { user, productId }]);
     }
   };
 
@@ -48,6 +51,10 @@ export default function SearchEmployee({ qrResult, productId }) {
   useEffect(() => {
     updateUserName(qrResult);
   }, [qrResult]);
+
+  const selectedEmployee = selectedEmployees.find(
+    (selectedEmployee) => selectedEmployee.productId === productId
+  );
 
   return (
     <SearchEmployeeContainer>
@@ -76,7 +83,7 @@ export default function SearchEmployee({ qrResult, productId }) {
         {selectedEmployee && (
           <UserCard
             key={selectedEmployee.userId}
-            userData={selectedEmployee}
+            userData={selectedEmployee.user}
             handleSelectEmployee={handleSelectEmployee}
             selectedEmployee={selectedEmployee}
           />

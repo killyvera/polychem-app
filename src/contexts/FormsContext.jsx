@@ -16,7 +16,7 @@ export const FormsContextProvider = (props) => {
   const [productionList, setProduction] = useState([]);
   const [productElements, setProductElements] = useState([]);
   const [rawMaterialsList, updateRawMaterialsList] = useState([]);
-  const [selectedEmployee, updateSelectedEmployee] = useState(null);
+  const [selectedEmployees, updateSelectedEmployees] = useState([]);
 
   const getProduction = async () => {
     const productions = await DataStore.query(Production);
@@ -70,8 +70,8 @@ export const FormsContextProvider = (props) => {
         setProductElements,
         rawMaterialsList,
         updateRawMaterialsList,
-        selectedEmployee,
-        updateSelectedEmployee,
+        selectedEmployees,
+        updateSelectedEmployees,
       }}
     >
       {props.children}
