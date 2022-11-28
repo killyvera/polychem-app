@@ -1,77 +1,31 @@
-import { 
-  useState, 
-  // useContext, 
-  // useEffect 
-} from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-// import IconButton from "@mui/material/IconButton";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import FilledInput from "@mui/material/FilledInput";
-// import Tooltip from "@mui/material/Tooltip";
-// import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-// import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
+// Components
+import ProductDetails from "./ProductDetails";
+import AddLotProduction from "./AddLotProduction";
+
 const initialSteps = () => [
-  { stepName: "Product Details", data: {} },
-  { stepName: "Add Lot Production", data: {} },
-  { stepName: "Add Pallets", data: {} },
+  { stepName: "Product Details" },
+  { stepName: "Add Lot Production" },
+  { stepName: "Add Pallets" },
 ];
 
-// const LotRawMaterialFormItem = ({ activeStep, data, handleUpdateInputs }) => (
-//   <div key={`lrm-item-${activeStep}`}>
-//     <FormControl fullWidth variant="filled">
-//       <InputLabel htmlFor="lot-row-material-name">Name</InputLabel>
-//       <FilledInput
-//         id="lot-row-material-name"
-//         value={data.name}
-//         name="name"
-//         onChange={(ev) => {
-//           const { name, value } = ev.target;
-//           handleUpdateInputs(activeStep, name, value);
-//         }}
-//       />
-//     </FormControl>
-//     <FormControl fullWidth variant="filled" style={{ marginTop: "1rem" }}>
-//       <InputLabel htmlFor="lot-row-material-code">Code</InputLabel>
-//       <FilledInput
-//         id="lot-row-material-code"
-//         value={data.code}
-//         name="code"
-//         onChange={(ev) => {
-//           const { name, value } = ev.target;
-//           handleUpdateInputs(activeStep, name, value);
-//         }}
-//       />
-//     </FormControl>
-//     <FormControl fullWidth variant="filled" style={{ marginTop: "1rem" }}>
-//       <InputLabel htmlFor="lot-row-material-qty">Quantity</InputLabel>
-//       <FilledInput
-//         id="lot-row-material-qty"
-//         value={data.quantity}
-//         name="quantity"
-//         type="number"
-//         onChange={(ev) => {
-//           const { name, value } = ev.target;
-//           handleUpdateInputs(activeStep, name, value);
-//         }}
-//       />
-//     </FormControl>
-//   </div>
-// );
-
-export default function ProductionStepper() {
+export default function ProductionStepper({
+  productDetail,
+  activeStep,
+  setActiveStep,
+}) {
   const theme = useTheme();
 
   const [stepsDetails, updateStepsDetails] = useState(initialSteps());
-  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -81,10 +35,21 @@ export default function ProductionStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const _renderSteps = () => {
+    switch (activeStep) {
+      case 0:
+        return <ProductDetails productDetail={productDetail} />;
+      case 1:
+        return <AddLotProduction />;
+      default:
+        return null;
+    }
+  };
+
   const maxSteps = stepsDetails.length;
 
   return (
-    <Box sx={{ flexGrow: 1, marginTop: "1rem" }}>
+    <Box sx={{ flexGrow: 1, margin: "2rem auto 0 auto", maxWidth: 600 }}>
       <Paper
         square
         elevation={0}
@@ -92,7 +57,7 @@ export default function ProductionStepper() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: 50,
+          height: 35,
           bgcolor: "background.default",
         }}
       >
@@ -105,13 +70,7 @@ export default function ProductionStepper() {
           {stepsDetails[activeStep].stepName}
         </Typography>
       </Paper>
-      <Box sx={{ height: 210, width: "100%" }}>
-        {/* <LotRawMaterialFormItem
-          activeStep={activeStep}
-          data={lrmList[activeStep]}
-          handleUpdateInputs={handleUpdateInputs}
-        /> */}
-      </Box>
+      <Box sx={{ width: "100%", margin: "1rem 0" }}>{_renderSteps()}</Box>
       <MobileStepper
         variant="progress"
         steps={maxSteps}

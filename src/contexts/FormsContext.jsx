@@ -1,14 +1,12 @@
 import React, { useEffect, createContext, useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { Production } from "../models";
-import { ingredientsList } from "../mock";
 import { usersList } from "../services/UserServices";
 
 export const FormsContext = createContext();
 
 export const FormsContextProvider = (props) => {
   const [usersFormList, setUsersFormList] = useState([]);
-  const [ingredients, setIngredientsList] = useState([]);
   const [usersProfile, setUsersProfile] = useState([]);
   const [toggle, setToggle] = useState(true);
   const [pallets, setPallets] = useState([]);
@@ -48,7 +46,6 @@ export const FormsContextProvider = (props) => {
   useEffect(() => {
     getProduction();
     getUsers();
-    setIngredientsList(ingredientsList);
     setPallets([]);
     setPackages([]);
   }, []);
@@ -56,7 +53,6 @@ export const FormsContextProvider = (props) => {
   return (
     <FormsContext.Provider
       value={{
-        ingredients,
         usersFormList,
         setUsersFormList,
         handleView,

@@ -10,7 +10,11 @@ import UnusedRawMaterial from "./UnusedRawMaterial";
 import WastedRawMaterial from "./WastedRawMaterial";
 import FinishProduction from "./FinishProduction";
 
-export default function PackagingTabs({ activeTab, setActiveTab }) {
+export default function PackagingTabs({
+  productDetail,
+  activeTab,
+  setActiveTab,
+}) {
   return (
     <Box marginTop={2}>
       <Tabs
@@ -23,10 +27,31 @@ export default function PackagingTabs({ activeTab, setActiveTab }) {
         <Tab label={<DeleteForeverIcon fontSize="large" />} />
         <Tab label={<AssignmentTurnedInIcon fontSize="large" />} />
       </Tabs>
-      <TabPanel value={activeTab} index={0} children={<ProductionDetails />} />
-      <TabPanel value={activeTab} index={1} children={<UnusedRawMaterial />} />
-      <TabPanel value={activeTab} index={2} children={<WastedRawMaterial />} />
-      <TabPanel value={activeTab} index={3} children={<FinishProduction />} />
+      <TabPanel
+        value={activeTab}
+        index={0}
+        children={
+          <ProductionDetails
+            productDetail={productDetail}
+            setActiveTab={setActiveTab}
+          />
+        }
+      />
+      <TabPanel
+        value={activeTab}
+        index={1}
+        children={<UnusedRawMaterial setActiveTab={setActiveTab} />}
+      />
+      <TabPanel
+        value={activeTab}
+        index={2}
+        children={<WastedRawMaterial setActiveTab={setActiveTab} />}
+      />
+      <TabPanel
+        value={activeTab}
+        index={3}
+        children={<FinishProduction setActiveTab={setActiveTab} />}
+      />
     </Box>
   );
 }

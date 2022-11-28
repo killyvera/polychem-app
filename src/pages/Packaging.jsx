@@ -71,7 +71,11 @@ export default function Packaging() {
         <span style={{ fontWeight: "bold" }}>Product Name: </span>
         {productDetail?.name || ""}
       </Typography>
-      <PackagingTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <PackagingTabs
+        productDetail={productDetail}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
     </Box>
   );
 }
