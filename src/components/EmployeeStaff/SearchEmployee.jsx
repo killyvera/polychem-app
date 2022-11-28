@@ -24,8 +24,12 @@ const SearchEmployeeContainer = styled(Box)(({ theme }) => ({
 }));
 
 export default function SearchEmployee({ qrResult, productId }) {
-  const { usersProfile, selectedEmployees, updateSelectedEmployees } =
-    useContext(FormsContext);
+  const {
+    usersProfile,
+    setUsersProfile,
+    selectedEmployees,
+    updateSelectedEmployees,
+  } = useContext(FormsContext);
 
   const [userName, updateUserName] = useState("");
 
@@ -33,10 +37,19 @@ export default function SearchEmployee({ qrResult, productId }) {
     updateUserName(ev.target.value);
   };
 
+  const handleUpdateUserTurn = (ev, userId) => {
+    const updatedUsersProfile = [...usersProfile];
+    const userIndex = updatedUsersProfile.findIndex(
+      (user) => user.userId === userId
+    );
+    updatedUsersProfile[userIndex].userInfo[4].Value = ev.target.value;
+    setUsersProfile(updatedUsersProfile);
+  };
+
   const handleSelectEmployee = (user, isAlreadySelected) => {
     if (isAlreadySelected) {
       const updatedSelectedEmployee = [...selectedEmployees].filter(
-        (s) => s.user.userId === user.userId
+        (s) => s.user.userId !== user.userId
       );
       updateSelectedEmployees(updatedSelectedEmployee);
     } else {
@@ -84,6 +97,7 @@ export default function SearchEmployee({ qrResult, productId }) {
           <UserCard
             key={selectedEmployee.userId}
             userData={selectedEmployee.user}
+            handleUpdateUserTurn={handleUpdateUserTurn}
             handleSelectEmployee={handleSelectEmployee}
             selectedEmployee={selectedEmployee}
           />
@@ -94,6 +108,7 @@ export default function SearchEmployee({ qrResult, productId }) {
             <UserCard
               key={searchedUser.userId}
               userData={searchedUser}
+              handleUpdateUserTurn={handleUpdateUserTurn}
               handleSelectEmployee={handleSelectEmployee}
             />
           ))}

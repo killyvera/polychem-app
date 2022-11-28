@@ -28,10 +28,17 @@ export const FormsContextProvider = (props) => {
         users && users.length
           ? users
               .filter((user) => user.UserStatus === "CONFIRMED" && user.Enabled)
-              .map((user) => ({
-                userInfo: user.Attributes,
-                userId: user.Username,
-              }))
+              .map((user) => {
+                const userAttributes = [
+                  ...user.Attributes,
+                  { name: "turn", Value: "morning" },
+                ];
+                return {
+                  userInfo: userAttributes,
+                  userId: user.Username,
+                  turn: "morning",
+                };
+              })
           : [];
       setUsersProfile(filteredUsers);
     } catch (error) {

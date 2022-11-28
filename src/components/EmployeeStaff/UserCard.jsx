@@ -9,6 +9,13 @@ import { red } from "@mui/material/colors";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import { styled } from "@mui/material/styles";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
 const UserCardContainer = styled(Card)(({ theme }) => ({
   ...theme.typography.body2,
@@ -23,6 +30,7 @@ export default function UserCard({
   userData,
   handleSelectEmployee,
   selectedEmployee,
+  handleUpdateUserTurn,
 }) {
   return (
     <UserCardContainer>
@@ -58,6 +66,39 @@ export default function UserCard({
             {userData.userInfo[3].Value}
           </span>
         </Typography>
+        {selectedEmployee && (
+          <FormControl>
+            <FormLabel id="choose-shift">
+              <Typography
+                variant="p"
+                component="p"
+                fontWeight="bold"
+                color="#1976D2"
+                marginTop={2}
+              >
+                Choose Shift:
+              </Typography>
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="choose-shift"
+              name="turn"
+              value={userData.userInfo[4].Value}
+              onChange={(ev) => handleUpdateUserTurn(ev, userData.userId)}
+            >
+              <FormControlLabel
+                value="morning"
+                control={<Radio />}
+                label="Morning"
+              />
+              <FormControlLabel
+                value="evening"
+                control={<Radio />}
+                label="Evening"
+              />
+            </RadioGroup>
+          </FormControl>
+        )}
       </CardContent>
       <CardActions disableSpacing>
         <Button
