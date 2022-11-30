@@ -12,11 +12,19 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import ProductDetails from "./ProductDetails";
 import AddLotProduction from "./AddLotProduction";
 
-const initialSteps = () => [
+const stepsDetails = [
   { stepName: "Product Details" },
   { stepName: "Add Lot Production" },
   { stepName: "Add Pallets" },
 ];
+
+const initialProductDetails = () => ({
+  unitsProduced: undefined,
+  packagesProduced: undefined,
+  palletsProduced: undefined,
+  extraUnits: undefined,
+  notes: undefined,
+});
 
 export default function ProductionStepper({
   productDetail,
@@ -25,7 +33,24 @@ export default function ProductionStepper({
 }) {
   const theme = useTheme();
 
-  const [stepsDetails, updateStepsDetails] = useState(initialSteps());
+  const [productStepDetails, updateProductStepDetails] = useState(
+    initialProductDetails()
+  );
+
+  const handleFormInputUpdate = (ev) => {
+    const { name, value } = ev.target;
+    const updatedProductStepDetails = { ...productStepDetails };
+    updatedProductStepDetails[name] = value;
+    updateProductStepDetails(updatedProductStepDetails);
+  };
+
+  const handleProductStepDetailsSubmit = (ev) => {
+    ev.preventDefault();
+    if (activeStep === 0) {
+      console.log("Product Step Details: ", productStepDetails);
+      handleNext();
+    }
+  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -38,7 +63,13 @@ export default function ProductionStepper({
   const _renderSteps = () => {
     switch (activeStep) {
       case 0:
-        return <ProductDetails productDetail={productDetail} />;
+        return (
+          <ProductDetails
+            productDetail={productDetail}
+            productStepDetails={productStepDetails}
+            handleFormInputUpdate={handleFormInputUpdate}
+          />
+        );
       case 1:
         return <AddLotProduction />;
       default:
@@ -49,58 +80,64 @@ export default function ProductionStepper({
   const maxSteps = stepsDetails.length;
 
   return (
-    <Box sx={{ flexGrow: 1, margin: "2rem auto 0 auto", maxWidth: 600 }}>
-      <Paper
-        square
-        elevation={0}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: 35,
-          bgcolor: "background.default",
-        }}
-      >
-        <Typography
-          variant="h6"
-          component="h6"
-          fontWeight="bold"
-          color="#1976D2"
+    <form onSubmit={handleProductStepDetailsSubmit}>
+      <Box sx={{ flexGrow: 1, margin: "2rem auto 0 auto", maxWidth: 600 }}>
+        <Paper
+          square
+          elevation={0}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: 35,
+            bgcolor: "background.default",
+          }}
         >
-          {stepsDetails[activeStep].stepName}
-        </Typography>
-      </Paper>
-      <Box sx={{ width: "100%", margin: "1rem 0" }}>{_renderSteps()}</Box>
-      <MobileStepper
-        variant="progress"
-        steps={maxSteps}
-        position="static"
-        activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeStep === maxSteps - 1}
+          <Typography
+            variant="h6"
+            component="h6"
+            fontWeight="bold"
+            color="#1976D2"
           >
-            Next
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowLeft />
-            ) : (
-              <KeyboardArrowRight />
-            )}
-          </Button>
-        }
-        backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === "rtl" ? (
-              <KeyboardArrowRight />
-            ) : (
-              <KeyboardArrowLeft />
-            )}
-            Back
-          </Button>
-        }
-      />
-    </Box>
+            {stepsDetails[activeStep].stepName}
+          </Typography>
+        </Paper>
+        <Box sx={{ width: "100%", margin: "1rem 0" }}>{_renderSteps()}</Box>
+        <MobileStepper
+          variant="progress"
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              disabled={activeStep === maxSteps - 1}
+              type="submit"
+            >
+              Next
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
+      </Box>
+    </form>
   );
 }
