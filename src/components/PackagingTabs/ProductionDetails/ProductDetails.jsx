@@ -79,7 +79,7 @@ export default function ProductDetails({
         />
       </FormControl>
       <FormControl
-        sx={{ marginTop: "1rem" }}
+        sx={{ margin: "1rem 0" }}
         fullWidth
         variant="filled"
         required

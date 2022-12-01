@@ -36,6 +36,7 @@ export default function ProductionStepper({
   const [productStepDetails, updateProductStepDetails] = useState(
     initialProductDetails()
   );
+  const [productionLots, updateProductionLots] = useState([]);
 
   const handleFormInputUpdate = (ev) => {
     const { name, value } = ev.target;
@@ -47,7 +48,6 @@ export default function ProductionStepper({
   const handleProductStepDetailsSubmit = (ev) => {
     ev.preventDefault();
     if (activeStep === 0) {
-      console.log("Product Step Details: ", productStepDetails);
       handleNext();
     }
   };
@@ -64,14 +64,93 @@ export default function ProductionStepper({
     switch (activeStep) {
       case 0:
         return (
-          <ProductDetails
-            productDetail={productDetail}
-            productStepDetails={productStepDetails}
-            handleFormInputUpdate={handleFormInputUpdate}
-          />
+          <form onSubmit={handleProductStepDetailsSubmit}>
+            <ProductDetails
+              productDetail={productDetail}
+              productStepDetails={productStepDetails}
+              handleFormInputUpdate={handleFormInputUpdate}
+            />
+            <MobileStepper
+              variant="progress"
+              steps={maxSteps}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button
+                  size="small"
+                  disabled={activeStep === maxSteps - 1}
+                  type="submit"
+                >
+                  Next
+                  {theme.direction === "rtl" ? (
+                    <KeyboardArrowLeft />
+                  ) : (
+                    <KeyboardArrowRight />
+                  )}
+                </Button>
+              }
+              backButton={
+                <Button
+                  size="small"
+                  onClick={handleBack}
+                  disabled={activeStep === 0}
+                >
+                  {theme.direction === "rtl" ? (
+                    <KeyboardArrowRight />
+                  ) : (
+                    <KeyboardArrowLeft />
+                  )}
+                  Back
+                </Button>
+              }
+            />
+          </form>
         );
       case 1:
-        return <AddLotProduction />;
+        return (
+          <>
+            <AddLotProduction
+              productionLots={productionLots}
+              updateProductionLots={updateProductionLots}
+            />
+            <MobileStepper
+              variant="progress"
+              steps={maxSteps}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button
+                  size="small"
+                  disabled={
+                    activeStep === maxSteps - 1 || !productionLots.length
+                  }
+                  onClick={handleNext}
+                >
+                  Next
+                  {theme.direction === "rtl" ? (
+                    <KeyboardArrowLeft />
+                  ) : (
+                    <KeyboardArrowRight />
+                  )}
+                </Button>
+              }
+              backButton={
+                <Button
+                  size="small"
+                  onClick={handleBack}
+                  disabled={activeStep === 0}
+                >
+                  {theme.direction === "rtl" ? (
+                    <KeyboardArrowRight />
+                  ) : (
+                    <KeyboardArrowLeft />
+                  )}
+                  Back
+                </Button>
+              }
+            />
+          </>
+        );
       default:
         return null;
     }
@@ -80,64 +159,28 @@ export default function ProductionStepper({
   const maxSteps = stepsDetails.length;
 
   return (
-    <form onSubmit={handleProductStepDetailsSubmit}>
-      <Box sx={{ flexGrow: 1, margin: "2rem auto 0 auto", maxWidth: 600 }}>
-        <Paper
-          square
-          elevation={0}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            height: 35,
-            bgcolor: "background.default",
-          }}
+    <Box sx={{ flexGrow: 1, margin: "2rem auto 0 auto", maxWidth: 600 }}>
+      <Paper
+        square
+        elevation={0}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: 35,
+          bgcolor: "background.default",
+        }}
+      >
+        <Typography
+          variant="h6"
+          component="h6"
+          fontWeight="bold"
+          color="#1976D2"
         >
-          <Typography
-            variant="h6"
-            component="h6"
-            fontWeight="bold"
-            color="#1976D2"
-          >
-            {stepsDetails[activeStep].stepName}
-          </Typography>
-        </Paper>
-        <Box sx={{ width: "100%", margin: "1rem 0" }}>{_renderSteps()}</Box>
-        <MobileStepper
-          variant="progress"
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              disabled={activeStep === maxSteps - 1}
-              type="submit"
-            >
-              Next
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            >
-              {theme.direction === "rtl" ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
-              Back
-            </Button>
-          }
-        />
-      </Box>
-    </form>
+          {stepsDetails[activeStep].stepName}
+        </Typography>
+      </Paper>
+      <Box sx={{ width: "100%", margin: "1rem 0" }}>{_renderSteps()}</Box>
+    </Box>
   );
 }
