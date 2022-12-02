@@ -340,6 +340,11 @@ export default function AddPallets({ productId }) {
     }
   };
 
+  const packagesCount = palletsList.reduce(
+    (sum, curr) => sum + curr.palletPackagesList.length,
+    0
+  );
+
   return (
     <AddLotProductionContainer>
       <HeadingContainer>
@@ -350,15 +355,58 @@ export default function AddPallets({ productId }) {
       <Divider sx={{ margin: "1rem 0" }} />
       <AddLotProductionContainer>
         {!!palletsList.length ? (
-          palletsList.map((item, i) => (
-            <PalletListItem
-              key={`pallet-${i}`}
-              data={{ ...item, itemIndex: i }}
-              handleEditPallet={handleEditPallet}
-              handleRemovePallet={handleRemovePallet}
-              handleRemovePalletPackage={handleRemovePalletPackage}
-            />
-          ))
+          <>
+            {palletsList.map((item, i) => (
+              <PalletListItem
+                key={`pallet-${i}`}
+                data={{ ...item, itemIndex: i }}
+                handleEditPallet={handleEditPallet}
+                handleRemovePallet={handleRemovePallet}
+                handleRemovePalletPackage={handleRemovePalletPackage}
+              />
+            ))}
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="total-packages"
+                id="total-packages"
+              >
+                <Box display="flex" alignItems="center" width="100%">
+                  <Typography flex={1} fontWeight="bold" color="#1976D2">
+                    <span>Total Packages: </span> {packagesCount}
+                  </Typography>
+                  <Typography flex={1} fontWeight="bold" color="#1976D2">
+                    <span>Max: </span> 70
+                  </Typography>
+                </Box>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FormControl fullWidth variant="filled">
+                  <InputLabel htmlFor="code">Code</InputLabel>
+                  <FilledInput
+                    id="code"
+                    name="code"
+                    value=""
+                    // onChange={handleChangeInput}
+                  />
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  variant="filled"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  <InputLabel htmlFor="units">Units</InputLabel>
+                  <FilledInput
+                    id="units"
+                    name="units"
+                    value=""
+                    type="number"
+                    // onChange={handleChangeInput}
+                  />
+                </FormControl>
+              </AccordionDetails>
+            </Accordion>
+          </>
         ) : (
           <Typography variant="p" fontWeight="bold" textAlign="center">
             Please Add New Pallet!
