@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -7,10 +7,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { FormsContext } from "../../../contexts/FormsContext";
 
 // Components
 import ProductDetails from "./ProductDetails";
 import AddLotProduction from "./AddLotProduction";
+import AddPallets from "./AddPallets";
 
 const stepsDetails = [
   { stepName: "Product Details" },
@@ -18,32 +20,15 @@ const stepsDetails = [
   { stepName: "Add Pallets" },
 ];
 
-const initialProductDetails = () => ({
-  unitsProduced: undefined,
-  packagesProduced: undefined,
-  palletsProduced: undefined,
-  extraUnits: undefined,
-  notes: undefined,
-});
-
 export default function ProductionStepper({
   productDetail,
   activeStep,
   setActiveStep,
+  setActiveTab,
 }) {
   const theme = useTheme();
 
-  const [productStepDetails, updateProductStepDetails] = useState(
-    initialProductDetails()
-  );
-  const [productionLots, updateProductionLots] = useState([]);
-
-  const handleFormInputUpdate = (ev) => {
-    const { name, value } = ev.target;
-    const updatedProductStepDetails = { ...productStepDetails };
-    updatedProductStepDetails[name] = value;
-    updateProductStepDetails(updatedProductStepDetails);
-  };
+  const { productionLots, palletsList } = useContext(FormsContext);
 
   const handleProductStepDetailsSubmit = (ev) => {
     ev.preventDefault();
@@ -65,11 +50,7 @@ export default function ProductionStepper({
       case 0:
         return (
           <form onSubmit={handleProductStepDetailsSubmit}>
-            <ProductDetails
-              productDetail={productDetail}
-              productStepDetails={productStepDetails}
-              handleFormInputUpdate={handleFormInputUpdate}
-            />
+            <ProductDetails productDetail={productDetail} />
             <MobileStepper
               variant="progress"
               steps={maxSteps}
@@ -109,10 +90,7 @@ export default function ProductionStepper({
       case 1:
         return (
           <>
-            <AddLotProduction
-              productionLots={productionLots}
-              updateProductionLots={updateProductionLots}
-            />
+            <AddLotProduction />
             <MobileStepper
               variant="progress"
               steps={maxSteps}
@@ -151,6 +129,46 @@ export default function ProductionStepper({
             />
           </>
         );
+      case 2:
+        return (
+          <>
+            <AddPallets productId={productDetail.id} />
+            <MobileStepper
+              variant="progress"
+              steps={maxSteps}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button
+                  size="small"
+                  disabled={activeStep === maxSteps - 2 || !palletsList.length}
+                  onClick={() => setActiveTab(1)}
+                >
+                  Next
+                  {theme.direction === "rtl" ? (
+                    <KeyboardArrowLeft />
+                  ) : (
+                    <KeyboardArrowRight />
+                  )}
+                </Button>
+              }
+              backButton={
+                <Button
+                  size="small"
+                  onClick={handleBack}
+                  disabled={activeStep === 0}
+                >
+                  {theme.direction === "rtl" ? (
+                    <KeyboardArrowRight />
+                  ) : (
+                    <KeyboardArrowLeft />
+                  )}
+                  Back
+                </Button>
+              }
+            />
+          </>
+        );
       default:
         return null;
     }
@@ -159,7 +177,13 @@ export default function ProductionStepper({
   const maxSteps = stepsDetails.length;
 
   return (
-    <Box sx={{ flexGrow: 1, margin: "2rem auto 0 auto", maxWidth: 600 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        margin: "2rem auto 0 auto",
+        maxWidth: 600,
+      }}
+    >
       <Paper
         square
         elevation={0}

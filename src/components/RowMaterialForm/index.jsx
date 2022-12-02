@@ -156,7 +156,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
   const [lrmList, updateLRMList] = useState(initialLRMList());
   const [activeStep, setActiveStep] = useState(0);
 
-  const handleSaveDate = () => {
+  const handleSaveData = () => {
     const pIndex = rawMaterialsList.findIndex(
       (rawMaterial) => rawMaterial.productElementId === productElementId
     );
@@ -285,7 +285,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
         <Button
           variant="contained"
           disabled={currentWeight < count || !rawMaterialName}
-          onClick={handleSaveDate}
+          onClick={handleSaveData}
         >
           Save
         </Button>

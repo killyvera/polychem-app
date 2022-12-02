@@ -5,6 +5,14 @@ import { usersList } from "../services/UserServices";
 
 export const FormsContext = createContext();
 
+const initialProductDetails = () => ({
+  unitsProduced: undefined,
+  packagesProduced: undefined,
+  palletsProduced: undefined,
+  extraUnits: undefined,
+  notes: undefined,
+});
+
 export const FormsContextProvider = (props) => {
   const [usersFormList, setUsersFormList] = useState([]);
   const [usersProfile, setUsersProfile] = useState([]);
@@ -15,6 +23,11 @@ export const FormsContextProvider = (props) => {
   const [productElements, setProductElements] = useState([]);
   const [rawMaterialsList, updateRawMaterialsList] = useState([]);
   const [selectedEmployees, updateSelectedEmployees] = useState([]);
+  const [productStepDetails, updateProductStepDetails] = useState(
+    initialProductDetails()
+  );
+  const [productionLots, updateProductionLots] = useState([]);
+  const [palletsList, updatePalletsList] = useState([]);
 
   const getProduction = async () => {
     const productions = await DataStore.query(Production);
@@ -75,6 +88,12 @@ export const FormsContextProvider = (props) => {
         updateRawMaterialsList,
         selectedEmployees,
         updateSelectedEmployees,
+        productStepDetails,
+        updateProductStepDetails,
+        productionLots,
+        updateProductionLots,
+        palletsList,
+        updatePalletsList,
       }}
     >
       {props.children}

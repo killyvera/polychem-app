@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FilledInput from "@mui/material/FilledInput";
@@ -18,6 +18,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CloseIcon from "@mui/icons-material/Close";
+import { FormsContext } from "../../../contexts/FormsContext";
 
 const style = {
   position: "absolute",
@@ -98,12 +99,7 @@ const ProductionLotForm = (props) => {
             onChange={(value) => {
               handleUpdateChange({ target: { name: "expireDate", value } });
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="filled"
-              />
-            )}
+            renderInput={(params) => <TextField {...params} variant="filled" />}
           />
         </LocalizationProvider>
       </FormControl>
@@ -217,10 +213,8 @@ const ProductionLots = ({ data, handleRemoveProductionLot }) => {
   );
 };
 
-export default function AddLotProduction({
-  productionLots,
-  updateProductionLots,
-}) {
+export default function AddLotProduction() {
+  const { productionLots, updateProductionLots } = useContext(FormsContext);
   const [addNewModal, setAddNewModal] = useState(false);
 
   const handleAddProductionLot = (formData) => {

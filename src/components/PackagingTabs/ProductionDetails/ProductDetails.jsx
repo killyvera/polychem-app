@@ -1,12 +1,20 @@
+import { useContext } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FilledInput from "@mui/material/FilledInput";
+import { FormsContext } from "../../../contexts/FormsContext";
 
-export default function ProductDetails({
-  productDetail,
-  productStepDetails,
-  handleFormInputUpdate,
-}) {
+export default function ProductDetails({ productDetail }) {
+  const { productStepDetails, updateProductStepDetails } =
+    useContext(FormsContext);
+
+  const handleFormInputUpdate = (ev) => {
+    const { name, value } = ev.target;
+    const updatedProductStepDetails = { ...productStepDetails };
+    updatedProductStepDetails[name] = value;
+    updateProductStepDetails(updatedProductStepDetails);
+  };
+
   return (
     <>
       <FormControl fullWidth variant="filled" focused required>
