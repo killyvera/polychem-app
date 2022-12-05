@@ -1,7 +1,116 @@
-import React from 'react'
+import { useContext } from "react";
+import Typography from "@mui/material/Typography";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Paper from "@mui/material/Paper";
+import InputAdornment from "@mui/material/InputAdornment";
+import FilledInput from "@mui/material/FilledInput";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import { styled } from "@mui/material/styles";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { FormsContext } from "../../contexts/FormsContext";
+import Images from "../../constants/Images";
 
-export default function WastedRawMaterial() {
+// Components
+import NavigationButton from "../NavigationButton";
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  color: "white",
+  display: "flex",
+  alignItems: "center",
+  backgroundColor: "#F0F8FF",
+}));
+
+const DetailItem = ({ data }) => {
   return (
-    <div>WastedRawMaterial</div>
-  )
+    <Item>
+      <Avatar
+        alt="Lot Raw Material"
+        src={Images.ingredient}
+        sx={{ width: 56, height: 56 }}
+      />
+      <Box marginLeft={2} display="flex" flexDirection="column">
+        <Typography component="h6" color="black" fontWeight="bold">
+          Lot Name: <span style={{ color: "#1976D2" }}> {data.name}</span>
+        </Typography>
+        <Typography component="h6" color="black" fontWeight="bold">
+          Waste Percentage:{" "}
+          <span style={{ color: "#1976D2" }}> 1% of Material</span>
+        </Typography>
+        {/* <Typography component="h6" color="black" fontWeight="bold">
+          Wasted Lot Quantity:
+          <span style={{ color: "#1976D2" }}> {data.quantity}</span>
+        </Typography> */}
+        <FormControl variant="filled" sx={{ marginTop: "1rem" }}>
+          <InputLabel htmlFor="pallet-name">Wasted Quantity</InputLabel>
+          <FilledInput
+            value=""
+            onChange={() => {}}
+            endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+          />
+        </FormControl>
+      </Box>
+    </Item>
+  );
+};
+
+const SingleWRM = ({ data }) => {
+  return (
+    <Accordion sx={{ width: "100%", maxWidth: 600 }}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="pallet-list-item"
+        id="pallet-list-item"
+      >
+        <Typography
+          variant="h6"
+          component="h6"
+          fontWeight="bold"
+          color="#1976D2"
+        >
+          {data.rawMaterialName}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        {data?.lrmList?.length ? (
+          data.lrmList.map((lrmItem, lrmIndex) => (
+            <DetailItem key={`lrm-item-${lrmIndex}`} data={lrmItem} />
+          ))
+        ) : (
+          <Typography>Lot materials not found!</Typography>
+        )}
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+export default function WastedRawMaterial({ setActiveTab }) {
+  const { rawMaterialsList } = useContext(FormsContext);
+
+  return (
+    <>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginTop="1.5rem"
+        marginBottom="1.5rem"
+      >
+        {rawMaterialsList.map((rawMaterial, i) => (
+          <SingleWRM key={`single-wrm-${i}`} data={rawMaterial} />
+        ))}
+      </Box>
+
+      <NavigationButton
+        text="See Final Report"
+        onClick={() => setActiveTab(3)}
+      />
+    </>
+  );
 }
