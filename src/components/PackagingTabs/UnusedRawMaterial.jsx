@@ -25,6 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   backgroundColor: "#F0F8FF",
+  marginBottom: theme.spacing(2),
 }));
 
 const DetailItem = ({ data }) => {
