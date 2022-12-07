@@ -29,11 +29,11 @@ const LotRawMaterialFormItem = ({ activeStep, data, handleUpdateInputs }) => (
       />
     </FormControl>
     <FormControl fullWidth variant="filled" style={{ marginTop: "1rem" }}>
-      <InputLabel htmlFor="lot-row-material-code">Code</InputLabel>
+      <InputLabel htmlFor="lot-row-material-code">Lot Code</InputLabel>
       <FilledInput
         id="lot-row-material-code"
-        value={data.code}
-        name="code"
+        value={data.lotCode}
+        name="lotCode"
         onChange={(ev) => {
           const { name, value } = ev.target;
           handleUpdateInputs(activeStep, name, value);

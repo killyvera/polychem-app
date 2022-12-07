@@ -29,7 +29,7 @@ const DetailItem = ({ title, count, unit }) => {
         fontSize={28}
         fontWeight="bold"
       >
-        {count} {unit}
+        {count.toFixed(2)} {unit}
       </Typography>
     </Item>
   );

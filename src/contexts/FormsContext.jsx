@@ -17,6 +17,8 @@ export const FormsContextProvider = (props) => {
   const [usersFormList, setUsersFormList] = useState([]);
   const [usersProfile, setUsersProfile] = useState([]);
   const [toggle, setToggle] = useState(true);
+  const [formDetail, updateFormDetail] = useState(null);
+  const [productDetail, updateProductDetail] = useState(null);
   const [pallets, setPallets] = useState([]);
   const [packages, setPackages] = useState([]);
   const [productionList, setProduction] = useState([]);
@@ -94,6 +96,10 @@ export const FormsContextProvider = (props) => {
         updateProductionLots,
         palletsList,
         updatePalletsList,
+        formDetail,
+        updateFormDetail,
+        productDetail,
+        updateProductDetail,
       }}
     >
       {props.children}

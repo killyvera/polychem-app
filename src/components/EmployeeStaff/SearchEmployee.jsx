@@ -57,57 +57,56 @@ export default function SearchEmployee({ qrResult, productId }) {
     }
   };
 
-  const searchedUsers = [...usersProfile].filter((userProfile) =>
-    userProfile.userInfo[1].Value.toLowerCase().includes(userName.toLowerCase())
-  );
+  const searchedUsers = [...usersProfile].filter((userProfile) => {
+    const isSelected = !!selectedEmployees.find(
+      (selectedEmployee) => selectedEmployee.user.userId === userProfile.userId
+    );
+    return (
+      userProfile.userInfo[1].Value.toLowerCase().includes(
+        userName.toLowerCase()
+      ) && !isSelected
+    );
+  });
 
   useEffect(() => {
     updateUserName(qrResult);
   }, [qrResult]);
-
-  const selectedEmployee = selectedEmployees.find(
-    (selectedEmployee) => selectedEmployee.productId === productId
-  );
 
   return (
     <SearchEmployeeContainer>
       <Typography variant="h5" fontWeight="bold" color="#1976D2">
         Search Employee
       </Typography>
-      {!selectedEmployee && (
-        <FormControl fullWidth variant="filled" sx={{ margin: "1.5rem 0" }}>
-          <InputLabel htmlFor="lot-row-material-name">
-            Enter Username
-          </InputLabel>
-          <FilledInput
-            id="user-name"
-            value={userName}
-            name="name"
-            onChange={handleSearchUsers}
-          />
-        </FormControl>
-      )}
+      <FormControl fullWidth variant="filled" sx={{ margin: "1.5rem 0" }}>
+        <InputLabel htmlFor="lot-row-material-name">Enter Username</InputLabel>
+        <FilledInput
+          id="user-name"
+          value={userName}
+          name="name"
+          onChange={handleSearchUsers}
+        />
+      </FormControl>
       <Box
         display="flex"
         flexWrap="wrap"
-        marginTop={selectedEmployee ? 1 : 0}
+        // marginTop={selectedEmployee ? 1 : 0}
         marginBottom={2}
       >
-        {selectedEmployee && (
+        {selectedEmployees.map((selectedEmployee) => (
           <UserCard
-            key={selectedEmployee.userId}
+            key={selectedEmployee.user.userId}
             userData={selectedEmployee.user}
+            productId={productId}
             handleUpdateUserTurn={handleUpdateUserTurn}
             handleSelectEmployee={handleSelectEmployee}
-            selectedEmployee={selectedEmployee}
           />
-        )}
-        {!selectedEmployee &&
-          userName &&
+        ))}
+        {userName &&
           searchedUsers.map((searchedUser) => (
             <UserCard
               key={searchedUser.userId}
               userData={searchedUser}
+              productId={productId}
               handleUpdateUserTurn={handleUpdateUserTurn}
               handleSelectEmployee={handleSelectEmployee}
             />
@@ -116,7 +115,7 @@ export default function SearchEmployee({ qrResult, productId }) {
       <NavigationButton
         path={`/packaging/${productId}`}
         text="Ready to Production"
-        disabled={!selectedEmployee}
+        disabled={!selectedEmployees.length}
       />
     </SearchEmployeeContainer>
   );

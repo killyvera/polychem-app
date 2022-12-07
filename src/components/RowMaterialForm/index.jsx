@@ -21,7 +21,7 @@ import Images from "../../constants/Images";
 import LotRawMaterialStepper from "./LotRawMaterialStepper";
 import NavigationButton from "../NavigationButton";
 
-const initialLRMList = () => [{ name: "", code: "", quantity: 0 }];
+const initialLRMList = () => [{ name: "", lotCode: "", quantity: 0 }];
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -147,7 +147,7 @@ const DetailItem = ({
   );
 };
 
-function LotRawMaterialFormModal({ modalStatus, handleClose }) {
+function LotRawMaterialFormModal({ modalStatus, handleClose, productionId }) {
   const { productElementId, title, count, unit } = modalStatus.data;
   const { rawMaterialsList, updateRawMaterialsList } = useContext(FormsContext);
 
@@ -164,12 +164,14 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
     if (pIndex !== -1) {
       updatedRawMaterialsList[pIndex] = {
         productElementId,
+        productionId,
         rawMaterialName,
         lrmList,
       };
     } else {
       updatedRawMaterialsList.push({
         productElementId,
+        productionId,
         rawMaterialName,
         lrmList,
       });
@@ -198,7 +200,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
   }, [lrmList]);
 
   const handleUpdateLRMList = () => {
-    const updatedLRMList = [...lrmList, initialLRMList()];
+    const updatedLRMList = [...lrmList, initialLRMList()[0]];
     updateLRMList(updatedLRMList);
     setActiveStep(updatedLRMList.length - 1);
   };
@@ -295,7 +297,8 @@ function LotRawMaterialFormModal({ modalStatus, handleClose }) {
 }
 
 function RowMaterialForm({ productionDetail, productId, setActiveTab }) {
-  const { productElements, setProductElements } = useContext(FormsContext);
+  const { productElements, setProductElements, rawMaterialsList } =
+    useContext(FormsContext);
   const [isLoading, setIsLoading] = useState(true);
   const [modalStatus, setOpen] = useState({ isOpen: false, data: null });
 
@@ -336,6 +339,11 @@ function RowMaterialForm({ productionDetail, productId, setActiveTab }) {
     );
   }
 
+  const rmWithLRM = rawMaterialsList.map(
+    (rawMaterial) => !!rawMaterial?.lrmList?.length
+  );
+  const isRMAdded = rmWithLRM.length === productElements.length;
+
   return (
     <Stack spacing={2} marginTop={2}>
       {productElements.map((productElement) => (
@@ -352,12 +360,14 @@ function RowMaterialForm({ productionDetail, productId, setActiveTab }) {
         <LotRawMaterialFormModal
           modalStatus={modalStatus}
           handleClose={handleModalClose}
+          productionId={productionDetail.id}
         />
       )}
 
       <NavigationButton
         text="See Raw Materials Abstract"
         onClick={() => setActiveTab(3)}
+        disabled={!isRMAdded}
       />
     </Stack>
   );

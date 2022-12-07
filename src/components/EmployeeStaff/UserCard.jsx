@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -16,10 +17,12 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { FormsContext } from "../../contexts/FormsContext";
 
-const UserCardContainer = styled(Card)(({ theme }) => ({
+const UserCardContainer = styled(Card)(({ theme, isSelected }) => ({
   ...theme.typography.body2,
   width: "45%",
+  backgroundColor: isSelected ? "#F0F8FF" : "white",
   margin: theme.spacing(2),
   [theme.breakpoints.down("sm")]: {
     width: "100%",
@@ -28,12 +31,20 @@ const UserCardContainer = styled(Card)(({ theme }) => ({
 
 export default function UserCard({
   userData,
+  productId,
   handleSelectEmployee,
-  selectedEmployee,
   handleUpdateUserTurn,
 }) {
+  const { selectedEmployees } = useContext(FormsContext);
+
+  const isSelected = selectedEmployees.find(
+    (selectedEmployee) =>
+      selectedEmployee.productId === productId &&
+      selectedEmployee.user.userId === userData.userId
+  );
+
   return (
-    <UserCardContainer>
+    <UserCardContainer isSelected={isSelected}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
@@ -66,48 +77,46 @@ export default function UserCard({
             {userData.userInfo[3].Value}
           </span>
         </Typography>
-        {selectedEmployee && (
-          <FormControl>
-            <FormLabel id="choose-shift">
-              <Typography
-                variant="p"
-                component="p"
-                fontWeight="bold"
-                color="#1976D2"
-                marginTop={2}
-              >
-                Choose Shift:
-              </Typography>
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="choose-shift"
-              name="turn"
-              value={userData.userInfo[4].Value}
-              onChange={(ev) => handleUpdateUserTurn(ev, userData.userId)}
+        <FormControl>
+          <FormLabel id="choose-shift">
+            <Typography
+              variant="p"
+              component="p"
+              fontWeight="bold"
+              color="#1976D2"
+              marginTop={2}
             >
-              <FormControlLabel
-                value="morning"
-                control={<Radio />}
-                label="Morning"
-              />
-              <FormControlLabel
-                value="evening"
-                control={<Radio />}
-                label="Evening"
-              />
-            </RadioGroup>
-          </FormControl>
-        )}
+              Choose Shift:
+            </Typography>
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="choose-shift"
+            name="turn"
+            value={userData.userInfo[4].Value}
+            onChange={(ev) => handleUpdateUserTurn(ev, userData.userId)}
+          >
+            <FormControlLabel
+              value="morning"
+              control={<Radio />}
+              label="Morning"
+            />
+            <FormControlLabel
+              value="evening"
+              control={<Radio />}
+              label="Evening"
+            />
+          </RadioGroup>
+        </FormControl>
       </CardContent>
       <CardActions disableSpacing>
         <Button
           variant="contained"
           size="small"
           sx={{ margin: "0.5rem auto" }}
-          onClick={() => handleSelectEmployee(userData, !!selectedEmployee)}
+          onClick={() => handleSelectEmployee(userData, !!isSelected)}
         >
-          {selectedEmployee ? "Remove" : "Select"}
+          {isSelected ? "Remove" : "Select"}
         </Button>
       </CardActions>
     </UserCardContainer>

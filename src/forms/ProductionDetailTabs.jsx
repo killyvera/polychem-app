@@ -12,6 +12,34 @@ import RowMaterialForm from "../components/RowMaterialForm";
 import RowMaterialsAbstract from "../components/RowMaterialsAbstract";
 import EmployeeStaff from "../components/EmployeeStaff";
 
+const tabsList = (activeTab) => [
+  {
+    label: <FactoryIcon fontSize="large" />,
+    variant: "contained",
+    disabled: activeTab < 0,
+  },
+  {
+    label: <ScienceIcon fontSize="large" />,
+    variant: "contained",
+    disabled: activeTab < 1,
+  },
+  {
+    label: <ShoppingBasketIcon fontSize="large" />,
+    variant: "contained",
+    disabled: activeTab < 2,
+  },
+  {
+    label: <ListAltIcon fontSize="large" />,
+    variant: "contained",
+    disabled: activeTab < 3,
+  },
+  {
+    label: <GroupsIcon fontSize="large" />,
+    variant: "contained",
+    disabled: activeTab < 4,
+  },
+];
+
 export default function ProductionDetailTabs({
   activeTab,
   setActiveTab,
@@ -26,11 +54,14 @@ export default function ProductionDetailTabs({
         onChange={(_, value) => setActiveTab(value)}
         style={{ marginTop: "1rem" }}
       >
-        <Tab label={<FactoryIcon fontSize="large" />} variant="contained" />
-        <Tab label={<ScienceIcon fontSize="large" />} />
-        <Tab label={<ShoppingBasketIcon fontSize="large" />} />
-        <Tab label={<ListAltIcon fontSize="large" />} />
-        <Tab label={<GroupsIcon fontSize="large" />} />
+        {tabsList(activeTab).map((tab, i) => (
+          <Tab
+            key={`production-detail-tab-${i}`}
+            label={tab.label}
+            variant={tab.variant}
+            disabled={tab.disabled}
+          />
+        ))}
       </Tabs>
       <TabPanel
         value={activeTab}
