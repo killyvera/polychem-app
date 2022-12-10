@@ -51,7 +51,6 @@ export const FormsContextProvider = (props) => {
                 return {
                   userInfo: userAttributes,
                   userId: user.Username,
-                  turn: "morning",
                 };
               })
           : [];

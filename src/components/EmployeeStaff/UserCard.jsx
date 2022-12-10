@@ -31,7 +31,7 @@ const UserCardContainer = styled(Card)(({ theme, isSelected }) => ({
 
 export default function UserCard({
   userData,
-  productId,
+  productionId,
   handleSelectEmployee,
   handleUpdateUserTurn,
 }) {
@@ -39,7 +39,7 @@ export default function UserCard({
 
   const isSelected = selectedEmployees.find(
     (selectedEmployee) =>
-      selectedEmployee.productId === productId &&
+      selectedEmployee.productionId === productionId &&
       selectedEmployee.user.userId === userData.userId
   );
 
@@ -94,7 +94,13 @@ export default function UserCard({
             aria-labelledby="choose-shift"
             name="turn"
             value={userData.userInfo[4].Value}
-            onChange={(ev) => handleUpdateUserTurn(ev, userData.userId)}
+            onChange={(ev) =>
+              handleUpdateUserTurn(
+                ev,
+                userData.userId,
+                isSelected?.teamMemberId
+              )
+            }
           >
             <FormControlLabel
               value="morning"
@@ -114,7 +120,12 @@ export default function UserCard({
           variant="contained"
           size="small"
           sx={{ margin: "0.5rem auto" }}
-          onClick={() => handleSelectEmployee(userData, !!isSelected)}
+          onClick={() =>
+            handleSelectEmployee(
+              { ...userData, teamMemberId: isSelected?.teamMemberId },
+              !!isSelected
+            )
+          }
         >
           {isSelected ? "Remove" : "Select"}
         </Button>

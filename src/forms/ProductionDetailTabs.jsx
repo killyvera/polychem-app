@@ -103,7 +103,12 @@ export default function ProductionDetailTabs({
       <TabPanel
         value={activeTab}
         index={4}
-        children={<EmployeeStaff productId={productDetail?.id} />}
+        children={
+          <EmployeeStaff
+            productionId={productionDetail.id}
+            productId={productDetail?.id}
+          />
+        }
       />
     </>
   );

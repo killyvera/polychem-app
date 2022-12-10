@@ -17,13 +17,17 @@ const EmployeeStaffContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default function EmployeeStaff({ productId }) {
+export default function EmployeeStaff({ productId, productionId }) {
   const [qrResult, setQRResult] = useState("");
 
   return (
     <EmployeeStaffContainer>
       <QRContainer setQRResult={setQRResult} />
-      <SearchEmployee productId={productId} qrResult={qrResult} />
+      <SearchEmployee
+        productId={productId}
+        productionId={productionId}
+        qrResult={qrResult}
+      />
     </EmployeeStaffContainer>
   );
 }
