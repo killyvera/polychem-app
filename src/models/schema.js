@@ -218,6 +218,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "formulaelementID": {
+                    "name": "formulaelementID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -248,6 +255,15 @@ export const schema = {
                         "name": "byProduction",
                         "fields": [
                             "productionID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byFormulaElement",
+                        "fields": [
+                            "formulaelementID"
                         ]
                     }
                 },
@@ -425,6 +441,20 @@ export const schema = {
                     "type": "ID",
                     "isRequired": false,
                     "attributes": []
+                },
+                "MaterialRaws": {
+                    "name": "MaterialRaws",
+                    "isArray": true,
+                    "type": {
+                        "model": "MaterialRaw"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "formulaelementID"
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -1214,5 +1244,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "f56a313492d9425cf87f9d959a537c72"
+    "version": "84d692c44833fafc784ebaf78af06ce3"
 };
