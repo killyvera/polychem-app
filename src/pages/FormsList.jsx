@@ -14,11 +14,16 @@ export const FormsList = () => {
   const { usersFormList, setUsersFormList } = useContext(FormsContext);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getForms = useCallback(async () => {
+  const getForms = useCallback(() => {
     try {
-      const formsList = await DataStore.query(Form);
-      setUsersFormList(formsList);
-      setIsLoading(false);
+      const subscription = DataStore.observeQuery(Form).subscribe(
+        (snapshot) => {
+          const { items } = snapshot;
+          setUsersFormList(items);
+          setIsLoading(false);
+        }
+      );
+      return subscription;
     } catch (error) {
       console.log("ERROR FORMS LIST: ", error);
       setIsLoading(false);
@@ -26,7 +31,13 @@ export const FormsList = () => {
   }, [setUsersFormList]);
 
   useEffect(() => {
-    getForms();
+    const subscription = getForms();
+
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
   }, [getForms]);
 
   const _renderForm = () => {

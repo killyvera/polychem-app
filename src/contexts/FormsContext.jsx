@@ -1,4 +1,4 @@
-import React, { useEffect, createContext, useState } from "react";
+import { useEffect, createContext, useState, useCallback } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { Production } from "../models";
 import { usersList } from "../services/UserServices";
@@ -31,10 +31,19 @@ export const FormsContextProvider = (props) => {
   const [productionLots, updateProductionLots] = useState([]);
   const [palletsList, updatePalletsList] = useState([]);
 
-  const getProduction = async () => {
-    const productions = await DataStore.query(Production);
-    setProduction(productions);
-  };
+  const getProduction = useCallback(() => {
+    try {
+      const subscription = DataStore.observeQuery(Production).subscribe(
+        (snapshot) => {
+          const { items } = snapshot;
+          setProduction(items);
+        }
+      );
+      return subscription;
+    } catch (error) {
+      console.log("Error Getting Production: ", error);
+    }
+  }, []);
 
   const getUsers = async () => {
     try {
@@ -65,11 +74,18 @@ export const FormsContextProvider = (props) => {
   };
 
   useEffect(() => {
-    getProduction();
+    const subscription = getProduction();
+
     getUsers();
     setPallets([]);
     setPackages([]);
-  }, []);
+
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
+  }, [getProduction]);
 
   return (
     <FormsContext.Provider
