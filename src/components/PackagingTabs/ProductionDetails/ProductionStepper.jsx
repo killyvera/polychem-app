@@ -132,7 +132,7 @@ export default function ProductionStepper({
       case 1:
         return (
           <>
-            <AddPallets productionId={productionDetail.id} />
+            <AddPallets productionDetail={productionDetail} />
             <MobileStepper
               variant="progress"
               steps={maxSteps}

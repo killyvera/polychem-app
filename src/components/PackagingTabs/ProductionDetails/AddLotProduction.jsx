@@ -74,7 +74,7 @@ export default function AddLotProduction({ productionId }) {
       updatedProductionLots.splice(itemIndex, 1);
       updateProductionLots(updatedProductionLots);
     } catch (error) {
-      console.log("ADD PRODUCTION LOT ERROR: ", error);
+      console.log("DELETE PRODUCTION LOT ERROR: ", error);
     }
   };
 

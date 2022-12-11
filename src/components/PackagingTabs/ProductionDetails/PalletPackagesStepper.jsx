@@ -9,10 +9,6 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import FilledInput from "@mui/material/FilledInput";
 import Tooltip from "@mui/material/Tooltip";
-import TextField from "@mui/material/TextField";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -21,35 +17,16 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 const PalletPackageFormItem = ({ activeStep, data, handleUpdateInputs }) => (
   <div key={`pallet-package-${activeStep}`}>
     <FormControl fullWidth variant="filled" required>
-      <InputLabel htmlFor="lot">Lot</InputLabel>
+      <InputLabel htmlFor="packageName">Package Name</InputLabel>
       <FilledInput
-        id="lot"
-        value={data.lot}
-        name="lot"
+        id="packageName"
+        value={data.packageName}
+        name="packageName"
         onChange={(ev) => {
           const { name, value } = ev.target;
           handleUpdateInputs(activeStep, name, value);
         }}
       />
-    </FormControl>
-    <FormControl
-      sx={{ marginTop: "1rem" }}
-      fullWidth
-      variant="filled"
-      required
-      focused
-    >
-      <InputLabel htmlFor="expire-date">Expire Date</InputLabel>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          InputAdornmentProps={{ id: "expire-date" }}
-          value={data.expireDate}
-          onChange={(value) => {
-            handleUpdateInputs(activeStep, "expireDate", value);
-          }}
-          renderInput={(params) => <TextField {...params} variant="filled" />}
-        />
-      </LocalizationProvider>
     </FormControl>
     <FormControl sx={{ marginTop: "1rem" }} fullWidth variant="filled" required>
       <InputLabel htmlFor="units">Units</InputLabel>
@@ -65,11 +42,11 @@ const PalletPackageFormItem = ({ activeStep, data, handleUpdateInputs }) => (
       />
     </FormControl>
     <FormControl sx={{ marginTop: "1rem" }} fullWidth variant="filled" required>
-      <InputLabel htmlFor="code">Code</InputLabel>
+      <InputLabel htmlFor="packageCode">Package Code</InputLabel>
       <FilledInput
-        id="code"
-        value={data.code}
-        name="code"
+        id="packageCode"
+        value={data.packageCode}
+        name="packageCode"
         onChange={(ev) => {
           const { name, value } = ev.target;
           handleUpdateInputs(activeStep, name, value);
@@ -87,6 +64,8 @@ export default function PalletPackagesStepper({
   handleRemovePalletPackage,
   handleNext,
   handleBack,
+  currentPackagesCount,
+  maxPackages,
 }) {
   const theme = useTheme();
 
@@ -125,13 +104,21 @@ export default function PalletPackagesStepper({
             </Tooltip>
           )}
           <Tooltip title="Add Package">
-            <IconButton onClick={() => handleAddPalletPackage(activeStep)}>
+            <IconButton
+              title={
+                currentPackagesCount === maxPackages
+                  ? "Max Packages Count Reached!"
+                  : ""
+              }
+              disabled={currentPackagesCount === maxPackages}
+              onClick={() => handleAddPalletPackage(activeStep)}
+            >
               <AddCircleOutlineIcon />
             </IconButton>
           </Tooltip>
         </div>
       </Paper>
-      <Box sx={{ height: 280, width: "100%" }}>
+      <Box sx={{ height: 200, width: "100%" }}>
         <PalletPackageFormItem
           activeStep={activeStep}
           data={palletPackagesList[activeStep]}
