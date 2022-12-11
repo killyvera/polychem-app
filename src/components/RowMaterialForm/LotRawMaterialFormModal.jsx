@@ -102,7 +102,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose, productionId }) {
               lotCode: lrm.lotCode,
               notUsedQuantity: 0,
               wasteQuantity: 0,
-              useQuantity: 0,
+              useQuantity: parseFloat(lrm.quantity),
               quantity: parseFloat(lrm.quantity),
               materialrawID: rawMaterialData.rawMaterialId,
             })
@@ -136,7 +136,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose, productionId }) {
               lotCode: lrm.lotCode,
               notUsedQuantity: 0,
               wasteQuantity: 0,
-              useQuantity: 0,
+              useQuantity: parseFloat(lrm.quantity),
               quantity: parseFloat(lrm.quantity),
               materialrawID: rawMaterial.id,
             })

@@ -31,7 +31,9 @@ const Item = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const DetailItem = ({ data }) => {
+const DetailItem = ({ rmIndex, lrmIndex, data }) => {
+  const { rawMaterialsList, updateRawMaterialsList } = useContext(FormsContext);
+
   const [newQty, updateNewQty] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,6 +47,16 @@ const DetailItem = ({ data }) => {
           updated.useQuantity = data.quantity - data.notUsedQuantity - newQty;
         })
       );
+      const updatedRawMaterialsList = [...rawMaterialsList];
+      updatedRawMaterialsList[rmIndex].lrmList[lrmIndex] = {
+        ...updatedRawMaterialsList[rmIndex].lrmList[lrmIndex],
+        wasteQuantity: newQty,
+      };
+      updatedRawMaterialsList[rmIndex].lrmList[lrmIndex] = {
+        ...updatedRawMaterialsList[rmIndex].lrmList[lrmIndex],
+        useQuantity: data.quantity - data.notUsedQuantity - newQty,
+      };
+      updateRawMaterialsList(updatedRawMaterialsList);
       setIsLoading(false);
     } catch (error) {
       console.log("ERROR UNUSED MATERIAL: ", error);
@@ -75,6 +87,14 @@ const DetailItem = ({ data }) => {
             {wastePercentage.toFixed(2)}% of Material
           </span>
         </Typography>
+        <Typography component="h6" color="black" fontWeight="bold">
+          Total Quantity:{" "}
+          <span style={{ color: "#1976D2" }}> {data.quantity}</span>
+        </Typography>
+        <Typography component="h6" color="black" fontWeight="bold">
+          Unused Quantity:{" "}
+          <span style={{ color: "#1976D2" }}> {data.notUsedQuantity} kg</span>
+        </Typography>
         <Box
           display="flex"
           alignItems="center"
@@ -87,10 +107,26 @@ const DetailItem = ({ data }) => {
               value={newQty}
               onChange={(ev) => {
                 const { value } = ev.target;
-                updateNewQty(parseFloat(value || 0));
+                const limit = data.quantity - data.notUsedQuantity;
+                if (
+                  !parseFloat(value) ||
+                  parseFloat(value) < parseFloat(limit)
+                ) {
+                  updateNewQty(parseFloat(value || 0));
+                } else {
+                  updateNewQty(parseFloat(limit));
+                }
+              }}
+              disabled={data.quantity === data.notUsedQuantity}
+              InputProps={{
+                inputMode: "numeric",
+                pattern: "[0-9]*",
               }}
               endAdornment={<InputAdornment position="end">kg</InputAdornment>}
             />
+            <Typography component="p" variant="p" fontSize={12} color="black">
+              Max: {data.quantity - data.notUsedQuantity}
+            </Typography>
           </FormControl>
           <Button
             size="small"
@@ -106,7 +142,7 @@ const DetailItem = ({ data }) => {
   );
 };
 
-const SingleWRM = ({ data }) => {
+const SingleWRM = ({ rmIndex, data }) => {
   return (
     <Accordion sx={{ width: "100%", maxWidth: 600 }}>
       <AccordionSummary
@@ -126,7 +162,12 @@ const SingleWRM = ({ data }) => {
       <AccordionDetails>
         {data?.lrmList?.length ? (
           data.lrmList.map((lrmItem, lrmIndex) => (
-            <DetailItem key={`lrm-item-${lrmIndex}`} data={lrmItem} />
+            <DetailItem
+              key={`lrm-item-${lrmIndex}`}
+              rmIndex={rmIndex}
+              lrmIndex={lrmIndex}
+              data={lrmItem}
+            />
           ))
         ) : (
           <Typography>Lot materials not found!</Typography>
@@ -149,7 +190,7 @@ export default function WastedRawMaterial({ setActiveTab }) {
         marginBottom="1.5rem"
       >
         {rawMaterialsList.map((rawMaterial, i) => (
-          <SingleWRM key={`single-wrm-${i}`} data={rawMaterial} />
+          <SingleWRM key={`single-wrm-${i}`} rmIndex={i} data={rawMaterial} />
         ))}
       </Box>
 

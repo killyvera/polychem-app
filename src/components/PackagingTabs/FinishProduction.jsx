@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,34 +7,7 @@ import Button from "@mui/material/Button";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { styled } from "@mui/material/styles";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-
-// dummy content
-const dataArr = [
-  {
-    rName: "Raw Material 01",
-    status: true,
-    quantity: 60,
-    production: 68,
-    notUsed: 1.8,
-    wasted: 0.2,
-  },
-  {
-    rName: "Raw Material 02",
-    status: true,
-    quantity: 50,
-    production: 48,
-    notUsed: 0.8,
-    wasted: 0.1,
-  },
-  {
-    rName: "Raw Material 03",
-    status: false,
-    quantity: 80,
-    production: 75,
-    notUsed: 1.6,
-    wasted: 0.9,
-  },
-];
+import { FormsContext } from "../../contexts/FormsContext";
 
 const FinishProductionContainer = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -75,7 +48,7 @@ const RawMaterialReport = ({ data }) => {
             color="#1976D2"
             marginRight="1rem"
           >
-            {data.rName}
+            {data.rawMaterialName}
           </Typography>
           {data.status ? (
             <TaskAltIcon sx={{ color: "#40b300" }} />
@@ -84,10 +57,10 @@ const RawMaterialReport = ({ data }) => {
           )}
         </Box>
         <Box display="flex" alignItems="center" marginTop="1rem">
-          <RawMaterialReportItem title="Quantity" qty={data.quantity} />
-          <RawMaterialReportItem title="Production" qty={data.production} />
-          <RawMaterialReportItem title="Not Used" qty={data.notUsed} />
-          <RawMaterialReportItem title="Wasted" qty={data.wasted} />
+          <RawMaterialReportItem title="Quantity" qty={data.totalQty} />
+          <RawMaterialReportItem title="Production" qty={data.productionQty} />
+          <RawMaterialReportItem title="Not Used" qty={data.notUsedQty} />
+          <RawMaterialReportItem title="Wasted" qty={data.wastedQty} />
         </Box>
       </CardContent>
     </Card>
@@ -95,35 +68,74 @@ const RawMaterialReport = ({ data }) => {
 };
 
 export default function FinishProduction() {
-  const isPassed = dataArr.every((item) => item.status);
+  const { rawMaterialsList } = useContext(FormsContext);
+
+  const finalReport = rawMaterialsList.map((rawMaterial) => {
+    const { rawMaterialId, rawMaterialName, lrmList } = rawMaterial;
+    const totalQty = lrmList.reduce((sum, acc) => sum + acc.quantity, 0);
+    const productionQty = lrmList.reduce(
+      (sum, acc) => sum + acc.useQuantity,
+      0
+    );
+    const notUsedQty = lrmList.reduce(
+      (sum, acc) => sum + acc.notUsedQuantity,
+      0
+    );
+    const wastedQty = lrmList.reduce((sum, acc) => sum + acc.wasteQuantity, 0);
+
+    return {
+      rawMaterialId,
+      rawMaterialName,
+      totalQty,
+      productionQty,
+      notUsedQty,
+      wastedQty,
+      status: totalQty === productionQty + notUsedQty + wastedQty,
+    };
+  });
+
+  const isPassed = finalReport.every((item) => item.status);
 
   return (
     <FinishProductionContainer>
-      <Box
-        marginTop="1rem"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        {isPassed && (
-          <Button variant="contained" sx={{ marginRight: "1rem" }}>
-            Finish Production
-          </Button>
-        )}
-        {isPassed ? (
-          <TaskAltIcon sx={{ color: "#40b300", fontSize: "3rem" }} />
-        ) : (
-          <HighlightOffIcon sx={{ color: "red", fontSize: "3rem" }} />
-        )}
-      </Box>
-      <Typography variant="p" component="p" textAlign="center" marginTop="1rem">
-        {isPassed
-          ? "Successfully added the quantities of the Production"
-          : "Input the correct quantities to finish the Production Form"}
-      </Typography>
-      {dataArr.map((data, i) => (
-        <RawMaterialReport key={`raw-material-report-${i}`} data={data} />
-      ))}
+      {finalReport.length ? (
+        <>
+          <Box
+            marginTop="1rem"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {isPassed && (
+              <Button variant="contained" sx={{ marginRight: "1rem" }}>
+                Finish Production
+              </Button>
+            )}
+            {isPassed ? (
+              <TaskAltIcon sx={{ color: "#40b300", fontSize: "3rem" }} />
+            ) : (
+              <HighlightOffIcon sx={{ color: "red", fontSize: "3rem" }} />
+            )}
+          </Box>
+          <Typography
+            variant="p"
+            component="p"
+            textAlign="center"
+            marginTop="1rem"
+          >
+            {isPassed
+              ? "Successfully added the quantities of the Production"
+              : "Input the correct quantities to finish the Production Form"}
+          </Typography>
+          {finalReport.map((data, i) => (
+            <RawMaterialReport key={`raw-material-report-${i}`} data={data} />
+          ))}
+        </>
+      ) : (
+        <Typography variant="p" fontWeight="bold" textAlign="center">
+          No data!
+        </Typography>
+      )}
     </FinishProductionContainer>
   );
 }
