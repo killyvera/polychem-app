@@ -20,6 +20,16 @@ const AddLotProductionContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
+const SummaryContainer = styled(Box)(({ theme }) => ({
+  ...theme.typography.body2,
+  display: "flex",
+  alignItems: "center",
+  width: "100%",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+  },
+}));
+
 const HeadingContainer = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
   display: "flex",
@@ -149,7 +159,7 @@ export default function AddPallets({ productionDetail }) {
                   aria-controls="total-packages"
                   id="total-packages"
                 >
-                  <Box display="flex" alignItems="center" width="100%">
+                  <SummaryContainer>
                     <Typography flex={1} fontWeight="bold" color="#1976D2">
                       <span>Total Packages: </span> {packagesCount}
                     </Typography>
@@ -161,7 +171,7 @@ export default function AddPallets({ productionDetail }) {
                       <span>Max Packages: </span>{" "}
                       {productionDetail.expectedPackages}
                     </Typography>
-                  </Box>
+                  </SummaryContainer>
                 </AccordionSummary>
                 {/* <AccordionDetails>
                 <FormControl fullWidth variant="filled">

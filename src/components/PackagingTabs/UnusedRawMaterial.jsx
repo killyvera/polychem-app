@@ -31,6 +31,17 @@ const Item = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
+const InputContainer = styled(Box)(({ theme }) => ({
+  ...theme.typography.body2,
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginTop: theme.spacing(2),
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+  },
+}));
+
 const DetailItem = ({ rmIndex, lrmIndex, data }) => {
   const { rawMaterialsList, updateRawMaterialsList } = useContext(FormsContext);
 
@@ -90,12 +101,7 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
           Waste Quantity:{" "}
           <span style={{ color: "#1976D2" }}> {data.wasteQuantity} kg</span>
         </Typography>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          marginTop="1rem"
-        >
+        <InputContainer>
           <FormControl variant="filled">
             <InputLabel htmlFor="pallet-name">Unused Quantity</InputLabel>
             <FilledInput
@@ -131,7 +137,7 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
           >
             {isLoading ? "Saving..." : "Save"}
           </Button>
-        </Box>
+        </InputContainer>
       </Box>
     </Item>
   );
