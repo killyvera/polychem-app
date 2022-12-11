@@ -185,11 +185,11 @@ const PalletListItem = ({
   );
 };
 
-function AddNewPalletModal({ modalStatus, handleClose, productId }) {
+function AddNewPalletModal({ modalStatus, handleClose, productionId }) {
   const { palletsList, updatePalletsList } = useContext(FormsContext);
 
   const [palletData, updatePalletData] = useState({
-    productId,
+    productionId,
     palletName: "",
     palletPackagesList: [initialPPList()],
   });
@@ -300,7 +300,7 @@ function AddNewPalletModal({ modalStatus, handleClose, productId }) {
   );
 }
 
-export default function AddPallets({ productId }) {
+export default function AddPallets({ productionId }) {
   const { palletsList, updatePalletsList } = useContext(FormsContext);
 
   const [modalStatus, setModalStatus] = useState({
@@ -416,7 +416,7 @@ export default function AddPallets({ productId }) {
           <AddNewPalletModal
             modalStatus={modalStatus}
             handleClose={handleModalClose}
-            productId={productId}
+            productionId={productionId}
           />
         )}
       </AddLotProductionContainer>

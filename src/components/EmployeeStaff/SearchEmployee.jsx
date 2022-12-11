@@ -172,7 +172,7 @@ export default function SearchEmployee({ qrResult, productId, productionId }) {
           ))}
       </Box>
       <NavigationButton
-        path={`/packaging/${productId}`}
+        path={`/packaging/${productionId}`}
         text="Ready to Production"
         disabled={!selectedEmployees.length || isLoading}
       />

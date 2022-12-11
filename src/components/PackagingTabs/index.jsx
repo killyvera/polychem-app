@@ -11,7 +11,7 @@ import WastedRawMaterial from "./WastedRawMaterial";
 import FinishProduction from "./FinishProduction";
 
 export default function PackagingTabs({
-  productDetail,
+  productionDetail,
   activeTab,
   setActiveTab,
 }) {
@@ -32,7 +32,7 @@ export default function PackagingTabs({
         index={0}
         children={
           <ProductionDetails
-            productDetail={productDetail}
+            productionDetail={productionDetail}
             setActiveTab={setActiveTab}
           />
         }

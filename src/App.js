@@ -38,7 +38,7 @@ function App({ signOut, user }) {
               path="/production-form/:formId"
               element={<ProductionForm />}
             />
-            <Route path="/packaging/:productId" element={<Packaging />} />
+            <Route path="/packaging/:productionId" element={<Packaging />} />
           </Routes>
         </LayoutContainer>
       </FormsContextProvider>

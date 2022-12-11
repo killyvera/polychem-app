@@ -10,18 +10,18 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { FormsContext } from "../../../contexts/FormsContext";
 
 // Components
-import ProductDetails from "./ProductDetails";
+// import ProductDetails from "./ProductDetails";
 import AddLotProduction from "./AddLotProduction";
 import AddPallets from "./AddPallets";
 
 const stepsDetails = [
-  { stepName: "Product Details" },
+  // { stepName: "Product Details" },
   { stepName: "Add Lot Production" },
   { stepName: "Add Pallets" },
 ];
 
 export default function ProductionStepper({
-  productDetail,
+  productionDetail,
   activeStep,
   setActiveStep,
   setActiveTab,
@@ -30,12 +30,12 @@ export default function ProductionStepper({
 
   const { productionLots, palletsList } = useContext(FormsContext);
 
-  const handleProductStepDetailsSubmit = (ev) => {
-    ev.preventDefault();
-    if (activeStep === 0) {
-      handleNext();
-    }
-  };
+  // const handleProductStepDetailsSubmit = (ev) => {
+  //   ev.preventDefault();
+  //   if (activeStep === 0) {
+  //     handleNext();
+  //   }
+  // };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -47,50 +47,50 @@ export default function ProductionStepper({
 
   const _renderSteps = () => {
     switch (activeStep) {
+      // case 0:
+      //   return (
+      //     <form onSubmit={handleProductStepDetailsSubmit}>
+      //       <ProductDetails productDetail={productDetail} />
+      //       <MobileStepper
+      //         variant="progress"
+      //         steps={maxSteps}
+      //         position="static"
+      //         activeStep={activeStep}
+      //         nextButton={
+      //           <Button
+      //             size="small"
+      //             disabled={activeStep === maxSteps - 1}
+      //             type="submit"
+      //           >
+      //             Next
+      //             {theme.direction === "rtl" ? (
+      //               <KeyboardArrowLeft />
+      //             ) : (
+      //               <KeyboardArrowRight />
+      //             )}
+      //           </Button>
+      //         }
+      //         backButton={
+      //           <Button
+      //             size="small"
+      //             onClick={handleBack}
+      //             disabled={activeStep === 0}
+      //           >
+      //             {theme.direction === "rtl" ? (
+      //               <KeyboardArrowRight />
+      //             ) : (
+      //               <KeyboardArrowLeft />
+      //             )}
+      //             Back
+      //           </Button>
+      //         }
+      //       />
+      //     </form>
+      //   );
       case 0:
         return (
-          <form onSubmit={handleProductStepDetailsSubmit}>
-            <ProductDetails productDetail={productDetail} />
-            <MobileStepper
-              variant="progress"
-              steps={maxSteps}
-              position="static"
-              activeStep={activeStep}
-              nextButton={
-                <Button
-                  size="small"
-                  disabled={activeStep === maxSteps - 1}
-                  type="submit"
-                >
-                  Next
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowLeft />
-                  ) : (
-                    <KeyboardArrowRight />
-                  )}
-                </Button>
-              }
-              backButton={
-                <Button
-                  size="small"
-                  onClick={handleBack}
-                  disabled={activeStep === 0}
-                >
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowRight />
-                  ) : (
-                    <KeyboardArrowLeft />
-                  )}
-                  Back
-                </Button>
-              }
-            />
-          </form>
-        );
-      case 1:
-        return (
           <>
-            <AddLotProduction />
+            <AddLotProduction productionId={productionDetail.id} />
             <MobileStepper
               variant="progress"
               steps={maxSteps}
@@ -129,10 +129,10 @@ export default function ProductionStepper({
             />
           </>
         );
-      case 2:
+      case 1:
         return (
           <>
-            <AddPallets productId={productDetail.id} />
+            <AddPallets productionId={productionDetail.id} />
             <MobileStepper
               variant="progress"
               steps={maxSteps}
