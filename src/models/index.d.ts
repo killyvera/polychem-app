@@ -103,6 +103,7 @@ type EagerMaterialRaw = {
   readonly name?: string | null;
   readonly RawMaterialLots?: (RawMaterialLot | null)[] | null;
   readonly productionID: string;
+  readonly formulaelementID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -112,6 +113,7 @@ type LazyMaterialRaw = {
   readonly name?: string | null;
   readonly RawMaterialLots: AsyncCollection<RawMaterialLot>;
   readonly productionID: string;
+  readonly formulaelementID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -162,6 +164,7 @@ type EagerFormulaElement = {
   readonly description?: string | null;
   readonly quantity?: string | null;
   readonly productID?: string | null;
+  readonly MaterialRaws?: (MaterialRaw | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -172,6 +175,7 @@ type LazyFormulaElement = {
   readonly description?: string | null;
   readonly quantity?: string | null;
   readonly productID?: string | null;
+  readonly MaterialRaws: AsyncCollection<MaterialRaw>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
