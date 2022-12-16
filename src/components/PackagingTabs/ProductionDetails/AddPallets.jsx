@@ -26,8 +26,20 @@ const SummaryContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   width: "100%",
+  flexDirection: "column",
+}));
+
+const SummaryItemContainer = styled(Box)(({ theme }) => ({
+  ...theme.typography.body2,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-around",
+  flex: 1,
+  marginTop: "0.5rem",
+  width: "100%",
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
+    marginTop: 0,
   },
 }));
 
@@ -180,13 +192,8 @@ export default function AddPallets({ productionDetail }) {
                   aria-controls="total-packages"
                   id="total-packages"
                 >
-                  <SummaryContainer display="flex" flexDirection="column">
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      width="100%"
-                      flex={1}
-                    >
+                  <SummaryContainer>
+                    <SummaryItemContainer>
                       <Typography
                         flex={1}
                         fontWeight="bold"
@@ -214,15 +221,8 @@ export default function AddPallets({ productionDetail }) {
                         <span>Pallets Required: </span>
                         {palletsRequired}
                       </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-around"
-                      alignItems="center"
-                      flex={1}
-                      width="100%"
-                      marginTop="0.5rem"
-                    >
+                    </SummaryItemContainer>
+                    <SummaryItemContainer>
                       <Typography
                         flex={1}
                         fontWeight="bold"
@@ -247,7 +247,7 @@ export default function AddPallets({ productionDetail }) {
                       >
                         <span>Actual Pallets: </span> {palletsList.length}
                       </Typography>
-                    </Box>
+                    </SummaryItemContainer>
                   </SummaryContainer>
                 </AccordionSummary>
                 {/* <AccordionDetails>
