@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -48,7 +49,9 @@ const getParsedData = (palletPackages) => {
 };
 
 export default function AddPallets({ productionDetail }) {
-  const { palletsList, updatePalletsList } = useContext(FormsContext);
+  const { palletsList, updatePalletsList, productDetail } =
+    useContext(FormsContext);
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [modalStatus, setModalStatus] = useState({
@@ -98,6 +101,14 @@ export default function AddPallets({ productionDetail }) {
     0
   );
 
+  const unitsCount = palletsList.reduce((sum, curr) => {
+    let total = 0;
+    curr.palletPackagesList.forEach((palletPackage) => {
+      total += sum + palletPackage.units;
+    });
+    return total;
+  }, 0);
+
   const getPallets = useCallback(async () => {
     try {
       const palletsList = await DataStore.query(Pallet, (item) =>
@@ -122,8 +133,18 @@ export default function AddPallets({ productionDetail }) {
   }, [productionDetail, updatePalletsList]);
 
   useEffect(() => {
+    if (!productDetail) {
+      navigate("/forms");
+    }
     getPallets();
-  }, [getPallets]);
+  }, [getPallets, navigate, productDetail]);
+
+  const packagesRequired =
+    productionDetail.expectedUnits / productDetail?.unitsPerPackage;
+  const palletsRequired =
+    productionDetail.expectedUnits /
+    productDetail?.unitsPerPackage /
+    productDetail?.packagesPerPallets;
 
   return (
     <AddLotProductionContainer>
@@ -159,18 +180,74 @@ export default function AddPallets({ productionDetail }) {
                   aria-controls="total-packages"
                   id="total-packages"
                 >
-                  <SummaryContainer>
-                    <Typography flex={1} fontWeight="bold" color="#1976D2">
-                      <span>Total Packages: </span> {packagesCount}
-                    </Typography>
-                    <Typography flex={1} fontWeight="bold" color="#1976D2">
-                      <span>Max Pallets: </span>{" "}
-                      {productionDetail.expectedPallets}
-                    </Typography>
-                    <Typography flex={1} fontWeight="bold" color="#1976D2">
-                      <span>Max Packages: </span>{" "}
-                      {productionDetail.expectedPackages}
-                    </Typography>
+                  <SummaryContainer display="flex" flexDirection="column">
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      width="100%"
+                      flex={1}
+                    >
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Units Required: </span>{" "}
+                        {productionDetail.expectedUnits}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Packages Required: </span>
+                        {packagesRequired}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Pallets Required: </span>
+                        {palletsRequired}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-around"
+                      alignItems="center"
+                      flex={1}
+                      width="100%"
+                      marginTop="0.5rem"
+                    >
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Actual Units: </span> {unitsCount}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Actual Packages: </span> {packagesCount}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Actual Pallets: </span> {palletsList.length}
+                      </Typography>
+                    </Box>
                   </SummaryContainer>
                 </AccordionSummary>
                 {/* <AccordionDetails>
