@@ -16,7 +16,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
 const PalletPackageFormItem = ({ activeStep, data, handleUpdateInputs }) => (
   <div key={`pallet-package-${activeStep}`}>
-    <FormControl fullWidth variant="filled" required>
+    {/* <FormControl fullWidth variant="filled" required>
       <InputLabel htmlFor="packageName">Package Name</InputLabel>
       <FilledInput
         id="packageName"
@@ -27,8 +27,8 @@ const PalletPackageFormItem = ({ activeStep, data, handleUpdateInputs }) => (
           handleUpdateInputs(activeStep, name, value);
         }}
       />
-    </FormControl>
-    <FormControl sx={{ marginTop: "1rem" }} fullWidth variant="filled" required>
+    </FormControl> */}
+    <FormControl fullWidth variant="filled" required>
       <InputLabel htmlFor="units">Units</InputLabel>
       <FilledInput
         id="units"
@@ -118,7 +118,7 @@ export default function PalletPackagesStepper({
           </Tooltip>
         </div>
       </Paper>
-      <Box sx={{ height: 200, width: "100%" }}>
+      <Box sx={{ height: 130, width: "100%" }}>
         <PalletPackageFormItem
           activeStep={activeStep}
           data={palletPackagesList[activeStep]}

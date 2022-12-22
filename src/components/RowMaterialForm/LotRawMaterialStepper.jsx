@@ -16,7 +16,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
 const LotRawMaterialFormItem = ({ activeStep, data, handleUpdateInputs }) => (
   <div key={`lrm-item-${activeStep}`}>
-    <FormControl fullWidth variant="filled">
+    {/* <FormControl fullWidth variant="filled">
       <InputLabel htmlFor="lot-row-material-name">Name</InputLabel>
       <FilledInput
         id="lot-row-material-name"
@@ -27,8 +27,8 @@ const LotRawMaterialFormItem = ({ activeStep, data, handleUpdateInputs }) => (
           handleUpdateInputs(activeStep, name, value);
         }}
       />
-    </FormControl>
-    <FormControl fullWidth variant="filled" style={{ marginTop: "1rem" }}>
+    </FormControl> */}
+    <FormControl fullWidth variant="filled">
       <InputLabel htmlFor="lot-row-material-code">Lot Code</InputLabel>
       <FilledInput
         id="lot-row-material-code"
@@ -108,7 +108,7 @@ export default function LotRawMaterialStepper({
           </Tooltip>
         </div>
       </Paper>
-      <Box sx={{ height: 210, width: "100%" }}>
+      <Box sx={{ height: 130, width: "100%" }}>
         <LotRawMaterialFormItem
           activeStep={activeStep}
           data={lrmList[activeStep]}
