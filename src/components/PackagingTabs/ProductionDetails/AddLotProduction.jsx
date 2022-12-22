@@ -84,7 +84,7 @@ export default function AddLotProduction({ productionId }) {
         {!!productionLots.length && (
           <Tooltip title="Add New Production Lot">
             <IconButton onClick={() => setAddNewModal(true)}>
-              <AddCircleOutlineIcon />
+              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
             </IconButton>
           </Tooltip>
         )}

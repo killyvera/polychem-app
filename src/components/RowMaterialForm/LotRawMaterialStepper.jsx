@@ -97,13 +97,13 @@ export default function LotRawMaterialStepper({
                 onClick={() => handleRemoveLRMList(activeStep)}
                 style={{ color: "#f13737" }}
               >
-                <RemoveCircleOutlineIcon />
+                <RemoveCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
               </IconButton>
             </Tooltip>
           )}
           <Tooltip title="Add Lot Raw Material">
             <IconButton onClick={handleUpdateLRMList}>
-              <AddCircleOutlineIcon />
+              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
             </IconButton>
           </Tooltip>
         </div>
