@@ -12,6 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { DataStore } from "@aws-amplify/datastore";
 import { MaterialRaw, RawMaterialLot } from "../../models";
 import { FormsContext } from "../../contexts/FormsContext";
+import { numberToCommas } from "../../utils";
 
 // Components
 import LotRawMaterialStepper from "./LotRawMaterialStepper";
@@ -228,7 +229,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose, productionId }) {
             fontWeight={500}
             color="#1976D2"
           >
-            Needed at least: {count} {unit}
+            Needed at least: {numberToCommas(count)} {unit}
           </Typography>
           <Typography
             variant="p"
@@ -238,7 +239,7 @@ function LotRawMaterialFormModal({ modalStatus, handleClose, productionId }) {
             fontWeight={500}
             color={currentWeight >= count ? "#2aa33e" : "#f13737"}
           >
-            Current Weight: {currentWeight} {unit}
+            Current Weight: {numberToCommas(currentWeight)} {unit}
           </Typography>
         </RowMaterialCount>
         <Box marginTop={2}>

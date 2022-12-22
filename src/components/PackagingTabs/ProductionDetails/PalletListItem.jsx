@@ -11,6 +11,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { numberToCommas } from "../../../utils";
 
 const PalletListItem = ({
   data,
@@ -114,7 +115,7 @@ const PalletListItem = ({
                   Units
                 </Typography>
                 <Typography variant="h6" component="h6" fontWeight="bold">
-                  {palletPackage.units}
+                  {numberToCommas(palletPackage.units)}
                 </Typography>
                 <Typography
                   variant="p"

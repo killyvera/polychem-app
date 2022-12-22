@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { FormsContext } from "../../contexts/FormsContext";
 import Images from "../../constants/Images";
+import { numberToCommas } from "../../utils";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -60,7 +61,7 @@ const DetailItem = ({
             fontSize="1.25rem"
             fontWeight="bold"
           >
-            are needed at least {count} {unit}
+            are needed at least {numberToCommas(count)} {unit}
           </Typography>
           {currentData ? (
             <Typography

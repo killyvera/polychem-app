@@ -9,6 +9,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { FormsContext } from "../contexts/FormsContext";
 import { FormulaElement } from "../models";
 import Images from "../constants/Images";
+import { numberToCommas } from "../utils";
 
 // Components
 import NavigationButton from "./NavigationButton";
@@ -41,7 +42,7 @@ const DetailItem = ({ title, count, unit }) => {
           fontSize={28}
           fontWeight="bold"
         >
-          {count} {unit}
+          {numberToCommas(count)} {unit}
         </Typography>
       </Box>
     </Item>

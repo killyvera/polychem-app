@@ -17,6 +17,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { RawMaterialLot } from "../../models";
 import { FormsContext } from "../../contexts/FormsContext";
 import Images from "../../constants/Images";
+import { numberToCommas } from "../../utils";
 
 // Components
 import NavigationButton from "../NavigationButton";
@@ -89,11 +90,17 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
         </Typography>
         <Typography component="h6" color="black" fontWeight="bold">
           Total Quantity:{" "}
-          <span style={{ color: "#1976D2" }}> {data.quantity}</span>
+          <span style={{ color: "#1976D2" }}>
+            {" "}
+            {numberToCommas(data.quantity)}
+          </span>
         </Typography>
         <Typography component="h6" color="black" fontWeight="bold">
           Unused Quantity:{" "}
-          <span style={{ color: "#1976D2" }}> {data.notUsedQuantity} kg</span>
+          <span style={{ color: "#1976D2" }}>
+            {" "}
+            {numberToCommas(data.notUsedQuantity)} kg
+          </span>
         </Typography>
         <Box
           display="flex"
@@ -125,7 +132,7 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
               endAdornment={<InputAdornment position="end">kg</InputAdornment>}
             />
             <Typography component="p" variant="p" fontSize={12} color="black">
-              Max: {data.quantity - data.notUsedQuantity}
+              Max: {numberToCommas(data.quantity - data.notUsedQuantity)}
             </Typography>
           </FormControl>
           <Button
