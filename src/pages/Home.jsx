@@ -23,15 +23,7 @@ export function Home() {
     return (
         <div>
             {console.log(forms)}
-            <div>Home</div>
-            {/* <div>
-                {forms.map((form, index) => (
-                    <div key={index} >
-                        {form.name}
-                    </div>
-                ))}
-            </div> */}
-            <CreatePalletFormModal />
+            <div style={{ marginTop: '100px' }} >Home</div>
         </div>
     )
 }
