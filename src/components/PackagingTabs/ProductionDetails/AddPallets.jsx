@@ -10,6 +10,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import { DataStore } from "@aws-amplify/datastore";
 import { Pallet, Package } from "../../../models";
 import { FormsContext } from "../../../contexts/FormsContext";
+import { numberToCommas } from "../../../utils";
 
 // Components
 import PalletListItem from "./PalletListItem";
@@ -201,7 +202,7 @@ export default function AddPallets({ productionDetail }) {
                         color="#1976D2"
                       >
                         <span>Units Required: </span>{" "}
-                        {productionDetail.expectedUnits}
+                        {numberToCommas(productionDetail.expectedUnits)}
                       </Typography>
                       <Typography
                         flex={1}
@@ -210,7 +211,7 @@ export default function AddPallets({ productionDetail }) {
                         color="#1976D2"
                       >
                         <span>Packages Required: </span>
-                        {packagesRequired}
+                        {numberToCommas(packagesRequired)}
                       </Typography>
                       <Typography
                         flex={1}
@@ -219,7 +220,7 @@ export default function AddPallets({ productionDetail }) {
                         color="#1976D2"
                       >
                         <span>Pallets Required: </span>
-                        {palletsRequired}
+                        {numberToCommas(palletsRequired)}
                       </Typography>
                     </SummaryItemContainer>
                     <SummaryItemContainer>
@@ -229,7 +230,7 @@ export default function AddPallets({ productionDetail }) {
                         textAlign="center"
                         color="#1976D2"
                       >
-                        <span>Actual Units: </span> {unitsCount}
+                        <span>Actual Units: </span> {numberToCommas(unitsCount)}
                       </Typography>
                       <Typography
                         flex={1}
@@ -237,7 +238,8 @@ export default function AddPallets({ productionDetail }) {
                         textAlign="center"
                         color="#1976D2"
                       >
-                        <span>Actual Packages: </span> {packagesCount}
+                        <span>Actual Packages: </span>{" "}
+                        {numberToCommas(packagesCount)}
                       </Typography>
                       <Typography
                         flex={1}
@@ -245,7 +247,8 @@ export default function AddPallets({ productionDetail }) {
                         textAlign="center"
                         color="#1976D2"
                       >
-                        <span>Actual Pallets: </span> {palletsList.length}
+                        <span>Actual Pallets: </span>{" "}
+                        {numberToCommas(palletsList.length)}
                       </Typography>
                     </SummaryItemContainer>
                   </SummaryContainer>

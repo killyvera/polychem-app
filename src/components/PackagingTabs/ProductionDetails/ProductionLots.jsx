@@ -5,6 +5,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
+import { numberToCommas } from "../../../utils";
 
 const ProductionLots = ({ data, handleRemoveProductionLot }) => {
   return (
@@ -14,7 +15,9 @@ const ProductionLots = ({ data, handleRemoveProductionLot }) => {
         action={
           <IconButton
             aria-label="remove"
-            onClick={() => handleRemoveProductionLot(data.itemIndex, data?.productionLotId)}
+            onClick={() =>
+              handleRemoveProductionLot(data.itemIndex, data?.productionLotId)
+            }
           >
             <CloseIcon />
           </IconButton>
@@ -56,7 +59,7 @@ const ProductionLots = ({ data, handleRemoveProductionLot }) => {
             Units
           </Typography>
           <Typography variant="h6" component="h6" fontWeight="bold">
-            {data.units}
+            {numberToCommas(data.units)}
           </Typography>
           <Typography
             variant="p"

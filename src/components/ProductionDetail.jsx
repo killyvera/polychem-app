@@ -2,6 +2,7 @@ import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import { numberToCommas } from "../utils";
 
 // Components
 import NavigationButton from "./NavigationButton";
@@ -29,7 +30,7 @@ const DetailItem = ({ title, count, unit }) => {
         fontSize={28}
         fontWeight="bold"
       >
-        {count.toFixed(2)} {unit}
+        {numberToCommas(count.toFixed(2))} {unit}
       </Typography>
     </Item>
   );

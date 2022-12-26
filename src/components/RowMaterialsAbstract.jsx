@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { FormsContext } from "../contexts/FormsContext";
 import Images from "../constants/Images";
+import { numberToCommas } from "../utils";
 
 // Components
 import NavigationButton from "./NavigationButton";
@@ -39,7 +40,7 @@ const DetailItem = ({ title, count, unit }) => {
           fontSize={28}
           fontWeight="bold"
         >
-          {count} {unit}
+          {numberToCommas(count)} {unit}
         </Typography>
       </Box>
     </Item>
@@ -76,7 +77,10 @@ const RowMaterialsAbstract = ({ setActiveTab }) => {
         );
       })}
 
-      <NavigationButton text="Add Staff Member" onClick={() => setActiveTab(4)} />
+      <NavigationButton
+        text="Add Staff Member"
+        onClick={() => setActiveTab(4)}
+      />
     </Stack>
   );
 };

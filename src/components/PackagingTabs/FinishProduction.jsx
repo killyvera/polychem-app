@@ -8,6 +8,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { styled } from "@mui/material/styles";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { FormsContext } from "../../contexts/FormsContext";
+import { numberToCommas } from "../../utils";
 
 const FinishProductionContainer = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -57,10 +58,22 @@ const RawMaterialReport = ({ data }) => {
           )}
         </Box>
         <Box display="flex" alignItems="center" marginTop="1rem">
-          <RawMaterialReportItem title="Quantity" qty={data.totalQty} />
-          <RawMaterialReportItem title="Production" qty={data.productionQty} />
-          <RawMaterialReportItem title="Not Used" qty={data.notUsedQty} />
-          <RawMaterialReportItem title="Wasted" qty={data.wastedQty} />
+          <RawMaterialReportItem
+            title="Quantity"
+            qty={numberToCommas(data.totalQty)}
+          />
+          <RawMaterialReportItem
+            title="Production"
+            qty={numberToCommas(data.productionQty)}
+          />
+          <RawMaterialReportItem
+            title="Not Used"
+            qty={numberToCommas(data.notUsedQty)}
+          />
+          <RawMaterialReportItem
+            title="Wasted"
+            qty={numberToCommas(data.wastedQty)}
+          />
         </Box>
       </CardContent>
     </Card>

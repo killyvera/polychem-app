@@ -16,7 +16,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
 const LotRawMaterialFormItem = ({ activeStep, data, handleUpdateInputs }) => (
   <div key={`lrm-item-${activeStep}`}>
-    <FormControl fullWidth variant="filled">
+    {/* <FormControl fullWidth variant="filled">
       <InputLabel htmlFor="lot-row-material-name">Name</InputLabel>
       <FilledInput
         id="lot-row-material-name"
@@ -27,8 +27,8 @@ const LotRawMaterialFormItem = ({ activeStep, data, handleUpdateInputs }) => (
           handleUpdateInputs(activeStep, name, value);
         }}
       />
-    </FormControl>
-    <FormControl fullWidth variant="filled" style={{ marginTop: "1rem" }}>
+    </FormControl> */}
+    <FormControl fullWidth variant="filled">
       <InputLabel htmlFor="lot-row-material-code">Lot Code</InputLabel>
       <FilledInput
         id="lot-row-material-code"
@@ -97,18 +97,18 @@ export default function LotRawMaterialStepper({
                 onClick={() => handleRemoveLRMList(activeStep)}
                 style={{ color: "#f13737" }}
               >
-                <RemoveCircleOutlineIcon />
+                <RemoveCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
               </IconButton>
             </Tooltip>
           )}
           <Tooltip title="Add Lot Raw Material">
             <IconButton onClick={handleUpdateLRMList}>
-              <AddCircleOutlineIcon />
+              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
             </IconButton>
           </Tooltip>
         </div>
       </Paper>
-      <Box sx={{ height: 210, width: "100%" }}>
+      <Box sx={{ height: 130, width: "100%" }}>
         <LotRawMaterialFormItem
           activeStep={activeStep}
           data={lrmList[activeStep]}
