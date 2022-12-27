@@ -90,7 +90,7 @@ function RowMaterialForm({ productionDetail, productId, setActiveTab }) {
 
   return (
     <Stack spacing={2} marginTop={2}>
-      {productElements.map((productElement, itemIndex) => (
+      {productElements.map((productElement) => (
         <DetailItem
           key={productElement.id}
           productElementId={productElement.id}
