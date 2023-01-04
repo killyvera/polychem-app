@@ -9,7 +9,7 @@ import { numberToCommas } from "../../../utils";
 
 const ProductionLots = ({ data, handleRemoveProductionLot }) => {
   return (
-    <Card sx={{ position: "relative", marginBottom: "1rem" }}>
+    <Card sx={{ position: "relative", marginBottom: "1rem", marginTop: "1rem" }}>
       <CardHeader
         sx={{ position: "absolute", right: 0 }}
         action={
@@ -19,7 +19,7 @@ const ProductionLots = ({ data, handleRemoveProductionLot }) => {
               handleRemoveProductionLot(data.itemIndex, data?.productionLotId)
             }
           >
-            <CloseIcon />
+            <CloseIcon sx={{ fontSize: "2rem" }} />
           </IconButton>
         }
       />

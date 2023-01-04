@@ -9,6 +9,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { DataStore } from "@aws-amplify/datastore";
 import { ProdutionLot } from "../../../models";
 import { FormsContext } from "../../../contexts/FormsContext";
+import { numberToCommas } from "../../../utils";
 
 // Components
 import ProductionLotForm from "./ProductionLotForm";
@@ -39,7 +40,7 @@ const HeadingContainer = styled("div")(({ theme }) => ({
   alignItems: "center",
 }));
 
-export default function AddLotProduction({ productionId }) {
+export default function AddLotProduction({ productionDetail }) {
   const { productionLots, updateProductionLots } = useContext(FormsContext);
   const [addNewModal, setAddNewModal] = useState(false);
 
@@ -52,12 +53,12 @@ export default function AddLotProduction({ productionId }) {
           code: formData.lotCode,
           expirationDate: formData.expireDate,
           units: parseFloat(formData.units),
-          productionID: productionId,
+          productionID: productionDetail.id,
         })
       );
       updatedProductionLots.push({
         ...formData,
-        productionID: productionId,
+        productionID: productionDetail.id,
         productionLotId: savedProductionLot.id,
       });
       updateProductionLots(updatedProductionLots);
@@ -78,13 +79,32 @@ export default function AddLotProduction({ productionId }) {
     }
   };
 
+  const currentCount = productionLots.reduce(
+    (sum, curr) => sum + (curr.units ? parseInt(curr.units) : 0),
+    0
+  );
+  const expectedCount = parseInt(productionDetail?.expectedUnits || 0);
+
   return (
     <AddLotProductionContainer>
+      <Typography component="p" color="#2aa33e" fontWeight="bold">
+        Expected Units: {numberToCommas(expectedCount)}u
+      </Typography>
+      <Typography
+        component="p"
+        marginTop={1}
+        color={currentCount === expectedCount ? "#2aa33e" : "#f13737"}
+        fontWeight="bold"
+      >
+        Units Remaining to Add: {numberToCommas(expectedCount - currentCount)}u
+      </Typography>
       <HeadingContainer>
-        {!!productionLots.length && (
+        {!!productionLots.length && currentCount !== expectedCount && (
           <Tooltip title="Add New Production Lot">
             <IconButton onClick={() => setAddNewModal(true)}>
-              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
+              <AddCircleOutlineIcon
+                sx={{ fontSize: "2.25rem", color: "#2aa33e" }}
+              />
             </IconButton>
           </Tooltip>
         )}
@@ -114,6 +134,7 @@ export default function AddLotProduction({ productionId }) {
             </Typography>
             <ProductionLotForm
               handleAddProductionLot={handleAddProductionLot}
+              remainingUnits={expectedCount - currentCount}
             />
           </Box>
         </Modal>
