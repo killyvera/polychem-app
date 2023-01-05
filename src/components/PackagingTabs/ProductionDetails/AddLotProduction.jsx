@@ -88,7 +88,7 @@ export default function AddLotProduction({ productionDetail }) {
   return (
     <AddLotProductionContainer>
       <Typography component="p" color="#2aa33e" fontWeight="bold">
-        Expected Units: {numberToCommas(expectedCount)}u
+        Expected Units: {numberToCommas(expectedCount || 0)}u
       </Typography>
       <Typography
         component="p"
@@ -96,7 +96,7 @@ export default function AddLotProduction({ productionDetail }) {
         color={currentCount === expectedCount ? "#2aa33e" : "#f13737"}
         fontWeight="bold"
       >
-        Units Remaining to Add: {numberToCommas(expectedCount - currentCount)}u
+        Units Remaining to Add: {numberToCommas(expectedCount - currentCount || 0)}u
       </Typography>
       <HeadingContainer>
         {!!productionLots.length && currentCount !== expectedCount && (

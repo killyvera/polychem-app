@@ -102,7 +102,7 @@ const ProductionLotForm = (props) => {
           }}
         />
         <Typography component="p" variant="p" fontSize={12} color="black">
-          Max: {numberToCommas(remainingUnits)}
+          Max: {numberToCommas(remainingUnits || 0)}
         </Typography>
       </FormControl>
       <FormControl
