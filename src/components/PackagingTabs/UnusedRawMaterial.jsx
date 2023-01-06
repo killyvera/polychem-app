@@ -43,7 +43,14 @@ const InputContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const DetailItem = ({ rmIndex, lrmIndex, data }) => {
+const DetailItem = ({
+  rmIndex,
+  lrmIndex,
+  lrmItem,
+  rmlQuantity,
+  totalProductionUnits,
+  productElementQty,
+}) => {
   const { rawMaterialsList, updateRawMaterialsList } = useContext(FormsContext);
 
   const [newQty, updateNewQty] = useState(0);
@@ -52,11 +59,12 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
   const handleUpdateQty = async () => {
     setIsLoading(true);
     try {
-      const original = await DataStore.query(RawMaterialLot, data.id);
+      const original = await DataStore.query(RawMaterialLot, lrmItem.id);
       await DataStore.save(
         RawMaterialLot.copyOf(original, (updated) => {
           updated.notUsedQuantity = newQty;
-          updated.useQuantity = data.quantity - data.wasteQuantity - newQty;
+          updated.useQuantity =
+            lrmItem.quantity - lrmItem.wasteQuantity - newQty;
         })
       );
       const updatedRawMaterialsList = [...rawMaterialsList];
@@ -66,7 +74,7 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
       };
       updatedRawMaterialsList[rmIndex].lrmList[lrmIndex] = {
         ...updatedRawMaterialsList[rmIndex].lrmList[lrmIndex],
-        useQuantity: data.quantity - data.wasteQuantity - newQty,
+        useQuantity: lrmItem.quantity - lrmItem.wasteQuantity - newQty,
       };
       updateRawMaterialsList(updatedRawMaterialsList);
       setIsLoading(false);
@@ -77,8 +85,8 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
   };
 
   useEffect(() => {
-    updateNewQty(parseFloat(data.notUsedQuantity));
-  }, [data]);
+    updateNewQty(parseFloat(lrmItem.notUsedQuantity));
+  }, [lrmItem]);
 
   return (
     <Item>
@@ -89,33 +97,39 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
       />
       <Box marginLeft={2} width="100%" display="flex" flexDirection="column">
         <Typography component="h6" color="black" fontWeight="bold">
-          Lot Name: <span style={{ color: "#1976D2" }}> {data.name}</span>
+          Lot Name: <span style={{ color: "#1976D2" }}> {lrmItem.name}</span>
         </Typography>
         <Typography component="h6" color="black" fontWeight="bold">
-          Lot Code: <span style={{ color: "#1976D2" }}> {data.lotCode}</span>
+          Lot Code: <span style={{ color: "#1976D2" }}> {lrmItem.lotCode}</span>
         </Typography>
         <Typography component="h6" color="black" fontWeight="bold">
-          Total Quantity:{" "}
+          Max Quantity:{" "}
           <span style={{ color: "#1976D2" }}>
             {" "}
-            {numberToCommas(data.quantity)} kg
+            {numberToCommas(
+              rmlQuantity -
+                totalProductionUnits * productElementQty -
+                newQty -
+                lrmItem.wasteQuantity
+            )}{" "}
+            kg
           </span>
         </Typography>
         <Typography component="h6" color="black" fontWeight="bold">
           Waste Quantity:{" "}
           <span style={{ color: "#1976D2" }}>
             {" "}
-            {numberToCommas(data.wasteQuantity)} kg
+            {numberToCommas(lrmItem.wasteQuantity)} kg
           </span>
         </Typography>
         <InputContainer>
-          <FormControl variant="filled">
+          <FormControl sx={{ marginBottom: "1rem" }} variant="filled">
             <InputLabel htmlFor="pallet-name">Unused Quantity</InputLabel>
             <FilledInput
               value={newQty}
               onChange={(ev) => {
                 const { value } = ev.target;
-                const limit = data.quantity - data.wasteQuantity;
+                const limit = lrmItem.quantity - lrmItem.wasteQuantity;
                 if (
                   !parseFloat(value) ||
                   parseFloat(value) < parseFloat(limit)
@@ -125,21 +139,21 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
                   updateNewQty(parseFloat(limit));
                 }
               }}
-              disabled={data.quantity === data.wasteQuantity}
+              disabled={lrmItem.quantity === lrmItem.wasteQuantity}
               InputProps={{
                 inputMode: "numeric",
                 pattern: "[0-9]*",
               }}
               endAdornment={<InputAdornment position="end">kg</InputAdornment>}
             />
-            <Typography component="p" variant="p" fontSize={12} color="black">
-              Max: {numberToCommas(data.quantity - data.wasteQuantity)}
-            </Typography>
+            {/* <Typography component="p" variant="p" fontSize={12} color="black">
+              Max: {numberToCommas(lrmItem.quantity - lrmItem.wasteQuantity)}
+            </Typography> */}
           </FormControl>
           <Button
             size="small"
             variant="contained"
-            disabled={data.notUsedQuantity === newQty || isLoading}
+            disabled={lrmItem.notUsedQuantity === newQty || isLoading}
             onClick={handleUpdateQty}
           >
             {isLoading ? "Saving..." : "Save"}
@@ -150,7 +164,23 @@ const DetailItem = ({ rmIndex, lrmIndex, data }) => {
   );
 };
 
-const SingleWRM = ({ rmIndex, data }) => {
+const SingleWRM = ({ rmIndex, rawMaterial, productionDetail }) => {
+  const { productElements } = useContext(FormsContext);
+
+  let rmlQuantity = 0;
+  const totalProductionUnits = productionDetail?.extraUnits
+    ? productionDetail.extraUnits + productionDetail.expectedUnits
+    : productionDetail.expectedUnits;
+
+  if (rawMaterial?.lrmList?.length) {
+    const { lrmList } = rawMaterial;
+    rmlQuantity = lrmList.reduce((sum, acc) => sum + acc.quantity, 0);
+  }
+
+  const productElement = productElements.find(
+    (productElement) => productElement.id === rawMaterial.productElementId
+  );
+
   return (
     <Accordion sx={{ width: "100%", maxWidth: 600 }}>
       <AccordionSummary
@@ -164,17 +194,20 @@ const SingleWRM = ({ rmIndex, data }) => {
           fontWeight="bold"
           color="#1976D2"
         >
-          {data.rawMaterialName}
+          {rawMaterial.rawMaterialName}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {data?.lrmList?.length ? (
-          data.lrmList.map((lrmItem, lrmIndex) => (
+        {rawMaterial?.lrmList?.length ? (
+          rawMaterial.lrmList.map((lrmItem, lrmIndex) => (
             <DetailItem
               key={`lrm-item-${lrmIndex}`}
               rmIndex={rmIndex}
               lrmIndex={lrmIndex}
-              data={lrmItem}
+              lrmItem={lrmItem}
+              rmlQuantity={rmlQuantity}
+              totalProductionUnits={totalProductionUnits}
+              productElementQty={parseFloat(productElement.quantity)}
             />
           ))
         ) : (
@@ -185,7 +218,7 @@ const SingleWRM = ({ rmIndex, data }) => {
   );
 };
 
-export default function UnusedRawMaterial({ setActiveTab }) {
+export default function UnusedRawMaterial({ setActiveTab, productionDetail }) {
   const { rawMaterialsList } = useContext(FormsContext);
 
   return (
@@ -198,7 +231,12 @@ export default function UnusedRawMaterial({ setActiveTab }) {
         marginBottom="1.5rem"
       >
         {rawMaterialsList.map((rawMaterial, i) => (
-          <SingleWRM key={`single-urm-${i}`} rmIndex={i} data={rawMaterial} />
+          <SingleWRM
+            key={`single-urm-${i}`}
+            rmIndex={i}
+            rawMaterial={rawMaterial}
+            productionDetail={productionDetail}
+          />
         ))}
       </Box>
 

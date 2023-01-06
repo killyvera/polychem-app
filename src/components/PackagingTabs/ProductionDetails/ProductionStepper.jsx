@@ -90,7 +90,7 @@ export default function ProductionStepper({
       case 0:
         return (
           <>
-            <AddLotProduction productionId={productionDetail.id} />
+            <AddLotProduction productionDetail={productionDetail} />
             <MobileStepper
               variant="progress"
               steps={maxSteps}

@@ -103,7 +103,7 @@ export default function LotRawMaterialStepper({
           )}
           <Tooltip title="Add Lot Raw Material">
             <IconButton onClick={handleUpdateLRMList}>
-              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
+              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem", color: "#2aa33e" }} />
             </IconButton>
           </Tooltip>
         </div>

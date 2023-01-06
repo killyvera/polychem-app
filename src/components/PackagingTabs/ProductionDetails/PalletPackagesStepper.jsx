@@ -113,7 +113,7 @@ export default function PalletPackagesStepper({
               disabled={currentPackagesCount === maxPackages}
               onClick={() => handleAddPalletPackage(activeStep)}
             >
-              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
+              <AddCircleOutlineIcon sx={{ fontSize: "2.25rem", color: "#2aa33e" }} />
             </IconButton>
           </Tooltip>
         </div>

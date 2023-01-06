@@ -9,6 +9,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { numberToCommas } from "../../../utils";
 
 const LotProductionFormContainer = styled("form")(({ theme }) => ({
   ...theme.typography.body2,
@@ -24,7 +26,7 @@ const initialFormData = () => ({
 });
 
 const ProductionLotForm = (props) => {
-  const { handleAddProductionLot } = props;
+  const { handleAddProductionLot, remainingUnits } = props;
 
   const [formData, updateFormData] = useState(initialFormData());
 
@@ -84,9 +86,24 @@ const ProductionLotForm = (props) => {
           id="units"
           value={formData.units}
           name="units"
-          onChange={handleUpdateChange}
           type="number"
+          onChange={(ev) => {
+            const { value, name } = ev.target;
+            if (
+              !parseFloat(value) ||
+              parseFloat(value) < parseFloat(remainingUnits)
+            ) {
+              handleUpdateChange(ev);
+            } else {
+              handleUpdateChange({
+                target: { name, value: parseFloat(remainingUnits) },
+              });
+            }
+          }}
         />
+        <Typography component="p" variant="p" fontSize={12} color="black">
+          Max: {numberToCommas(remainingUnits || 0)}
+        </Typography>
       </FormControl>
       <FormControl
         sx={{ marginTop: "1rem" }}

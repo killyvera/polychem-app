@@ -80,7 +80,7 @@ const RawMaterialReport = ({ data }) => {
   );
 };
 
-export default function FinishProduction() {
+export default function FinishProduction({ productionDetail }) {
   const { rawMaterialsList } = useContext(FormsContext);
 
   const finalReport = rawMaterialsList.map((rawMaterial) => {
@@ -108,6 +108,8 @@ export default function FinishProduction() {
   });
 
   const isPassed = finalReport.every((item) => item.status);
+
+  console.log(productionDetail, "productionDetail");
 
   return (
     <FinishProductionContainer>
