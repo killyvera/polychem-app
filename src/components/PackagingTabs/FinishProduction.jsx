@@ -103,13 +103,11 @@ export default function FinishProduction({ productionDetail }) {
       productionQty,
       notUsedQty,
       wastedQty,
-      status: totalQty === productionQty + notUsedQty + wastedQty,
+      status: !wastedQty,
     };
   });
 
   const isPassed = finalReport.every((item) => item.status);
-
-  console.log(productionDetail, "productionDetail");
 
   return (
     <FinishProductionContainer>
