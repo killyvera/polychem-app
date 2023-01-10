@@ -103,7 +103,7 @@ export default function FinishProduction({ productionDetail }) {
       productionQty,
       notUsedQty,
       wastedQty,
-      status: !wastedQty,
+      status: totalQty === productionQty + notUsedQty + wastedQty,
     };
   });
 
