@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import Typography from "@mui/material/Typography";
 import Accordion from "@mui/material/Accordion";
 import Button from "@mui/material/Button";
@@ -47,9 +47,8 @@ const DetailItem = ({
   rmIndex,
   lrmIndex,
   lrmItem,
-  rmlQuantity,
-  totalProductionUnits,
-  productElementQty,
+  maxQuantity,
+  handleUpdateMaxQty,
 }) => {
   const { rawMaterialsList, updateRawMaterialsList } = useContext(FormsContext);
 
@@ -77,6 +76,7 @@ const DetailItem = ({
         useQuantity: lrmItem.quantity - lrmItem.wasteQuantity - newQty,
       };
       updateRawMaterialsList(updatedRawMaterialsList);
+      handleUpdateMaxQty();
       setIsLoading(false);
     } catch (error) {
       console.log("ERROR UNUSED MATERIAL: ", error);
@@ -106,13 +106,7 @@ const DetailItem = ({
           Max Quantity:{" "}
           <span style={{ color: "#1976D2" }}>
             {" "}
-            {numberToCommas(
-              rmlQuantity -
-                totalProductionUnits * productElementQty -
-                newQty -
-                lrmItem.wasteQuantity
-            )}{" "}
-            kg
+            {numberToCommas(maxQuantity)} kg
           </span>
         </Typography>
         <Typography component="h6" color="black" fontWeight="bold">
@@ -129,14 +123,16 @@ const DetailItem = ({
               value={newQty}
               onChange={(ev) => {
                 const { value } = ev.target;
-                const limit = lrmItem.quantity - lrmItem.wasteQuantity;
                 if (
                   !parseFloat(value) ||
-                  parseFloat(value) < parseFloat(limit)
+                  parseFloat(value) <=
+                    parseFloat(maxQuantity + lrmItem.notUsedQuantity)
                 ) {
                   updateNewQty(parseFloat(value || 0));
                 } else {
-                  updateNewQty(parseFloat(limit));
+                  updateNewQty(
+                    parseFloat(maxQuantity + lrmItem.notUsedQuantity)
+                  );
                 }
               }}
               disabled={lrmItem.quantity === lrmItem.wasteQuantity}
@@ -166,20 +162,38 @@ const DetailItem = ({
 
 const SingleWRM = ({ rmIndex, rawMaterial, productionDetail }) => {
   const { productElements } = useContext(FormsContext);
-
-  let rmlQuantity = 0;
-  const totalProductionUnits = productionDetail?.extraUnits
-    ? productionDetail.extraUnits + productionDetail.expectedUnits
-    : productionDetail.expectedUnits;
-
-  if (rawMaterial?.lrmList?.length) {
-    const { lrmList } = rawMaterial;
-    rmlQuantity = lrmList.reduce((sum, acc) => sum + acc.quantity, 0);
-  }
+  const [maxQuantity, updateMaxQuantity] = useState(0);
 
   const productElement = productElements.find(
     (productElement) => productElement.id === rawMaterial.productElementId
   );
+
+  const handleUpdateMaxQty = useCallback(() => {
+    const { lrmList } = rawMaterial;
+    const rmlQuantity = lrmList.reduce((sum, acc) => sum + acc.quantity, 0);
+    const rmlNotUsedQuantity = lrmList.reduce(
+      (sum, acc) => sum + acc.notUsedQuantity,
+      0
+    );
+    const rmlWasteQuantity = lrmList.reduce(
+      (sum, acc) => sum + acc.wasteQuantity,
+      0
+    );
+    const totalProductionUnits = productionDetail?.extraUnits
+      ? productionDetail.extraUnits + productionDetail.expectedUnits
+      : productionDetail.expectedUnits;
+    const productElementQty = parseFloat(productElement.quantity);
+    const updatedMaxQuantity =
+      rmlQuantity -
+      totalProductionUnits * productElementQty -
+      rmlNotUsedQuantity -
+      rmlWasteQuantity;
+    updateMaxQuantity(updatedMaxQuantity);
+  }, [rawMaterial, productionDetail, productElement]);
+
+  useEffect(() => {
+    handleUpdateMaxQty();
+  }, [handleUpdateMaxQty]);
 
   return (
     <Accordion sx={{ width: "100%", maxWidth: 600 }}>
@@ -205,9 +219,8 @@ const SingleWRM = ({ rmIndex, rawMaterial, productionDetail }) => {
               rmIndex={rmIndex}
               lrmIndex={lrmIndex}
               lrmItem={lrmItem}
-              rmlQuantity={rmlQuantity}
-              totalProductionUnits={totalProductionUnits}
-              productElementQty={parseFloat(productElement.quantity)}
+              maxQuantity={maxQuantity}
+              handleUpdateMaxQty={handleUpdateMaxQty}
             />
           ))
         ) : (
