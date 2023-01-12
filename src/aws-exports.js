@@ -3,10 +3,13 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
+    "aws_appsync_graphqlEndpoint": "https://5zg2ocmrpfh4naxrdhkh36oqk4.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_region": "us-east-1",
+    "aws_appsync_authenticationType": "AWS_IAM",
     "aws_cognito_identity_pool_id": "us-east-1:d087db62-1619-445d-8778-e18feb4fe0d4",
     "aws_cognito_region": "us-east-1",
     "aws_user_pools_id": "us-east-1_U9vwu5wnL",
-    "aws_user_pools_web_client_id": "4786aloid6vauik75sj22ni0bk",
+    "aws_user_pools_web_client_id": "7mnukckj1g4fv9upd5u6fi3dnq",
     "oauth": {},
     "aws_cognito_username_attributes": [
         "EMAIL"
@@ -33,10 +36,7 @@ const awsmobile = {
         "PHONE_NUMBER"
     ],
     "aws_user_files_s3_bucket": "polychemstoragebucket123945-dev",
-    "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_appsync_graphqlEndpoint": "https://5zg2ocmrpfh4naxrdhkh36oqk4.appsync-api.us-east-1.amazonaws.com/graphql",
-    "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "AWS_IAM"
+    "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
 
