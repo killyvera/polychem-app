@@ -23,12 +23,12 @@ const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#F0F8FF",
 }));
 
-const DetailItem = ({ title, count, unit }) => {
+const DetailItem = ({ title, count, unit, image }) => {
   return (
     <Item>
       <Avatar
         alt="Product Element"
-        src={Images.ingredient}
+        src={image || Images.ingredient}
         sx={{ width: 56, height: 56 }}
       />
       <Box marginLeft={2}>
@@ -89,6 +89,7 @@ const FormulaElementsList = ({ productDetail, setActiveTab }) => {
           key={productElement.id}
           title={productElement.name}
           count={productElement.quantity}
+          image={productElement.image}
           unit="kg"
         />
       ))}

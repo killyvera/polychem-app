@@ -29,8 +29,8 @@
         "polychemadmin0f57a876": {
           "userPoolId": "us-east-1_U9vwu5wnL",
           "userPoolName": "polychem-dashboard",
-          "webClientId": "4786aloid6vauik75sj22ni0bk",
-          "nativeClientId": "7mnukckj1g4fv9upd5u6fi3dnq",
+          "webClientId": "7mnukckj1g4fv9upd5u6fi3dnq",
+          "nativeClientId": "4786aloid6vauik75sj22ni0bk",
           "identityPoolId": "us-east-1:d087db62-1619-445d-8778-e18feb4fe0d4",
           "identityPoolName": "polychem",
           "allowUnauthenticatedIdentities": false,
