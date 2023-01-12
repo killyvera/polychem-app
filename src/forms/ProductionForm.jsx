@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { DataStore } from "@aws-amplify/datastore";
 import { Form, Product } from "../models";
 import { FormsContext } from "../contexts/FormsContext";
+import Images from "../constants/Images";
 
 // Components
 import ProductionDetailTabs from "./ProductionDetailTabs";
@@ -102,6 +104,20 @@ export function ProductionForm() {
       <Typography component="p" color="#1976D2">
         <span style={{ fontWeight: "bold" }}>Product Name: </span>
         {productDetail?.name || ""}
+      </Typography>
+      <Typography
+        component="p"
+        color="#1976D2"
+        display="flex"
+        alignItems="center"
+        marginTop="1rem"
+      >
+        <span style={{ fontWeight: "bold" }}>Product Image: </span>
+        <Avatar
+          alt="Product"
+          src={productDetail?.image || Images.ingredient}
+          sx={{ width: 72, height: 72, marginLeft: "1rem" }}
+        />
       </Typography>
       <ProductionDetailTabs
         productionDetail={formDetail?.Production}
