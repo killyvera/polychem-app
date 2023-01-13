@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { Storage } from "aws-amplify";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
@@ -51,7 +52,10 @@ export function ProductionForm() {
           Product,
           productionProductId
         );
-        updateProductDetail(productDetail);
+        const productImageLink = await Storage.get(
+          `product/${productDetail.id}.png`
+        );
+        updateProductDetail({ ...productDetail, image: productImageLink });
       } catch (error) {
         console.log("ERROR FORM DETAIL: ", error);
       }
