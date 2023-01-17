@@ -21,7 +21,6 @@ const LayoutContainer = styled("div")(({ theme }) => ({
 }));
 
 function App({ signOut, user }) {
-  console.log(user);
   return (
     <div>
       <FormsContextProvider>
