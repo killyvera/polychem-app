@@ -62,7 +62,7 @@ export default function QRContainer({ setQRResult }) {
                 borderRadius: "1rem",
               }}
               constraints={{
-                facingMode: { exact: facingMode },
+                facingMode,
               }}
               scanDelay={1500}
               onResult={(result, error, codeReader) => {
