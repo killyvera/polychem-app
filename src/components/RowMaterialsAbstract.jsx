@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { FormsContext } from "../contexts/FormsContext";
 import Images from "../constants/Images";
+import { numberToCommas } from "../utils";
 
 // Components
 import NavigationButton from "./NavigationButton";
@@ -39,7 +40,7 @@ const DetailItem = ({ title, count, unit }) => {
           fontSize={28}
           fontWeight="bold"
         >
-          {count} {unit}
+          {numberToCommas(count)} {unit}
         </Typography>
       </Box>
     </Item>
@@ -47,7 +48,7 @@ const DetailItem = ({ title, count, unit }) => {
 };
 
 const RowMaterialsAbstract = ({ setActiveTab }) => {
-  const { rawMaterialsList } = useContext(FormsContext);
+  const { productElements, rawMaterialsList } = useContext(FormsContext);
 
   if (!rawMaterialsList.length) {
     return (
@@ -57,10 +58,19 @@ const RowMaterialsAbstract = ({ setActiveTab }) => {
     );
   }
 
+  const updatedRawMaterialsList = rawMaterialsList
+    .map((rawMaterial) => {
+      const productElement = productElements.find(
+        (productElement) => productElement.id === rawMaterial.productElementId
+      );
+      return { ...rawMaterial, productElementName: productElement?.name || "" };
+    })
+    .sort((a, b) => (b.productElementName > a.productElementName ? -1 : 1));
+
   return (
     <Stack spacing={2} marginTop={2}>
-      {rawMaterialsList.map((rawMaterial, i) => {
-        const { rawMaterialName, lrmList } = rawMaterial;
+      {updatedRawMaterialsList.map((rawMaterial, i) => {
+        const { lrmList, productElementName } = rawMaterial;
         const lrmListQuantity = lrmList.reduce(
           (sum, x) => sum + parseInt(x.quantity),
           0
@@ -69,14 +79,17 @@ const RowMaterialsAbstract = ({ setActiveTab }) => {
         return (
           <DetailItem
             key={`raw-material-${i}`}
-            title={rawMaterialName}
+            title={productElementName}
             count={lrmListQuantity}
             unit="kg"
           />
         );
       })}
 
-      <NavigationButton text="Add Staff Member" onClick={() => setActiveTab(4)} />
+      <NavigationButton
+        text="Add Staff Member"
+        onClick={() => setActiveTab(4)}
+      />
     </Stack>
   );
 };

@@ -27,6 +27,7 @@ type FormulaElement @model @auth(rules: [{allow: private, provider: iam}]) {
   name: String
   description: String
   quantity: String
+  image: String
   productID: ID @index(name: "byProduct")
   MaterialRaws: [MaterialRaw] @hasMany(indexName: "byFormulaElement", fields: ["id"])
 }

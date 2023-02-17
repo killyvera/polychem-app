@@ -1,6 +1,7 @@
 export const checkIfExpireToday = (d) => {
   return new Date(d).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
 };
+
 export const checkIfExpireNextWorkingDay = (d) => {
   let date = new Date();
   let day = date.getDay();
@@ -9,3 +10,7 @@ export const checkIfExpireNextWorkingDay = (d) => {
   date.setDate(date.getDate() + add);
   return date.setHours(0, 0, 0, 0) === new Date(d).setHours(0, 0, 0, 0);
 };
+
+export function numberToCommas(value) {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

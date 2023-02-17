@@ -19,7 +19,7 @@ export default function SingleForm(props) {
   let expText = "";
 
   const expireToday = checkIfExpireToday(data.expirationDate);
-  const expireNextWorkingDay = checkIfExpireNextWorkingDay(data.expirationDate);
+  const expireNextWorkingDay = checkIfExpireNextWorkingDay(data.expirationDate); 
 
   const setBackgroundColor = () => {
     if (data.planned && data.expire) {

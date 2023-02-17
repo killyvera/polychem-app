@@ -1,4 +1,19 @@
 {
+  "api": {
+    "polychemadmin": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "authenticationType": "AWS_IAM"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
   "auth": {
     "polychemadmin0f57a876": {
       "service": "Cognito",
@@ -8,26 +23,205 @@
       "customAuth": false
     }
   },
-  "storage": {
-    "polychemstorage": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
+  "parameters": {
+    "AMPLIFY_auth_polychemadmin0f57a876_allowUnauthenticatedIdentities": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_authRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_authRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_identityPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemadmin0f57a876_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemadmin0f57a876"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_allowUnauthenticatedIdentities": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_authRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_authRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_identityPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_identityPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_unauthRoleArn": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_unauthRoleName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_auth_polychemapp95651ac1_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "polychemapp95651ac1"
+        }
+      ]
+    },
+    "AMPLIFY_storage_polychemapp8a64acc3_bucketName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "polychemapp8a64acc3"
+        }
+      ]
+    },
+    "AMPLIFY_storage_polychemapp8a64acc3_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "polychemapp8a64acc3"
+        }
+      ]
     }
   },
-  "api": {
-    "polychemadmin": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
+  "storage": {
+    "polychemstorage": {
       "dependsOn": [],
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "AWS_IAM"
-          },
-          "additionalAuthenticationProviders": []
-        }
-      }
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
     }
   }
 }

@@ -8,6 +8,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { styled } from "@mui/material/styles";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { FormsContext } from "../../contexts/FormsContext";
+import { numberToCommas } from "../../utils";
 
 const FinishProductionContainer = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -17,7 +18,7 @@ const FinishProductionContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
 }));
 
-const RawMaterialReportItem = ({ title, qty }) => {
+const RawMaterialReportItem = ({ title, qty, unit = "kg" }) => {
   return (
     <Box
       flex={1}
@@ -30,7 +31,7 @@ const RawMaterialReportItem = ({ title, qty }) => {
         {title}
       </Typography>
       <Typography variant="p" component="p" marginTop="0.25rem">
-        {qty} kg
+        {qty} {unit}
       </Typography>
     </Box>
   );
@@ -57,37 +58,57 @@ const RawMaterialReport = ({ data }) => {
           )}
         </Box>
         <Box display="flex" alignItems="center" marginTop="1rem">
-          <RawMaterialReportItem title="Quantity" qty={data.totalQty} />
-          <RawMaterialReportItem title="Production" qty={data.productionQty} />
-          <RawMaterialReportItem title="Not Used" qty={data.notUsedQty} />
-          <RawMaterialReportItem title="Wasted" qty={data.wastedQty} />
+          <RawMaterialReportItem
+            title="Quantity"
+            qty={numberToCommas(data.totalQty)}
+          />
+          <RawMaterialReportItem
+            title="Production"
+            qty={numberToCommas(data.productionQty)}
+            unit="u"
+          />
+          <RawMaterialReportItem
+            title="Not Used"
+            qty={numberToCommas(data.notUsedQty)}
+          />
+          <RawMaterialReportItem
+            title="Wasted"
+            qty={numberToCommas(data.wastedQty)}
+          />
         </Box>
       </CardContent>
     </Card>
   );
 };
 
-export default function FinishProduction() {
-  const { rawMaterialsList } = useContext(FormsContext);
+export default function FinishProduction({ productionDetail }) {
+  const { rawMaterialsList, productElements } = useContext(FormsContext);
 
   const finalReport = rawMaterialsList.map((rawMaterial) => {
     const { rawMaterialId, rawMaterialName, lrmList } = rawMaterial;
     const totalQty = lrmList.reduce((sum, acc) => sum + acc.quantity, 0);
-    const productionQty = lrmList.reduce(
-      (sum, acc) => sum + acc.useQuantity,
-      0
-    );
     const notUsedQty = lrmList.reduce(
       (sum, acc) => sum + acc.notUsedQuantity,
       0
     );
     const wastedQty = lrmList.reduce((sum, acc) => sum + acc.wasteQuantity, 0);
+    const productElement = productElements.find(
+      (productElement) => productElement.id === rawMaterial.productElementId
+    );
+    let productionQty =
+      productionDetail.expectedUnits * parseFloat(productElement.quantity);
+
+    if (productionDetail?.extraUnits) {
+      productionQty =
+        (productionDetail.expectedUnits + productionDetail.extraUnits) *
+        parseFloat(productElement.quantity);
+    }
 
     return {
       rawMaterialId,
       rawMaterialName,
       totalQty,
-      productionQty,
+      productionQty: productionQty,
       notUsedQty,
       wastedQty,
       status: totalQty === productionQty + notUsedQty + wastedQty,

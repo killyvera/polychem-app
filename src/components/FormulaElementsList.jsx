@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from "react";
+import { Storage } from "aws-amplify";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
@@ -9,6 +10,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { FormsContext } from "../contexts/FormsContext";
 import { FormulaElement } from "../models";
 import Images from "../constants/Images";
+import { numberToCommas } from "../utils";
 
 // Components
 import NavigationButton from "./NavigationButton";
@@ -22,17 +24,34 @@ const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#F0F8FF",
 }));
 
-const DetailItem = ({ title, count, unit }) => {
+const DetailItem = ({ productElement, unit }) => {
+  const [productElementImg, setProductElementImg] = useState(null);
+
+  const getFormulaElementImage = useCallback(async () => {
+    try {
+      const productImageLink = await Storage.get(
+        `formula-element/${productElement.id}.png`
+      );
+      setProductElementImg(productImageLink);
+    } catch (error) {
+      console.log("ERROR FORM DETAIL: ", error);
+    }
+  }, [productElement, setProductElementImg]);
+
+  useEffect(() => {
+    getFormulaElementImage();
+  }, [getFormulaElementImage]);
+
   return (
     <Item>
       <Avatar
         alt="Product Element"
-        src={Images.ingredient}
+        src={productElementImg || Images.ingredient}
         sx={{ width: 56, height: 56 }}
       />
       <Box marginLeft={2}>
         <Typography component="h6" color="black" fontWeight="bold">
-          {title}
+          {productElement.name}
         </Typography>
         <Typography
           component="p"
@@ -41,7 +60,7 @@ const DetailItem = ({ title, count, unit }) => {
           fontSize={28}
           fontWeight="bold"
         >
-          {count} {unit}
+          {numberToCommas(productElement.quantity)} {unit}
         </Typography>
       </Box>
     </Item>
@@ -86,8 +105,7 @@ const FormulaElementsList = ({ productDetail, setActiveTab }) => {
       {productElements.map((productElement) => (
         <DetailItem
           key={productElement.id}
-          title={productElement.name}
-          count={productElement.quantity}
+          productElement={productElement}
           unit="kg"
         />
       ))}

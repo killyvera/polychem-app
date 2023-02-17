@@ -67,17 +67,32 @@ export default function PackagingTabs({
       <TabPanel
         value={activeTab}
         index={1}
-        children={<UnusedRawMaterial setActiveTab={setActiveTab} />}
+        children={
+          <UnusedRawMaterial
+            productionDetail={productionDetail}
+            setActiveTab={setActiveTab}
+          />
+        }
       />
       <TabPanel
         value={activeTab}
         index={2}
-        children={<WastedRawMaterial setActiveTab={setActiveTab} />}
+        children={
+          <WastedRawMaterial
+            productionDetail={productionDetail}
+            setActiveTab={setActiveTab}
+          />
+        }
       />
       <TabPanel
         value={activeTab}
         index={3}
-        children={<FinishProduction setActiveTab={setActiveTab} />}
+        children={
+          <FinishProduction
+            productionDetail={productionDetail}
+            setActiveTab={setActiveTab}
+          />
+        }
       />
     </Box>
   );

@@ -147,7 +147,7 @@ export const CreatePalletFormModal = () => {
                                             size="small"
                                             disabled={validate()}
                                         >
-                                            <AddCircleOutlineIcon />
+                                            <AddCircleOutlineIcon sx={{ fontSize: "2.25rem" }} />
                                             Create Package
                                         </Button>
                                     </FlexView>

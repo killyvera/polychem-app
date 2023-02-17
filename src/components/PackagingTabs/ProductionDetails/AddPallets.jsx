@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -9,6 +10,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import { DataStore } from "@aws-amplify/datastore";
 import { Pallet, Package } from "../../../models";
 import { FormsContext } from "../../../contexts/FormsContext";
+import { numberToCommas } from "../../../utils";
 
 // Components
 import PalletListItem from "./PalletListItem";
@@ -25,8 +27,20 @@ const SummaryContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   width: "100%",
+  flexDirection: "column",
+}));
+
+const SummaryItemContainer = styled(Box)(({ theme }) => ({
+  ...theme.typography.body2,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-around",
+  flex: 1,
+  marginTop: "0.5rem",
+  width: "100%",
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
+    marginTop: 0,
   },
 }));
 
@@ -48,7 +62,9 @@ const getParsedData = (palletPackages) => {
 };
 
 export default function AddPallets({ productionDetail }) {
-  const { palletsList, updatePalletsList } = useContext(FormsContext);
+  const { palletsList, updatePalletsList, productDetail } =
+    useContext(FormsContext);
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
   const [modalStatus, setModalStatus] = useState({
@@ -98,6 +114,14 @@ export default function AddPallets({ productionDetail }) {
     0
   );
 
+  const unitsCount = palletsList.reduce((sum, curr) => {
+    let total = 0;
+    curr.palletPackagesList.forEach((palletPackage) => {
+      total += sum + palletPackage.units;
+    });
+    return total;
+  }, 0);
+
   const getPallets = useCallback(async () => {
     try {
       const palletsList = await DataStore.query(Pallet, (item) =>
@@ -122,8 +146,18 @@ export default function AddPallets({ productionDetail }) {
   }, [productionDetail, updatePalletsList]);
 
   useEffect(() => {
+    if (!productDetail) {
+      navigate("/forms");
+    }
     getPallets();
-  }, [getPallets]);
+  }, [getPallets, navigate, productDetail]);
+
+  const packagesRequired =
+    productionDetail.expectedUnits / productDetail?.unitsPerPackage;
+  const palletsRequired =
+    productionDetail.expectedUnits /
+    productDetail?.unitsPerPackage /
+    productDetail?.packagesPerPallets;
 
   return (
     <AddLotProductionContainer>
@@ -160,17 +194,63 @@ export default function AddPallets({ productionDetail }) {
                   id="total-packages"
                 >
                   <SummaryContainer>
-                    <Typography flex={1} fontWeight="bold" color="#1976D2">
-                      <span>Total Packages: </span> {packagesCount}
-                    </Typography>
-                    <Typography flex={1} fontWeight="bold" color="#1976D2">
-                      <span>Max Pallets: </span>{" "}
-                      {productionDetail.expectedPallets}
-                    </Typography>
-                    <Typography flex={1} fontWeight="bold" color="#1976D2">
-                      <span>Max Packages: </span>{" "}
-                      {productionDetail.expectedPackages}
-                    </Typography>
+                    <SummaryItemContainer>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Units Required: </span>{" "}
+                        {numberToCommas(productionDetail.expectedUnits)}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Packages Required: </span>
+                        {numberToCommas(packagesRequired)}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Pallets Required: </span>
+                        {numberToCommas(palletsRequired)}
+                      </Typography>
+                    </SummaryItemContainer>
+                    <SummaryItemContainer>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Actual Units: </span> {numberToCommas(unitsCount)}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Actual Packages: </span>{" "}
+                        {numberToCommas(packagesCount)}
+                      </Typography>
+                      <Typography
+                        flex={1}
+                        fontWeight="bold"
+                        textAlign="center"
+                        color="#1976D2"
+                      >
+                        <span>Actual Pallets: </span>{" "}
+                        {numberToCommas(palletsList.length)}
+                      </Typography>
+                    </SummaryItemContainer>
                   </SummaryContainer>
                 </AccordionSummary>
                 {/* <AccordionDetails>

@@ -163,6 +163,7 @@ type EagerFormulaElement = {
   readonly name?: string | null;
   readonly description?: string | null;
   readonly quantity?: string | null;
+  readonly image?: string | null;
   readonly productID?: string | null;
   readonly MaterialRaws?: (MaterialRaw | null)[] | null;
   readonly createdAt?: string | null;
@@ -174,6 +175,7 @@ type LazyFormulaElement = {
   readonly name?: string | null;
   readonly description?: string | null;
   readonly quantity?: string | null;
+  readonly image?: string | null;
   readonly productID?: string | null;
   readonly MaterialRaws: AsyncCollection<MaterialRaw>;
   readonly createdAt?: string | null;
