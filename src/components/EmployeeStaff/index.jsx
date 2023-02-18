@@ -22,11 +22,12 @@ export default function EmployeeStaff({ productId, productionId }) {
 
   return (
     <EmployeeStaffContainer>
-      <QRContainer setQRResult={setQRResult} />
+      <QRContainer qrResult={qrResult} setQRResult={setQRResult} />
       <SearchEmployee
         productId={productId}
         productionId={productionId}
         qrResult={qrResult}
+        setQRResult={setQRResult}
       />
     </EmployeeStaffContainer>
   );

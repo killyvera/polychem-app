@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { QrReader } from "react-qr-reader";
+import QrReader from "react-qr-reader";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
+import "./style.css";
 
 const QRReaderContainer = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -45,7 +46,7 @@ const CameraSwitchIconContainer = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export default function QRContainer({ setQRResult }) {
+export default function QRContainer({ qrResult, setQRResult }) {
   const [qrError, setQRError] = useState("");
   const [facingMode, setFacingMode] = useState("user");
   const [loading, setLoading] = useState(false);
@@ -56,20 +57,12 @@ export default function QRContainer({ setQRResult }) {
         <>
           {!loading ? (
             <QrReader
-              containerStyle={{ display: "flex", justifyContent: "flex-end" }}
-              videoContainerStyle={{
-                paddingTop: "75%",
-                borderRadius: "1rem",
-              }}
-              constraints={{
-                facingMode,
-              }}
-              scanDelay={1500}
-              onResult={(result, error, codeReader) => {
-                if (error) {
-                  setQRError(error.message);
-                } else {
-                  setQRResult(result.text);
+              className="aeqr-container"
+              facingMode={facingMode}
+              delay={3000}
+              onScan={(result) => {
+                if (qrResult !== result && result) {
+                  setQRResult(result || "");
                   setQRError("");
                 }
               }}
@@ -79,13 +72,15 @@ export default function QRContainer({ setQRResult }) {
               variant="rectangular"
               width="100%"
               height="100%"
-              sx={{ minHeight: 246 }}
+              sx={{ minHeight: 246, borderRadius: "1rem" }}
             />
           )}
           <CameraSwitchIconContainer
             onClick={() => {
               setLoading(true);
-              setFacingMode(facingMode === "user" ? "environment" : "user");
+              setFacingMode((prev) =>
+                prev === "user" ? "environment" : "user"
+              );
               setTimeout(() => {
                 setLoading(false);
               }, 500);
