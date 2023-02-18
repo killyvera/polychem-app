@@ -25,7 +25,7 @@ const SearchEmployeeContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default function SearchEmployee({ qrResult, productId, productionId }) {
+export default function SearchEmployee({ qrResult, setQRResult, productionId }) {
   const {
     usersProfile,
     setUsersProfile,
@@ -38,6 +38,7 @@ export default function SearchEmployee({ qrResult, productId, productionId }) {
 
   const handleSearchUsers = (ev) => {
     updateUserName(ev.target.value);
+    setQRResult(ev.target.value);
   };
 
   const handleUpdateUserTurn = async (ev, userId, teamMemberId) => {
